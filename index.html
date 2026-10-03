@@ -1,66 +1,670 @@
-<footer><strong>TOP SNACK</strong><br>Rue Godfroid Kurth 109<br>1140 Evere<br><a href="tel:+32496969628">+32 496 96 96 28</a></footer>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta name="google-site-verification" content="ixcKd7ctbvXrMDlUoIjZF0rSdNPMIivjZlHy1h-T7EY" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TOP SNACK - Commande en ligne</title>
+
+  <style>
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      background:#f5f5f5;
+      font-family:Arial,sans-serif;
+      color:#111;
+      padding-bottom:100px;
+    }
+
+    header{
+      background:#111;
+      color:white;
+      padding:25px 15px;
+      text-align:center;
+    }
+
+    header h1{
+      margin:0;
+      font-size:34px;
+      letter-spacing:2px;
+    }
+
+    header p{
+      margin:8px 0 0;
+      font-size:16px;
+    }
+
+    .order-top{
+      max-width:900px;
+      margin:15px auto;
+      padding:0 15px;
+    }
+
+    .order-button{
+      width:100%;
+      border:0;
+      border-radius:14px;
+      background:#168a35;
+      color:white;
+      padding:17px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+      box-shadow:0 4px 12px rgba(0,0,0,.18);
+    }
+
+    .order-button:active{
+      transform:scale(.98);
+    }
+
+    .menu{
+      max-width:900px;
+      margin:auto;
+      padding:15px;
+    }
+
+    .menu img{
+      width:100%;
+      height:auto;
+      display:block;
+      margin:15px auto;
+      border-radius:12px;
+      box-shadow:0 3px 12px rgba(0,0,0,.15);
+    }
+
+    footer{
+      background:#111;
+      color:white;
+      padding:25px 15px;
+      margin-top:20px;
+      line-height:1.7;
+      text-align:center;
+    }
+
+    footer a{
+      color:white;
+      text-decoration:none;
+    }
+
+    /* CART BUTTON */
+
+    .cart-floating{
+      position:fixed;
+      left:15px;
+      right:15px;
+      bottom:15px;
+      z-index:1000;
+    }
+
+    .cart-floating button{
+      width:100%;
+      background:#111;
+      color:white;
+      border:0;
+      border-radius:15px;
+      padding:17px;
+      font-size:17px;
+      font-weight:bold;
+      box-shadow:0 5px 20px rgba(0,0,0,.3);
+      cursor:pointer;
+    }
+
+    /* MODAL */
+
+    .overlay{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.65);
+      z-index:2000;
+      padding:15px;
+      overflow-y:auto;
+    }
+
+    .overlay.active{
+      display:block;
+    }
+
+    .order-box{
+      max-width:520px;
+      margin:25px auto;
+      background:white;
+      border-radius:20px;
+      padding:20px;
+      text-align:left;
+      box-shadow:0 10px 40px rgba(0,0,0,.3);
+    }
+
+    .order-box h2{
+      margin-top:0;
+      text-align:center;
+      font-size:25px;
+    }
+
+    .close{
+      float:right;
+      border:0;
+      background:#eee;
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      font-size:22px;
+      cursor:pointer;
+    }
+
+    label{
+      display:block;
+      font-weight:bold;
+      margin-top:15px;
+      margin-bottom:6px;
+    }
+
+    input,select,textarea{
+      width:100%;
+      padding:13px;
+      border:1px solid #ccc;
+      border-radius:10px;
+      font-size:16px;
+      font-family:Arial,sans-serif;
+    }
+
+    textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .delivery-box{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .delivery-option{
+      border:2px solid #ddd;
+      border-radius:12px;
+      padding:13px;
+      text-align:center;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    .delivery-option.selected{
+      border-color:#168a35;
+      background:#eefaf0;
+    }
+
+    .summary{
+      background:#f5f5f5;
+      border-radius:12px;
+      padding:15px;
+      margin-top:20px;
+    }
+
+    .summary h3{
+      margin-top:0;
+    }
+
+    .summary-row{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      padding:7px 0;
+      border-bottom:1px solid #ddd;
+    }
+
+    .summary-row:last-child{
+      border-bottom:0;
+    }
+
+    .whatsapp{
+      width:100%;
+      border:0;
+      background:#168a35;
+      color:white;
+      padding:16px;
+      border-radius:12px;
+      font-size:17px;
+      font-weight:bold;
+      margin-top:18px;
+      cursor:pointer;
+    }
+
+    .clear{
+      width:100%;
+      border:0;
+      background:#eee;
+      color:#111;
+      padding:13px;
+      border-radius:12px;
+      font-size:15px;
+      margin-top:10px;
+      cursor:pointer;
+    }
+
+    .notice{
+      background:#fff8dc;
+      border-radius:10px;
+      padding:12px;
+      margin-top:15px;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    @media(max-width:450px){
+      .delivery-box{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>TOP SNACK</h1>
+  <p>Notre menu</p>
+</header>
+
+<div class="order-top">
+  <button class="order-button" onclick="openOrder()">
+    🛒 COMMANDER EN LIGNE
+  </button>
+</div>
+
+<main class="menu">
+
+  <img src="IMG_1168.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1169.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1170.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1171.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1172.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1173.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1174.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1175.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1176.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1177.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1178.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1179.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1180.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1181.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1182.jpeg" alt="Menu Top Snack">
+  <img src="IMG_1183.jpeg" alt="Menu Top Snack">
+  <img src="03FA716C-DE58-4084-8661-3E373E2B2A38.png" alt="Boissons Top Snack">
+
+</main>
+
+<footer>
+  <strong>TOP SNACK</strong><br>
+  Rue Godfroid Kurth 109<br>
+  1140 Evere<br>
+  <a href="tel:+32496969628">+32 496 96 96 28</a>
+</footer>
+
+
+<!-- BOUTON PANIER -->
+
+<div class="cart-floating">
+  <button onclick="openOrder()">
+    🛒 Mon panier / Commander
+  </button>
+</div>
+
+
+<!-- FENÊTRE COMMANDE -->
+
+<div class="overlay" id="orderOverlay">
+
+  <div class="order-box">
+
+    <button class="close" onclick="closeOrder()">×</button>
+
+    <h2>🛒 Votre commande</h2>
+
+    <label>Votre commande</label>
+
+    <textarea
+      id="orderItems"
+      placeholder="Exemple : 2 Pitta, 1 Frites, 1 Coca..."
+    ></textarea>
+
+    <div class="notice">
+      💡 Écrivez ici les produits et les quantités exactement comme vous souhaitez les commander.
+    </div>
+
+    <label>Nom</label>
+    <input
+      type="text"
+      id="customerName"
+      placeholder="Votre nom"
+    >
+
+    <label>Téléphone</label>
+    <input
+      type="tel"
+      id="customerPhone"
+      placeholder="Votre numéro"
+    >
+
+    <label>Type de commande</label>
+
+    <div class="delivery-box">
+
+      <div
+        class="delivery-option selected"
+        id="takeawayOption"
+        onclick="selectType('takeaway')"
+      >
+        🥡 À emporter
+      </div>
+
+      <div
+        class="delivery-option"
+        id="deliveryOption"
+        onclick="selectType('delivery')"
+      >
+        🛵 Livraison
+      </div>
+
+    </div>
+
+    <div id="addressArea" style="display:none;">
+
+      <label>Adresse de livraison</label>
+
+      <textarea
+        id="customerAddress"
+        placeholder="Rue, numéro, ville..."
+      ></textarea>
+
+    </div>
+
+    <label>Remarque</label>
+
+    <textarea
+      id="customerNote"
+      placeholder="Une remarque pour votre commande..."
+    ></textarea>
+
+
+    <div class="summary">
+
+      <h3>Résumé</h3>
+
+      <div class="summary-row">
+        <span>Commande</span>
+        <span id="summaryItems">-</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Client</span>
+        <span id="summaryName">-</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Type</span>
+        <span id="summaryType">À emporter</span>
+      </div>
+
+    </div>
+
+
+    <button class="whatsapp" onclick="sendWhatsApp()">
+      📲 ENVOYER LA COMMANDE SUR WHATSAPP
+    </button>
+
+    <button class="clear" onclick="clearOrder()">
+      Effacer
+    </button>
+
+  </div>
+
+</div>
+
 
 <script>
-const products=[
-["PITTA",7.5],["POULET",7.5],["KOFTE",7.5],["FALAFEL",7.5],["MIXTE / BOEUF",8],
-["HAMBURGER",7],["FRICADELLE",7],["BOULETTE",7],["MEXICANO",7],
-["POULYCROQ",7.5],["CHIX FINGERS",7.5],["MERGUEZ",7.5],["ADANA",7.5],
-["BROCHETTE CABILLAUD",7.5],["BROCHETTE DINDE",7.5],["BROCHETTE BOEUF",8],["BROCHETTE POULET",8],
-["TENDERS",4],["NUGGETS",4],["WINGS",4],["BROCHETTE PILONS POULET",4.5],
-["Frites Petite",3.5],["Frites Grande",4.5],["Frites À part",1.5],
-["Burger Premium",6.5],["Burger Cheese",7],["Burger Master",8],["Double Steak House",8],
-["Bicky Hamburger",5],["Bicky Kofte",6],["Bicky Fish",5.5],["Bicky Escalope Poulet",5.5],
-["Gyros Classique",7],["Gyros Maïs",7],["Gyros Poulet",7],["Gyros Feta / Olive",8],
-["Kapsalon Pitta",10],["Kapsalon Poulet",10],["Kapsalon Falafel",10],["Kapsalon Kofte",10],
-["Kapsalon Mixte / Boeuf",11],
-["Assiette Pitta",15],["Assiette Poulet",15],["Assiette Falafel",15],["Assiette Brochette Dinde",15],
-["Assiette Pilon Poulet",15],["Assiette Brochette Cabillaud",15],["Assiette Kofte",16],["Assiette Adana",16],
-["Assiette Boeuf",17],["Assiette Mixte",17],["Assiette Brochette Boeuf",17],["Assiette Brochette Poulet",17],
-["Top Grill",22],["Côte d’agneau",22],["Calamar",15],["Box Kids",10],["Doner",8],
-["Sauce",1]
-];
-let cart=[];
-const euro=n=>n.toFixed(2).replace(".",",")+" €";
-function renderProducts(){
-document.getElementById("products").innerHTML=products.map((p,i)=><div class="product"><b>${p[0]}</b><div class="price">${euro(p[1])}</div><button class="btn" onclick="add(${i})">Ajouter</button></div>).join("");
-}
-function add(i){let x=cart.find(a=>a.i===i);x?x.q++:cart.push({i,q:1});renderCart()}
-function minus(i){let x=cart.find(a=>a.i===i);if(!x)return;x.q--;if(x.q<1)cart=cart.filter(a=>a.i!==i);renderCart()}
-function renderCart(){
-let box=document.getElementById("cartItems");let sum=0;
-if(!cart.length){box.innerHTML="Panier vide.";document.getElementById("total").textContent="0,00 €";return}
-box.innerHTML=cart.map(x=>{let p=products[x.i],s=p[1]*x.q;sum+=s;return <div class="row"><span>${p[0]} × ${x.q}</span><span>${euro(s)} <button onclick="minus(${x.i})">−</button></span></div>}).join("");
-document.getElementById("total").textContent=euro(sum);
-}
-function toggleOrder(){document.getElementById("order").classList.toggle("hidden");document.getElementById("order").scrollIntoView({behavior:"smooth"})}
-function deliveryChanged(){document.getElementById("address").classList.toggle("hidden",document.getElementById("type").value!=="delivery");document.getElementById("address").required=document.getElementById("type").value==="delivery"}
-function submitOrder(e){
-e.preventDefault();
-if(!cart.length){alert("Votre panier est vide.");return}
-const name=document.getElementById("name").value.trim();
-const phone=document.getElementById("phone").value.trim();
-const type=document.getElementById("type").value;
-const address=document.getElementById("address").value.trim();
-const note=document.getElementById("note").value.trim();
-const payment=document.getElementById("payment").value;
-if(type==="delivery" && !address){alert("Veuillez indiquer l'adresse de livraison.");return}
-let total=cart.reduce((s,x)=>s+products[x.i][1]*x.q,0);
-let lines=cart.map(x=>• ${products[x.i][0]} x${x.q} — ${euro(products[x.i][1]*x.q)}).join("\n");
-let message=🛎️ NOUVELLE COMMANDE — TOP SNACK
 
-👤 Client : ${name}
-📞 Téléphone : ${phone}
-📍 Type : ${type==="delivery"?"Livraison":"Retrait sur place"}
-${type==="delivery"?🏠 Adresse : ${address}\n:""}💳 Paiement : ${payment}
+  let orderType = "takeaway";
 
-🛒 COMMANDE
-${lines}
 
-💰 TOTAL : ${euro(total)}
-${note?\n📝 Remarque : ${note}:""};
-window.open(https://wa.me/32496969628?text=${encodeURIComponent(message)},"_blank");
-}
-renderProducts();
+  function openOrder(){
+
+    document
+      .getElementById("orderOverlay")
+      .classList
+      .add("active");
+
+    updateSummary();
+
+  }
+
+
+  function closeOrder(){
+
+    document
+      .getElementById("orderOverlay")
+      .classList
+      .remove("active");
+
+  }
+
+
+  function selectType(type){
+
+    orderType = type;
+
+    const takeaway =
+      document.getElementById("takeawayOption");
+
+    const delivery =
+      document.getElementById("deliveryOption");
+
+    const addressArea =
+      document.getElementById("addressArea");
+
+    if(type === "takeaway"){
+
+      takeaway.classList.add("selected");
+      delivery.classList.remove("selected");
+
+      addressArea.style.display = "none";
+
+    }else{
+
+      delivery.classList.add("selected");
+      takeaway.classList.remove("selected");
+
+      addressArea.style.display = "block";
+
+    }
+
+    document.getElementById("summaryType").textContent =
+      type === "takeaway"
+      ? "À emporter"
+      : "Livraison";
+
+  }
+
+
+  function updateSummary(){
+
+    const items =
+      document.getElementById("orderItems").value.trim();
+
+    const name =
+      document.getElementById("customerName").value.trim();
+
+    document.getElementById("summaryItems").textContent =
+      items || "-";
+
+    document.getElementById("summaryName").textContent =
+      name || "-";
+
+  }
+
+
+  document
+    .getElementById("orderItems")
+    .addEventListener("input", updateSummary);
+
+  document
+    .getElementById("customerName")
+    .addEventListener("input", updateSummary);
+
+
+  function sendWhatsApp(){
+
+    const items =
+      document.getElementById("orderItems").value.trim();
+
+    const name =
+      document.getElementById("customerName").value.trim();
+
+    const phone =
+      document.getElementById("customerPhone").value.trim();
+
+    const address =
+      document.getElementById("customerAddress").value.trim();
+
+    const note =
+      document.getElementById("customerNote").value.trim();
+
+
+    if(!items){
+
+      alert("Veuillez écrire votre commande.");
+
+      return;
+
+    }
+
+
+    if(!name){
+
+      alert("Veuillez entrer votre nom.");
+
+      return;
+
+    }
+
+
+    if(!phone){
+
+      alert("Veuillez entrer votre numéro de téléphone.");
+
+      return;
+
+    }
+
+
+    if(orderType === "delivery" && !address){
+
+      alert("Veuillez entrer votre adresse de livraison.");
+
+      return;
+
+    }
+
+
+    let message =
+      "🛒 *NOUVELLE COMMANDE - TOP SNACK*%0A%0A";
+
+
+    message +=
+      "👤 Nom : " +
+      encodeURIComponent(name) +
+      "%0A";
+
+
+    message +=
+      "📞 Téléphone : " +
+      encodeURIComponent(phone) +
+      "%0A";
+
+
+    message +=
+      "📦 Type : " +
+      encodeURIComponent(
+        orderType === "takeaway"
+        ? "À emporter"
+        : "Livraison"
+      ) +
+      "%0A";
+
+
+    if(orderType === "delivery"){
+
+      message +=
+        "📍 Adresse : " +
+        encodeURIComponent(address) +
+        "%0A";
+
+    }
+
+
+    message +=
+      "%0A🍔 *Commande :*%0A" +
+      encodeURIComponent(items) +
+      "%0A";
+
+
+    if(note){
+
+      message +=
+        "%0A📝 Remarque : " +
+        encodeURIComponent(note);
+
+    }
+
+
+    const whatsappNumber =
+      "32496969628";
+
+
+    const whatsappURL =
+      "https://wa.me/" +
+      whatsappNumber +
+      "?text=" +
+      message;
+
+
+    window.location.href = whatsappURL;
+
+  }
+
+
+  function clearOrder(){
+
+    document.getElementById("orderItems").value = "";
+    document.getElementById("customerName").value = "";
+    document.getElementById("customerPhone").value = "";
+    document.getElementById("customerAddress").value = "";
+    document.getElementById("customerNote").value = "";
+
+    selectType("takeaway");
+
+    updateSummary();
+
+  }
+
+
+  document
+    .getElementById("orderOverlay")
+    .addEventListener("click", function(event){
+
+      if(event.target === this){
+
+        closeOrder();
+
+      }
+
+    });
+
 </script>
+
 </body>
 </html>
