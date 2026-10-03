@@ -1,51 +1,66 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta name="google-site-verification" content="ixcKd7ctbvXrMDlUoIjZF0rSdNPMIivjZlHy1h-T7EY" />
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TOP SNACK</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#f5f5f5;font-family:Arial,sans-serif;text-align:center}
-header{background:#111;color:white;padding:25px 15px}
-header h1{margin:0;font-size:34px;letter-spacing:2px}
-header p{margin:8px 0 0;font-size:16px}
-.menu{max-width:900px;margin:auto;padding:15px}
-.menu img{width:100%;height:auto;display:block;margin:15px auto;border-radius:12px;box-shadow:0 3px 12px rgba(0,0,0,.15)}
-footer{background:#111;color:white;padding:25px 15px;margin-top:20px;line-height:1.7}
-footer a{color:white;text-decoration:none}
-</style>
-</head>
-<body>
-<header>
-<h1>TOP SNACK</h1>
-<p>Notre menu</p>
-</header>
-<main class="menu">
-<img src="IMG_1168.jpeg" alt="Menu Top Snack">
-<img src="IMG_1169.jpeg" alt="Menu Top Snack">
-<img src="IMG_1170.jpeg" alt="Menu Top Snack">
-<img src="IMG_1171.jpeg" alt="Menu Top Snack">
-<img src="IMG_1172.jpeg" alt="Menu Top Snack">
-<img src="IMG_1173.jpeg" alt="Menu Top Snack">
-<img src="IMG_1174.jpeg" alt="Menu Top Snack">
-<img src="IMG_1175.jpeg" alt="Menu Top Snack">
-<img src="IMG_1176.jpeg" alt="Menu Top Snack">
-<img src="IMG_1177.jpeg" alt="Menu Top Snack">
-<img src="IMG_1178.jpeg" alt="Menu Top Snack">
-<img src="IMG_1179.jpeg" alt="Menu Top Snack">
-<img src="IMG_1180.jpeg" alt="Menu Top Snack">
-<img src="IMG_1181.jpeg" alt="Menu Top Snack">
-<img src="IMG_1182.jpeg" alt="Menu Top Snack">
-<img src="IMG_1183.jpeg" alt="Menu Top Snack">
-<img src="03FA716C-DE58-4084-8661-3E373E2B2A38.png" alt="Boissons Top Snack">
-</main>
-<footer>
-<strong>TOP SNACK</strong><br>
-Rue Godfroid Kurth 109<br>
-1140 Evere<br>
-<a href="tel:+32496969628">+32 496 96 96 28</a>
-</footer>
+<footer><strong>TOP SNACK</strong><br>Rue Godfroid Kurth 109<br>1140 Evere<br><a href="tel:+32496969628">+32 496 96 96 28</a></footer>
+
+<script>
+const products=[
+["PITTA",7.5],["POULET",7.5],["KOFTE",7.5],["FALAFEL",7.5],["MIXTE / BOEUF",8],
+["HAMBURGER",7],["FRICADELLE",7],["BOULETTE",7],["MEXICANO",7],
+["POULYCROQ",7.5],["CHIX FINGERS",7.5],["MERGUEZ",7.5],["ADANA",7.5],
+["BROCHETTE CABILLAUD",7.5],["BROCHETTE DINDE",7.5],["BROCHETTE BOEUF",8],["BROCHETTE POULET",8],
+["TENDERS",4],["NUGGETS",4],["WINGS",4],["BROCHETTE PILONS POULET",4.5],
+["Frites Petite",3.5],["Frites Grande",4.5],["Frites À part",1.5],
+["Burger Premium",6.5],["Burger Cheese",7],["Burger Master",8],["Double Steak House",8],
+["Bicky Hamburger",5],["Bicky Kofte",6],["Bicky Fish",5.5],["Bicky Escalope Poulet",5.5],
+["Gyros Classique",7],["Gyros Maïs",7],["Gyros Poulet",7],["Gyros Feta / Olive",8],
+["Kapsalon Pitta",10],["Kapsalon Poulet",10],["Kapsalon Falafel",10],["Kapsalon Kofte",10],
+["Kapsalon Mixte / Boeuf",11],
+["Assiette Pitta",15],["Assiette Poulet",15],["Assiette Falafel",15],["Assiette Brochette Dinde",15],
+["Assiette Pilon Poulet",15],["Assiette Brochette Cabillaud",15],["Assiette Kofte",16],["Assiette Adana",16],
+["Assiette Boeuf",17],["Assiette Mixte",17],["Assiette Brochette Boeuf",17],["Assiette Brochette Poulet",17],
+["Top Grill",22],["Côte d’agneau",22],["Calamar",15],["Box Kids",10],["Doner",8],
+["Sauce",1]
+];
+let cart=[];
+const euro=n=>n.toFixed(2).replace(".",",")+" €";
+function renderProducts(){
+document.getElementById("products").innerHTML=products.map((p,i)=><div class="product"><b>${p[0]}</b><div class="price">${euro(p[1])}</div><button class="btn" onclick="add(${i})">Ajouter</button></div>).join("");
+}
+function add(i){let x=cart.find(a=>a.i===i);x?x.q++:cart.push({i,q:1});renderCart()}
+function minus(i){let x=cart.find(a=>a.i===i);if(!x)return;x.q--;if(x.q<1)cart=cart.filter(a=>a.i!==i);renderCart()}
+function renderCart(){
+let box=document.getElementById("cartItems");let sum=0;
+if(!cart.length){box.innerHTML="Panier vide.";document.getElementById("total").textContent="0,00 €";return}
+box.innerHTML=cart.map(x=>{let p=products[x.i],s=p[1]*x.q;sum+=s;return <div class="row"><span>${p[0]} × ${x.q}</span><span>${euro(s)} <button onclick="minus(${x.i})">−</button></span></div>}).join("");
+document.getElementById("total").textContent=euro(sum);
+}
+function toggleOrder(){document.getElementById("order").classList.toggle("hidden");document.getElementById("order").scrollIntoView({behavior:"smooth"})}
+function deliveryChanged(){document.getElementById("address").classList.toggle("hidden",document.getElementById("type").value!=="delivery");document.getElementById("address").required=document.getElementById("type").value==="delivery"}
+function submitOrder(e){
+e.preventDefault();
+if(!cart.length){alert("Votre panier est vide.");return}
+const name=document.getElementById("name").value.trim();
+const phone=document.getElementById("phone").value.trim();
+const type=document.getElementById("type").value;
+const address=document.getElementById("address").value.trim();
+const note=document.getElementById("note").value.trim();
+const payment=document.getElementById("payment").value;
+if(type==="delivery" && !address){alert("Veuillez indiquer l'adresse de livraison.");return}
+let total=cart.reduce((s,x)=>s+products[x.i][1]*x.q,0);
+let lines=cart.map(x=>• ${products[x.i][0]} x${x.q} — ${euro(products[x.i][1]*x.q)}).join("\n");
+let message=🛎️ NOUVELLE COMMANDE — TOP SNACK
+
+👤 Client : ${name}
+📞 Téléphone : ${phone}
+📍 Type : ${type==="delivery"?"Livraison":"Retrait sur place"}
+${type==="delivery"?🏠 Adresse : ${address}\n:""}💳 Paiement : ${payment}
+
+🛒 COMMANDE
+${lines}
+
+💰 TOTAL : ${euro(total)}
+${note?\n📝 Remarque : ${note}:""};
+window.open(https://wa.me/32496969628?text=${encodeURIComponent(message)},"_blank");
+}
+renderProducts();
+</script>
 </body>
 </html>
