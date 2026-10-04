@@ -1,668 +1,937 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta name="google-site-verification" content="ixcKd7ctbvXrMDlUoIjZF0rSdNPMIivjZlHy1h-T7EY" />
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="ixcKd7ctbvXrMDlUoIjZF0rSdNPMIivjZlHy1h-T7EY">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>TOP SNACK - Commande en ligne</title>
+<title>TOP SNACK - Commande en ligne</title>
 
-  <style>
-    *{
-      box-sizing:border-box;
-    }
+<style>
+*{box-sizing:border-box}
 
-    body{
-      margin:0;
-      background:#f5f5f5;
-      font-family:Arial,sans-serif;
-      color:#111;
-      padding-bottom:100px;
-    }
+body{
+  margin:0;
+  background:#f5f5f5;
+  color:#111;
+  font-family:Arial,sans-serif;
+  padding-bottom:95px;
+}
 
-    header{
-      background:#111;
-      color:white;
-      padding:25px 15px;
-      text-align:center;
-    }
+header{
+  background:#111;
+  color:white;
+  text-align:center;
+  padding:25px 15px;
+}
 
-    header h1{
-      margin:0;
-      font-size:34px;
-      letter-spacing:2px;
-    }
+header h1{
+  margin:0;
+  font-size:34px;
+  letter-spacing:2px;
+}
 
-    header p{
-      margin:8px 0 0;
-      font-size:16px;
-    }
+header p{
+  margin:8px 0 0;
+  font-size:16px;
+}
 
-    .order-top{
-      max-width:900px;
-      margin:15px auto;
-      padding:0 15px;
-    }
+.menu{
+  max-width:950px;
+  margin:auto;
+  padding:15px;
+}
 
-    .order-button{
-      width:100%;
-      border:0;
-      border-radius:14px;
-      background:#168a35;
-      color:white;
-      padding:17px;
-      font-size:18px;
-      font-weight:bold;
-      cursor:pointer;
-      box-shadow:0 4px 12px rgba(0,0,0,.18);
-    }
+.category{
+  margin:25px 0;
+}
 
-    .order-button:active{
-      transform:scale(.98);
-    }
+.category-title{
+  background:#111;
+  color:white;
+  padding:14px;
+  border-radius:12px;
+  font-size:21px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
 
-    .menu{
-      max-width:900px;
-      margin:auto;
-      padding:15px;
-    }
+.product{
+  background:white;
+  border-radius:14px;
+  margin:9px 0;
+  padding:13px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
 
-    .menu img{
-      width:100%;
-      height:auto;
-      display:block;
-      margin:15px auto;
-      border-radius:12px;
-      box-shadow:0 3px 12px rgba(0,0,0,.15);
-    }
+.product-info{
+  flex:1;
+}
 
-    footer{
-      background:#111;
-      color:white;
-      padding:25px 15px;
-      margin-top:20px;
-      line-height:1.7;
-      text-align:center;
-    }
+.product-name{
+  font-weight:bold;
+  font-size:16px;
+}
 
-    footer a{
-      color:white;
-      text-decoration:none;
-    }
+.product-price{
+  margin-top:4px;
+  color:#168a35;
+  font-weight:bold;
+}
 
-    /* CART BUTTON */
+.controls{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 
-    .cart-floating{
-      position:fixed;
-      left:15px;
-      right:15px;
-      bottom:15px;
-      z-index:1000;
-    }
+.controls button{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:10px;
+  background:#111;
+  color:white;
+  font-size:22px;
+  font-weight:bold;
+}
 
-    .cart-floating button{
-      width:100%;
-      background:#111;
-      color:white;
-      border:0;
-      border-radius:15px;
-      padding:17px;
-      font-size:17px;
-      font-weight:bold;
-      box-shadow:0 5px 20px rgba(0,0,0,.3);
-      cursor:pointer;
-    }
+.qty{
+  min-width:25px;
+  text-align:center;
+  font-weight:bold;
+}
 
-    /* MODAL */
+.drink-select{
+  margin-top:8px;
+  width:100%;
+  padding:9px;
+  border:1px solid #ccc;
+  border-radius:8px;
+}
 
-    .overlay{
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.65);
-      z-index:2000;
-      padding:15px;
-      overflow-y:auto;
-    }
+.menu-images{
+  margin-top:30px;
+}
 
-    .overlay.active{
-      display:block;
-    }
+.menu-images img{
+  width:100%;
+  display:block;
+  margin:15px 0;
+  border-radius:12px;
+  box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
 
-    .order-box{
-      max-width:520px;
-      margin:25px auto;
-      background:white;
-      border-radius:20px;
-      padding:20px;
-      text-align:left;
-      box-shadow:0 10px 40px rgba(0,0,0,.3);
-    }
+footer{
+  background:#111;
+  color:white;
+  text-align:center;
+  padding:25px 15px;
+  line-height:1.7;
+}
 
-    .order-box h2{
-      margin-top:0;
-      text-align:center;
-      font-size:25px;
-    }
+footer a{
+  color:white;
+  text-decoration:none;
+}
 
-    .close{
-      float:right;
-      border:0;
-      background:#eee;
-      width:38px;
-      height:38px;
-      border-radius:50%;
-      font-size:22px;
-      cursor:pointer;
-    }
+.cart-floating{
+  position:fixed;
+  left:12px;
+  right:12px;
+  bottom:12px;
+  z-index:1000;
+}
 
-    label{
-      display:block;
-      font-weight:bold;
-      margin-top:15px;
-      margin-bottom:6px;
-    }
+.cart-floating button{
+  width:100%;
+  border:0;
+  border-radius:15px;
+  padding:17px;
+  background:#168a35;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  box-shadow:0 5px 20px rgba(0,0,0,.3);
+}
 
-    input,select,textarea{
-      width:100%;
-      padding:13px;
-      border:1px solid #ccc;
-      border-radius:10px;
-      font-size:16px;
-      font-family:Arial,sans-serif;
-    }
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  z-index:2000;
+  padding:12px;
+  overflow-y:auto;
+}
 
-    textarea{
-      min-height:90px;
-      resize:vertical;
-    }
+.overlay.active{
+  display:block;
+}
 
-    .delivery-box{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:10px;
-    }
+.order-box{
+  max-width:550px;
+  margin:15px auto;
+  background:white;
+  border-radius:20px;
+  padding:20px;
+}
 
-    .delivery-option{
-      border:2px solid #ddd;
-      border-radius:12px;
-      padding:13px;
-      text-align:center;
-      cursor:pointer;
-      font-weight:bold;
-    }
+.order-box h2{
+  text-align:center;
+  margin-top:5px;
+}
 
-    .delivery-option.selected{
-      border-color:#168a35;
-      background:#eefaf0;
-    }
+.close{
+  float:right;
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:50%;
+  background:#eee;
+  font-size:24px;
+}
 
-    .summary{
-      background:#f5f5f5;
-      border-radius:12px;
-      padding:15px;
-      margin-top:20px;
-    }
+.cart-list{
+  background:#f5f5f5;
+  border-radius:12px;
+  padding:12px;
+  margin:15px 0;
+}
 
-    .summary h3{
-      margin-top:0;
-    }
+.cart-line{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:8px 0;
+  border-bottom:1px solid #ddd;
+}
 
-    .summary-row{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      padding:7px 0;
-      border-bottom:1px solid #ddd;
-    }
+.cart-line:last-child{
+  border-bottom:0;
+}
 
-    .summary-row:last-child{
-      border-bottom:0;
-    }
+.total{
+  display:flex;
+  justify-content:space-between;
+  font-size:21px;
+  font-weight:bold;
+  margin-top:15px;
+}
 
-    .whatsapp{
-      width:100%;
-      border:0;
-      background:#168a35;
-      color:white;
-      padding:16px;
-      border-radius:12px;
-      font-size:17px;
-      font-weight:bold;
-      margin-top:18px;
-      cursor:pointer;
-    }
+label{
+  display:block;
+  margin-top:15px;
+  margin-bottom:6px;
+  font-weight:bold;
+}
 
-    .clear{
-      width:100%;
-      border:0;
-      background:#eee;
-      color:#111;
-      padding:13px;
-      border-radius:12px;
-      font-size:15px;
-      margin-top:10px;
-      cursor:pointer;
-    }
+input,textarea,select{
+  width:100%;
+  padding:13px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  font-size:16px;
+  font-family:Arial,sans-serif;
+}
 
-    .notice{
-      background:#fff8dc;
-      border-radius:10px;
-      padding:12px;
-      margin-top:15px;
-      font-size:14px;
-      line-height:1.5;
-    }
+textarea{
+  min-height:80px;
+}
 
-    @media(max-width:450px){
-      .delivery-box{
-        grid-template-columns:1fr;
-      }
-    }
-  </style>
+.delivery-box{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.delivery-option{
+  border:2px solid #ddd;
+  border-radius:12px;
+  padding:13px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.delivery-option.selected{
+  border-color:#168a35;
+  background:#eefaf0;
+}
+
+.whatsapp{
+  width:100%;
+  margin-top:18px;
+  padding:16px;
+  border:0;
+  border-radius:12px;
+  background:#168a35;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+}
+
+.clear{
+  width:100%;
+  margin-top:10px;
+  padding:13px;
+  border:0;
+  border-radius:12px;
+  background:#eee;
+}
+
+.empty{
+  text-align:center;
+  padding:15px;
+  color:#666;
+}
+
+@media(max-width:500px){
+  .delivery-box{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>TOP SNACK</h1>
-  <p>Notre menu</p>
+<h1>TOP SNACK</h1>
+<p>Commandez en ligne</p>
 </header>
-
-<div class="order-top">
-  <button class="order-button" onclick="openOrder()">
-    🛒 COMMANDER EN LIGNE
-  </button>
-</div>
 
 <main class="menu">
 
-  <img src="IMG_1168.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1169.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1170.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1171.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1172.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1173.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1174.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1175.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1176.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1177.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1178.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1179.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1180.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1181.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1182.jpeg" alt="Menu Top Snack">
-  <img src="IMG_1183.jpeg" alt="Menu Top Snack">
-  <img src="03FA716C-DE58-4084-8661-3E373E2B2A38.png" alt="Boissons Top Snack">
+<div id="products"></div>
+
+<div class="menu-images">
+<img src="IMG_1168.jpeg" alt="Menu Top Snack">
+<img src="IMG_1169.jpeg" alt="Menu Top Snack">
+<img src="IMG_1170.jpeg" alt="Menu Top Snack">
+<img src="IMG_1171.jpeg" alt="Menu Top Snack">
+<img src="IMG_1172.jpeg" alt="Menu Top Snack">
+<img src="IMG_1173.jpeg" alt="Menu Top Snack">
+<img src="IMG_1174.jpeg" alt="Menu Top Snack">
+<img src="IMG_1175.jpeg" alt="Menu Top Snack">
+<img src="IMG_1176.jpeg" alt="Menu Top Snack">
+<img src="IMG_1177.jpeg" alt="Menu Top Snack">
+<img src="IMG_1178.jpeg" alt="Menu Top Snack">
+<img src="IMG_1179.jpeg" alt="Menu Top Snack">
+<img src="IMG_1180.jpeg" alt="Menu Top Snack">
+<img src="IMG_1181.jpeg" alt="Menu Top Snack">
+<img src="IMG_1182.jpeg" alt="Menu Top Snack">
+<img src="IMG_1183.jpeg" alt="Menu Top Snack">
+<img src="03FA716C-DE58-4084-8661-3E373E2B2A38.png" alt="Boissons Top Snack">
+</div>
 
 </main>
 
 <footer>
-  <strong>TOP SNACK</strong><br>
-  Rue Godfroid Kurth 109<br>
-  1140 Evere<br>
-  <a href="tel:+32496969628">+32 496 96 96 28</a>
+<strong>TOP SNACK</strong><br>
+Rue Godfroid Kurth 109<br>
+1140 Evere<br>
+<a href="tel:+32496969628">+32 496 96 96 28</a>
 </footer>
 
-
-<!-- BOUTON PANIER -->
-
 <div class="cart-floating">
-  <button onclick="openOrder()">
-    🛒 Mon panier / Commander
-  </button>
+<button onclick="openOrder()">
+🛒 Mon panier — <span id="floatingCount">0</span> article(s) — <span id="floatingTotal">0.00€</span>
+</button>
 </div>
-
-
-<!-- FENÊTRE COMMANDE -->
 
 <div class="overlay" id="orderOverlay">
 
-  <div class="order-box">
+<div class="order-box">
 
-    <button class="close" onclick="closeOrder()">×</button>
+<button class="close" onclick="closeOrder()">×</button>
 
-    <h2>🛒 Votre commande</h2>
+<h2>🛒 Votre commande</h2>
 
-    <label>Votre commande</label>
+<div class="cart-list" id="cartList"></div>
 
-    <textarea
-      id="orderItems"
-      placeholder="Exemple : 2 Pitta, 1 Frites, 1 Coca..."
-    ></textarea>
+<div class="total">
+<span>Total</span>
+<span id="cartTotal">0.00€</span>
+</div>
 
-    <div class="notice">
-      💡 Écrivez ici les produits et les quantités exactement comme vous souhaitez les commander.
-    </div>
+<label>Nom</label>
+<input id="customerName" type="text" placeholder="Votre nom">
 
-    <label>Nom</label>
-    <input
-      type="text"
-      id="customerName"
-      placeholder="Votre nom"
-    >
+<label>Téléphone</label>
+<input id="customerPhone" type="tel" placeholder="Votre numéro">
 
-    <label>Téléphone</label>
-    <input
-      type="tel"
-      id="customerPhone"
-      placeholder="Votre numéro"
-    >
+<label>Type de commande</label>
 
-    <label>Type de commande</label>
+<div class="delivery-box">
 
-    <div class="delivery-box">
+<div id="takeawayOption"
+class="delivery-option selected"
+onclick="selectType('takeaway')">
+🥡 À emporter
+</div>
 
-      <div
-        class="delivery-option selected"
-        id="takeawayOption"
-        onclick="selectType('takeaway')"
-      >
-        🥡 À emporter
-      </div>
-
-      <div
-        class="delivery-option"
-        id="deliveryOption"
-        onclick="selectType('delivery')"
-      >
-        🛵 Livraison
-      </div>
-
-    </div>
-
-    <div id="addressArea" style="display:none;">
-
-      <label>Adresse de livraison</label>
-
-      <textarea
-        id="customerAddress"
-        placeholder="Rue, numéro, ville..."
-      ></textarea>
-
-    </div>
-
-    <label>Remarque</label>
-
-    <textarea
-      id="customerNote"
-      placeholder="Une remarque pour votre commande..."
-    ></textarea>
-
-
-    <div class="summary">
-
-      <h3>Résumé</h3>
-
-      <div class="summary-row">
-        <span>Commande</span>
-        <span id="summaryItems">-</span>
-      </div>
-
-      <div class="summary-row">
-        <span>Client</span>
-        <span id="summaryName">-</span>
-      </div>
-
-      <div class="summary-row">
-        <span>Type</span>
-        <span id="summaryType">À emporter</span>
-      </div>
-
-    </div>
-
-
-    <button class="whatsapp" onclick="sendWhatsApp()">
-      📲 ENVOYER LA COMMANDE SUR WHATSAPP
-    </button>
-
-    <button class="clear" onclick="clearOrder()">
-      Effacer
-    </button>
-
-  </div>
+<div id="deliveryOption"
+class="delivery-option"
+onclick="selectType('delivery')">
+🛵 Livraison
+</div>
 
 </div>
 
+<div id="addressArea" style="display:none">
+
+<label>Adresse de livraison</label>
+<textarea id="customerAddress"
+placeholder="Rue, numéro, ville..."></textarea>
+
+</div>
+
+<label>Remarque</label>
+<textarea id="customerNote"
+placeholder="Une remarque pour votre commande..."></textarea>
+
+<button class="whatsapp" onclick="sendWhatsApp()">
+📲 ENVOYER LA COMMANDE SUR WHATSAPP
+</button>
+
+<button class="clear" onclick="clearCart()">
+Effacer le panier
+</button>
+
+</div>
+</div>
 
 <script>
 
-  let orderType = "takeaway";
+const menu = [
+
+{
+name:"MITRAILLETTE / DURUM / PAIN TURC",
+items:[
+["PITTA",7.50],["POULET",7.50],["KOFTE",7.50],
+["FALAFEL",7.50],["MIXTE",8.00],["BOEUF",8.00],
+["HAMBURGER",7.00],["FRICADELLE",7.00],
+["BOULETTE",7.00],["MEXICANO",7.00],
+["POULYCROQ",7.50],["CHIX FINGERS",7.50],
+["MERGUEZ",7.50],["ADANA",7.50],
+["BROC.CABILLAUD",7.50],["BROC.DINDE",7.50],
+["BROC.BOEUF",8.00],["BROC.POULET",8.00]
+]
+},
+
+{
+name:"SNACKS",
+items:[
+["HAMBURGER",3.00],["FRICADELLE",3.00],
+["BOULETTE",3.50],["MEXICANO",3.50],
+["POULYCROQ",3.50],["CHIX FINGERS",3.50],
+["MINI LOEMPIA",3.50],["CROQETTE FROMAGE",3.00],
+["BROC.CABILLAUD",3.50],["BROC.DINDE",3.50],
+["BROC.BOEUF",4.00],["BROC.PILONS POULET",4.50],
+["BROC.POULET",4.50],["TENDERS",4.00],
+["NUGGETS",4.00],["WINGS",4.00]
+]
+},
+
+{
+name:"ASSIETTES",
+items:[
+["PITTA",15.00],["POULET",15.00],["BOEUF",17.00],
+["FALAFEL",15.00],["MIXTE",17.00],["KOFTE",16.00],
+["CALAMAR",15.00],["ADANA",16.00],
+["BROC.DINDE",15.00],["BROC.BOEUF",17.00],
+["BROC.POULET",17.00],["PLION POULET",15.00],
+["BROC.CABILLAUD",15.00],["TOP GRILL",22.00],
+["CÔTE D'AGNEAU",22.00]
+]
+},
+
+{
+name:"BOX",
+items:[
+["KIDS",10.00],["DONER",8.00]
+]
+},
+
+{
+name:"FRITES",
+items:[
+["PETITE",3.50],["GRANDE",4.50],["À PART",1.50]
+]
+},
+
+{
+name:"BURGER",
+items:[
+["PREMIUM BURGER",6.50],
+["CHEESE BURGER",7.00],
+["MASTER BURGER",8.00],
+["DOUBLE STEAK HOUSE",8.00]
+]
+},
+
+{
+name:"BICKY",
+items:[
+["HAMBURGER",5.00],
+["KOFTE",6.00],
+["FISH BURGER",5.50],
+["ESCALOPE POULET",5.50]
+]
+},
+
+{
+name:"SAUCES",
+items:[
+["ANDALOUSE",1.00],["SAMURAI",1.00],["PITTA",1.00],
+["KETCHUP",1.00],["BRAZIL",1.00],["PILI PILI",1.00],
+["MAYONNAISE",1.00],["CURRY KETCHUP",1.00],
+["AMERICAINE CHEF",1.00],["COCKTAIL",1.00],
+["TARTAR",1.00],["BARBECUE",1.00]
+]
+},
+
+{
+name:"GYROS",
+items:[
+["CLASSIQUE",7.00],["FETA",8.00],["OLIVE",8.00],
+["MAIS",7.00],["POULET",7.00]
+]
+},
+
+{
+name:"KAPSALON",
+items:[
+["PITTA",10.00],["POULET",10.00],
+["FALAFEL",10.00],["KOFTE",10.00],
+["MIXTE",11.00],["BOUEF",11.00]
+]
+},
+
+{
+name:"MENU",
+items:[
+["SANDWICH MENU",10.00],
+["DURUM MENU",10.00],
+["PAIN TURC MENU",10.00],
+["BICKY MENU",9.00],
+["GYROS MENU",11.00],
+["TACOS L MENU",13.00],
+["TACOS XL MENU",17.00]
+]
+},
+
+{
+name:"TACOS",
+items:[
+["TENDERS",8.00],["NUGGETS",8.00],
+["CHIX FINGERS",8.00],["PITTA",8.00],
+["POULET",8.00],["BOEUF",9.00],
+["KOFTE",9.00],["TACOS XL",13.00]
+]
+},
+
+{
+name:"DESSERTS",
+items:[
+["TIRAMISU OREO",4.00],
+["TIRAMISU SPECULOOS",4.00],
+["MOUSSE AU CHOCOLAT",4.00]
+]
+},
+
+{
+name:"SUPPLEMENTS",
+items:[
+["FETA",1.00],["OLIVE",1.00],["PIMENT",1.00],
+["MOZZARELLA",1.00],["CHEDDAR",1.00],
+["OIGNON FRIE",1.00]
+]
+},
+
+{
+name:"SALADES",
+items:[
+["FETA",9.00],["POULET",10.00],
+["THON",10.00],["FALAFEL",9.00]
+]
+},
+
+{
+name:"PANINI",
+items:[
+["TENDERS",7.00],["NUGGETS",7.00],
+["CHIX FINGERS",7.00],["PITTA",7.00],
+["POULET",7.00],["BOEUF",8.00],
+["KOFTE",8.00]
+]
+},
+
+{
+name:"BOISSONS",
+items:[
+["CANNETTES",2.00],
+["BOUTEILLES",3.00],
+["RED BULL",3.00],
+["AYRAN",2.00],
+["BIERES",2.50],
+["FANTA",2.00],
+["COCA ZERO(330)",2.00],
+["COCA ORIGINAL(330)",2.00],
+["COCA ZERO(500)",3.00],
+["COCA ORIGINAL(500)",2.00],
+["PEPSI ZERO(330)",2.00],
+["PEPSI ORIGINAL(330)",2.00],
+["PEPSI(500)",3.00],
+["SPRITE (330)",2.00],
+["ULUDAG GAZOZ",2.00],
+["TERAPICO",2.00],
+["MIRANDA",2.00],
+["SCHWEPPEES",2.00],
+["LIPTON",2.00],
+["OASIS",2.00],
+["FUZE TEA",2.00],
+["KAPRISON",1.50],
+["EAU",2.00],
+["EAU PETILLANTE",2.00]
+]
+}
+
+];
+
+const drinkVariants={
+"FANTA":["JAUNE","VERT","VIOLET"],
+"LIPTON":["JAUNE","BLEU"],
+"OASIS":["VERT","JAUNE","VIOLET"],
+"TERAPICO":["BLEU"]
+};
+
+let cart=[];
+let orderType="takeaway";
+
+function renderMenu(){
+
+const container=document.getElementById("products");
+
+container.innerHTML="";
+
+menu.forEach((category,ci)=>{
+
+const section=document.createElement("section");
+section.className="category";
+
+const title=document.createElement("div");
+title.className="category-title";
+title.textContent=category.name;
+
+section.appendChild(title);
+
+category.items.forEach((item,ii)=>{
+
+const name=item[0];
+const price=item[1];
+
+const product=document.createElement("div");
+product.className="product";
+
+let variantHTML="";
+
+if(drinkVariants[name]){
+variantHTML=
+`<select class="drink-select" id="variant-${ci}-${ii}">
+<option value="">Choisir la variante</option>
+${drinkVariants[name].map(v=>`<option value="${v}">${v}</option>`).join("")}
+</select>`;
+}
+
+product.innerHTML=`
+<div class="product-info">
+<div class="product-name">${name}</div>
+<div class="product-price">${price.toFixed(2)}€</div>
+${variantHTML}
+</div>
+
+<div class="controls">
+<button onclick="changeQty(${ci},${ii},-1)">−</button>
+<span class="qty" id="qty-${ci}-${ii}">0</span>
+<button onclick="changeQty(${ci},${ii},1)">+</button>
+</div>
+`;
+
+section.appendChild(product);
+
+});
+
+container.appendChild(section);
+
+});
+
+}
+
+function changeQty(ci,ii,change){
+
+const item=menu[ci].items[ii];
+const name=item[0];
+const price=item[1];
+
+let variant="";
+
+if(drinkVariants[name]){
+const select=document.getElementById(`variant-${ci}-${ii}`);
+variant=select.value;
+
+if(change>0 && !variant){
+alert("Veuillez choisir la variante de "+name+".");
+return;
+}
+}
+
+const key=ci+"-"+ii+"-"+variant;
+
+let existing=cart.find(x=>x.key===key);
+
+if(change>0){
+
+if(existing){
+existing.qty++;
+}else{
+cart.push({
+key:key,
+category:menu[ci].name,
+name:name,
+price:price,
+qty:1,
+variant:variant
+});
+}
+
+}else{
 
+if(existing){
+existing.qty--;
 
-  function openOrder(){
+if(existing.qty<=0){
+cart=cart.filter(x=>x.key!==key);
+}
+}
 
-    document
-      .getElementById("orderOverlay")
-      .classList
-      .add("active");
+}
 
-    updateSummary();
+updateQtyDisplays();
+updateCart();
 
-  }
+}
 
+function updateQtyDisplays(){
 
-  function closeOrder(){
+menu.forEach((category,ci)=>{
 
-    document
-      .getElementById("orderOverlay")
-      .classList
-      .remove("active");
+category.items.forEach((item,ii)=>{
 
-  }
+let total=0;
 
+cart.forEach(x=>{
+if(x.category===category.name && x.name===item[0]){
+total+=x.qty;
+}
+});
 
-  function selectType(type){
+const el=document.getElementById(`qty-${ci}-${ii}`);
 
-    orderType = type;
+if(el) el.textContent=total;
 
-    const takeaway =
-      document.getElementById("takeawayOption");
+});
 
-    const delivery =
-      document.getElementById("deliveryOption");
+});
 
-    const addressArea =
-      document.getElementById("addressArea");
+}
 
-    if(type === "takeaway"){
+function getTotal(){
 
-      takeaway.classList.add("selected");
-      delivery.classList.remove("selected");
+return cart.reduce((sum,item)=>{
+return sum+(item.price*item.qty);
+},0);
 
-      addressArea.style.display = "none";
+}
 
-    }else{
+function getCount(){
 
-      delivery.classList.add("selected");
-      takeaway.classList.remove("selected");
+return cart.reduce((sum,item)=>{
+return sum+item.qty;
+},0);
 
-      addressArea.style.display = "block";
+}
 
-    }
+function updateCart(){
 
-    document.getElementById("summaryType").textContent =
-      type === "takeaway"
-      ? "À emporter"
-      : "Livraison";
+const total=getTotal();
+const count=getCount();
 
-  }
+document.getElementById("floatingCount").textContent=count;
+document.getElementById("floatingTotal").textContent=total.toFixed(2)+"€";
+document.getElementById("cartTotal").textContent=total.toFixed(2)+"€";
 
+const list=document.getElementById("cartList");
 
-  function updateSummary(){
+if(cart.length===0){
+list.innerHTML=`<div class="empty">Votre panier est vide.</div>`;
+return;
+}
 
-    const items =
-      document.getElementById("orderItems").value.trim();
+list.innerHTML=cart.map(item=>{
 
-    const name =
-      document.getElementById("customerName").value.trim();
+let label=item.name;
 
-    document.getElementById("summaryItems").textContent =
-      items || "-";
+if(item.variant){
+label+=" ("+item.variant+")";
+}
 
-    document.getElementById("summaryName").textContent =
-      name || "-";
+return`
+<div class="cart-line">
+<span>${item.qty} × ${label}</span>
+<strong>${(item.qty*item.price).toFixed(2)}€</strong>
+</div>
+`;
 
-  }
+}).join("");
 
+}
 
-  document
-    .getElementById("orderItems")
-    .addEventListener("input", updateSummary);
+function openOrder(){
 
-  document
-    .getElementById("customerName")
-    .addEventListener("input", updateSummary);
+updateCart();
 
+document.getElementById("orderOverlay")
+.classList.add("active");
 
-  function sendWhatsApp(){
+}
 
-    const items =
-      document.getElementById("orderItems").value.trim();
+function closeOrder(){
 
-    const name =
-      document.getElementById("customerName").value.trim();
+document.getElementById("orderOverlay")
+.classList.remove("active");
 
-    const phone =
-      document.getElementById("customerPhone").value.trim();
+}
 
-    const address =
-      document.getElementById("customerAddress").value.trim();
+function selectType(type){
 
-    const note =
-      document.getElementById("customerNote").value.trim();
+orderType=type;
 
+document.getElementById("takeawayOption")
+.classList.toggle("selected",type==="takeaway");
 
-    if(!items){
+document.getElementById("deliveryOption")
+.classList.toggle("selected",type==="delivery");
 
-      alert("Veuillez écrire votre commande.");
+document.getElementById("addressArea").style.display=
+type==="delivery"?"block":"none";
 
-      return;
+}
 
-    }
+function sendWhatsApp(){
 
+if(cart.length===0){
+alert("Veuillez ajouter au moins un produit.");
+return;
+}
 
-    if(!name){
+const name=document.getElementById("customerName").value.trim();
+const phone=document.getElementById("customerPhone").value.trim();
+const address=document.getElementById("customerAddress").value.trim();
+const note=document.getElementById("customerNote").value.trim();
 
-      alert("Veuillez entrer votre nom.");
+if(!name){
+alert("Veuillez entrer votre nom.");
+return;
+}
 
-      return;
+if(!phone){
+alert("Veuillez entrer votre numéro de téléphone.");
+return;
+}
 
-    }
+if(orderType==="delivery" && !address){
+alert("Veuillez entrer votre adresse de livraison.");
+return;
+}
 
+let message="🛒 *NOUVELLE COMMANDE - TOP SNACK*\n\n";
 
-    if(!phone){
+message+="👤 Nom : "+name+"\n";
+message+="📞 Téléphone : "+phone+"\n";
 
-      alert("Veuillez entrer votre numéro de téléphone.");
+message+="📦 Type : "+
+(orderType==="takeaway"?"À emporter":"Livraison")+"\n";
 
-      return;
+if(orderType==="delivery"){
+message+="📍 Adresse : "+address+"\n";
+}
 
-    }
+message+="\n🍔 *COMMANDE :*\n";
 
+cart.forEach(item=>{
 
-    if(orderType === "delivery" && !address){
+let label=item.name;
 
-      alert("Veuillez entrer votre adresse de livraison.");
+if(item.variant){
+label+=" ("+item.variant+")";
+}
 
-      return;
+message+=
+item.qty+" × "+label+
+" — "+(item.qty*item.price).toFixed(2)+"€\n";
 
-    }
+});
 
+message+="\n💰 *TOTAL : "+getTotal().toFixed(2)+"€*\n";
 
-    let message =
-      "🛒 *NOUVELLE COMMANDE - TOP SNACK*%0A%0A";
+if(note){
+message+="\n📝 Remarque : "+note+"\n";
+}
 
+const whatsappNumber="32496969628";
 
-    message +=
-      "👤 Nom : " +
-      encodeURIComponent(name) +
-      "%0A";
+const url=
+"https://wa.me/"+
+whatsappNumber+
+"?text="+
+encodeURIComponent(message);
 
+window.location.href=url;
 
-    message +=
-      "📞 Téléphone : " +
-      encodeURIComponent(phone) +
-      "%0A";
+}
 
+function clearCart(){
 
-    message +=
-      "📦 Type : " +
-      encodeURIComponent(
-        orderType === "takeaway"
-        ? "À emporter"
-        : "Livraison"
-      ) +
-      "%0A";
+cart=[];
 
+updateQtyDisplays();
+updateCart();
 
-    if(orderType === "delivery"){
+document.getElementById("customerName").value="";
+document.getElementById("customerPhone").value="";
+document.getElementById("customerAddress").value="";
+document.getElementById("customerNote").value="";
 
-      message +=
-        "📍 Adresse : " +
-        encodeURIComponent(address) +
-        "%0A";
+selectType("takeaway");
 
-    }
+}
 
+document.getElementById("orderOverlay")
+.addEventListener("click",function(e){
 
-    message +=
-      "%0A🍔 *Commande :*%0A" +
-      encodeURIComponent(items) +
-      "%0A";
+if(e.target===this){
+closeOrder();
+}
 
+});
 
-    if(note){
-
-      message +=
-        "%0A📝 Remarque : " +
-        encodeURIComponent(note);
-
-    }
-
-
-    const whatsappNumber =
-      "32496969628";
-
-
-    const whatsappURL =
-      "https://wa.me/" +
-      whatsappNumber +
-      "?text=" +
-      message;
-
-
-    window.location.href = whatsappURL;
-
-  }
-
-
-  function clearOrder(){
-
-    document.getElementById("orderItems").value = "";
-    document.getElementById("customerName").value = "";
-    document.getElementById("customerPhone").value = "";
-    document.getElementById("customerAddress").value = "";
-    document.getElementById("customerNote").value = "";
-
-    selectType("takeaway");
-
-    updateSummary();
-
-  }
-
-
-  document
-    .getElementById("orderOverlay")
-    .addEventListener("click", function(event){
-
-      if(event.target === this){
-
-        closeOrder();
-
-      }
-
-    });
+renderMenu();
+updateCart();
 
 </script>
 
