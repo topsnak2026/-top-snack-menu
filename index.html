@@ -3,322 +3,299 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="ixcKd7ctbvMDlUoIjZF0rSdNPMIivjZlHy1h-T7EY">
+<meta name="google-site-verification" content="ixcKd7ctbvXrMDlUoIjZF0rSdNPMIivjZlHy1h-T7EY">
+
 <title>TOP SNACK - Commande en ligne</title>
 
 <style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f5f5f5;
-  color:#222;
+* {
+  box-sizing: border-box;
 }
 
-header{
-  background:#111;
-  color:white;
-  text-align:center;
-  padding:22px 12px;
-  position:sticky;
-  top:0;
-  z-index:20;
-  box-shadow:0 3px 12px #0004;
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f5f5;
+  color: #222;
 }
 
-header h1{
-  margin:0;
-  font-size:30px;
-  letter-spacing:2px;
+header {
+  background: #111;
+  color: white;
+  text-align: center;
+  padding: 25px 15px;
 }
 
-header p{
-  margin:7px 0 0;
-  color:#ddd;
+header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 900;
 }
 
-.container{
-  max-width:1000px;
-  margin:auto;
-  padding:15px;
+header p {
+  margin: 8px 0 0;
+  color: #ddd;
+  font-size: 14px;
 }
 
-.category{
-  margin:25px 0;
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 15px;
 }
 
-.category-title{
-  background:#111;
-  color:#fff;
-  padding:13px 15px;
-  border-radius:14px;
-  font-size:21px;
-  font-weight:bold;
-  margin-bottom:12px;
+/* =========================
+   GALERIE PHOTOS EN HAUT
+========================= */
+
+.gallery-title {
+  text-align: center;
+  margin: 15px 0 10px;
+  font-size: 22px;
+  font-weight: 900;
 }
 
-.products{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 25px;
 }
 
-.product{
-  background:white;
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 3px 12px #0001;
-  display:flex;
-  flex-direction:column;
+.gallery img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  background: #ddd;
 }
 
-.product-img{
-  width:100%;
-  height:145px;
-  object-fit:cover;
-  background:#ddd;
-}
-
-.product-info{
-  padding:11px;
-}
-
-.product-name{
-  font-weight:bold;
-  font-size:16px;
-  min-height:38px;
-}
-
-.product-price{
-  font-weight:bold;
-  font-size:18px;
-  margin:7px 0;
-}
-
-.controls{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:7px;
-}
-
-.qty-btn{
-  width:38px;
-  height:38px;
-  border:0;
-  border-radius:10px;
-  font-size:23px;
-  font-weight:bold;
-  background:#111;
-  color:white;
-  cursor:pointer;
-}
-
-.qty{
-  min-width:35px;
-  text-align:center;
-  font-weight:bold;
-  font-size:18px;
-}
-
-.add-btn{
-  flex:1;
-  height:38px;
-  border:0;
-  border-radius:10px;
-  background:#159447;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.cart-box{
-  position:sticky;
-  bottom:10px;
-  z-index:15;
-  background:white;
-  margin:25px auto;
-  max-width:1000px;
-  padding:15px;
-  border-radius:18px;
-  box-shadow:0 4px 20px #0003;
-}
-
-.cart-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-
-.cart-title{
-  font-size:20px;
-  font-weight:bold;
-}
-
-.cart-total{
-  font-size:21px;
-  font-weight:bold;
-  color:#159447;
-}
-
-.cart-items{
-  margin-top:10px;
-}
-
-.cart-item{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  padding:8px 0;
-  border-bottom:1px solid #ddd;
-}
-
-.clear-btn{
-  margin-top:10px;
-  border:0;
-  background:#c62828;
-  color:#fff;
-  padding:9px 13px;
-  border-radius:9px;
-  cursor:pointer;
-}
-
-.order-button{
-  width:100%;
-  margin-top:12px;
-  padding:15px;
-  border:0;
-  border-radius:13px;
-  background:#159447;
-  color:white;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#0008;
-  z-index:100;
-  overflow:auto;
-  padding:20px;
-}
-
-.modal{
-  background:white;
-  max-width:600px;
-  margin:30px auto;
-  border-radius:20px;
-  padding:20px;
-}
-
-.modal h2{
-  margin-top:0;
-}
-
-label{
-  display:block;
-  margin-top:13px;
-  margin-bottom:6px;
-  font-weight:bold;
-}
-
-input,textarea,select{
-  width:100%;
-  padding:13px;
-  border:1px solid #ccc;
-  border-radius:10px;
-  font-size:16px;
-}
-
-textarea{
-  min-height:90px;
-  resize:vertical;
-}
-
-.delivery-address{
-  display:none;
-}
-
-.close-btn{
-  float:right;
-  border:0;
-  background:#eee;
-  border-radius:50%;
-  width:35px;
-  height:35px;
-  font-size:20px;
-  cursor:pointer;
-}
-
-.qr-box{
-  display:none;
-  text-align:center;
-  margin-top:15px;
-  padding:15px;
-  background:#f7f7f7;
-  border-radius:15px;
-}
-
-.qr-box img{
-  width:210px;
-  height:210px;
-  max-width:100%;
-}
-
-.qr-text{
-  font-size:13px;
-  color:#555;
-  word-break:break-word;
-}
-
-.whatsapp-btn{
-  width:100%;
-  padding:15px;
-  border:0;
-  border-radius:12px;
-  background:#25D366;
-  color:white;
-  font-size:18px;
-  font-weight:bold;
-  margin-top:15px;
-  cursor:pointer;
-}
-
-footer{
-  background:#111;
-  color:#ddd;
-  text-align:center;
-  padding:25px 15px;
-  margin-top:30px;
-}
-
-@media(max-width:600px){
-  .products{
-    grid-template-columns:1fr;
+@media (min-width: 700px) {
+  .gallery {
+    grid-template-columns: repeat(4, 1fr);
   }
 
-  .product{
-    display:grid;
-    grid-template-columns:120px 1fr;
+  .gallery img {
+    height: 170px;
   }
+}
 
-  .product-img{
-    height:100%;
-    min-height:145px;
-  }
+/* =========================
+   MENU
+========================= */
 
-  .product-info{
-    padding:12px;
-  }
+.menu-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 900;
+  margin: 25px 0 15px;
+}
 
-  header h1{
-    font-size:25px;
-  }
+.category {
+  background: white;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.category h2 {
+  margin: 0;
+  padding: 14px 16px;
+  background: #111;
+  color: white;
+  font-size: 20px;
+}
+
+.product {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.product:last-child {
+  border-bottom: none;
+}
+
+.product-name {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.product-price {
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.add-btn {
+  border: none;
+  background: #111;
+  color: white;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.add-btn:active {
+  transform: scale(.92);
+}
+
+/* =========================
+   PANIER FLOTTANT
+========================= */
+
+.cart-button {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 30px);
+  max-width: 500px;
+  background: #111;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 900;
+  box-shadow: 0 5px 20px rgba(0,0,0,.3);
+  z-index: 1000;
+  cursor: pointer;
+}
+
+/* =========================
+   MODAL PANIER
+========================= */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.65);
+  z-index: 2000;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.modal-box {
+  background: white;
+  max-width: 600px;
+  margin: 30px auto;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.modal-box h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-item-info {
+  flex: 1;
+}
+
+.qty-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qty-buttons button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  background: #111;
+  color: white;
+  font-size: 18px;
+}
+
+.total {
+  font-size: 21px;
+  font-weight: 900;
+  text-align: right;
+  margin: 18px 0;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  margin: 6px 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 8px;
+}
+
+.whatsapp-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: #25D366;
+  color: white;
+  font-size: 17px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.close-btn,
+.clear-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-btn {
+  background: #ddd;
+}
+
+.clear-btn {
+  background: #eee;
+}
+
+.delivery-address {
+  display: none;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+  text-align: center;
+  padding: 35px 15px 110px;
+  color: #555;
+  font-size: 14px;
 }
 </style>
 </head>
@@ -327,45 +304,71 @@ footer{
 
 <header>
   <h1>TOP SNACK</h1>
-  <p>Commandez en ligne</p>
+  <p>Rue Godfroid Kurth 109 — 1140 Evere</p>
+  <p>📞 +32 496 96 96 28</p>
 </header>
 
-<div class="container" id="menu"></div>
+<div class="container">
 
-<div class="cart-box">
-  <div class="cart-top">
-    <div class="cart-title">🛒 Mon panier</div>
-    <div class="cart-total" id="cartTotal">0,00€</div>
+  <!-- =========================
+       PHOTOS EN HAUT
+  ========================== -->
+
+  <div class="gallery-title">🍔 Découvrez notre menu</div>
+
+  <div class="gallery">
+
+    <img src="IMG_1168.jpeg" alt="Top Snack">
+    <img src="IMG_1169.jpeg" alt="Top Snack">
+    <img src="IMG_1170.jpeg" alt="Top Snack">
+    <img src="IMG_1171.jpeg" alt="Top Snack">
+    <img src="IMG_1172.jpeg" alt="Top Snack">
+    <img src="IMG_1173.jpeg" alt="Top Snack">
+    <img src="IMG_1174.jpeg" alt="Top Snack">
+    <img src="IMG_1175.jpeg" alt="Top Snack">
+    <img src="IMG_1176.jpeg" alt="Top Snack">
+    <img src="IMG_1177.jpeg" alt="Top Snack">
+    <img src="IMG_1178.jpeg" alt="Top Snack">
+    <img src="IMG_1179.jpeg" alt="Top Snack">
+    <img src="IMG_1180.jpeg" alt="Top Snack">
+    <img src="IMG_1181.jpeg" alt="Top Snack">
+    <img src="IMG_1182.jpeg" alt="Top Snack">
+    <img src="IMG_1183.jpeg" alt="Top Snack">
+    <img src="03FA716C-DE58-4084-8661-3E373E2B2A38.png" alt="Boissons Top Snack">
+
   </div>
 
-  <div id="cartCount">0 article(s)</div>
-  <div class="cart-items" id="cartItems"></div>
+  <div class="menu-title">📋 NOTRE MENU</div>
 
-  <button class="clear-btn" onclick="clearCart()">
-    🗑️ Vider le panier
-  </button>
+  <div id="products"></div>
 
-  <button class="order-button" onclick="openOrder()">
-    📲 Continuer la commande
-  </button>
 </div>
 
 <footer>
-  <strong>TOP SNACK</strong><br><br>
+  <strong>TOP SNACK</strong><br>
   Rue Godfroid Kurth 109, 1140 Evere<br>
   📞 +32 496 96 96 28
 </footer>
 
-<!-- ORDER WINDOW -->
-<div class="overlay" id="orderOverlay">
+<!-- =========================
+     PANIER
+========================== -->
 
-  <div class="modal">
+<button class="cart-button" onclick="openCart()">
+  🛒 Mon panier — <span id="cartCount">0</span> article(s) — <span id="cartTotal">0,00 €</span>
+</button>
 
-    <button class="close-btn" onclick="closeOrder()">×</button>
+<div class="modal" id="cartModal">
 
-    <h2>📋 Votre commande</h2>
+  <div class="modal-box">
 
-    <div id="orderSummary"></div>
+    <h2>🛒 Mon panier</h2>
+
+    <div id="cartItems"></div>
+
+    <div class="total">
+      Total : <span id="modalTotal">0,00 €</span>
+    </div>
 
     <label>Nom</label>
     <input id="customerName" type="text" placeholder="Votre nom">
@@ -374,811 +377,475 @@ footer{
     <input id="customerPhone" type="tel" placeholder="Votre numéro">
 
     <label>Type de commande</label>
-    <select id="orderType" onchange="changeOrderType()">
-      <option value="takeaway">🛍️ À emporter</option>
-      <option value="delivery">🛵 Livraison</option>
+    <select id="orderType" onchange="toggleAddress()">
+      <option value="À emporter">À emporter</option>
+      <option value="Livraison">Livraison</option>
     </select>
 
-    <div class="delivery-address" id="deliveryAddressBox">
-
+    <div class="delivery-address" id="addressBox">
       <label>Adresse de livraison</label>
-      <textarea
-        id="customerAddress"
-        placeholder="Rue, numéro, code postal, ville..."
-        oninput="updateQRCode()"
-      ></textarea>
-
-      <div class="qr-box" id="qrBox">
-
-        <strong>📍 QR Code de l'adresse</strong>
-
-        <br><br>
-
-        <img id="qrImage" alt="QR Code adresse">
-
-        <p class="qr-text" id="qrText"></p>
-
-      </div>
-
+      <textarea id="customerAddress" placeholder="Votre adresse"></textarea>
     </div>
 
-    <label>Remarque</label>
-    <textarea
-      id="customerNote"
-      placeholder="Ex: sans oignon, sauce à part..."
-    ></textarea>
+    <label>Note</label>
+    <textarea id="customerNote" placeholder="Une remarque ?"></textarea>
 
-    <button class="whatsapp-btn" onclick="sendWhatsApp()">
+    <button class="whatsapp-btn" onclick="sendOrder()">
       📲 ENVOYER LA COMMANDE SUR WHATSAPP
+    </button>
+
+    <button class="clear-btn" onclick="clearCart()">
+      🗑️ Vider le panier
+    </button>
+
+    <button class="close-btn" onclick="closeCart()">
+      Fermer
     </button>
 
   </div>
 </div>
 
-
 <script>
 
-/* =========================================================
-   CONFIGURATION
-========================================================= */
-
-const WHATSAPP_NUMBER = "32496969628";
-
-/*
-  Images existantes de ton site.
-  Pour l'instant chaque catégorie utilise son image de menu.
-*/
-
-const IMAGES = {
-  mitraillette: "IMG_1168.jpeg",
-  snacks: "IMG_1169.jpeg",
-  assiettes: "IMG_1170.jpeg",
-  box: "IMG_1171.jpeg",
-  frites: "IMG_1172.jpeg",
-  burger: "IMG_1173.jpeg",
-  bicky: "IMG_1174.jpeg",
-  sauces: "IMG_1175.jpeg",
-  gyros: "IMG_1176.jpeg",
-  kapsalon: "IMG_1177.jpeg",
-  menu: "IMG_1178.jpeg",
-  tacos: "IMG_1179.jpeg",
-  desserts: "IMG_1180.jpeg",
-  supplements: "IMG_1181.jpeg",
-  salades: "IMG_1182.jpeg",
-  panini: "IMG_1183.jpeg",
-  boissons: "03FA716C-DE58-4084-8661-3E373E2B2A38.png"
-};
-
-
-/* =========================================================
+/* =====================================================
    MENU
-========================================================= */
+===================================================== */
 
-const menuData = [
+const menu = [
 
-{
-  category:"MITRAILLETTE / DURUM / PAIN TURC",
-  image:IMAGES.mitraillette,
-  items:[
-    ["PITTA",7.50],
-    ["POULET",7.50],
-    ["KOFTE",7.50],
-    ["FALAFEL",7.50],
-    ["MIXTE",8.00],
-    ["BOEUF",8.00],
-    ["HAMBURGER",7.00],
-    ["FRICADELLE",7.00],
-    ["BOULETTE",7.00],
-    ["MEXICANO",7.00],
-    ["POULYCROQ",7.50],
-    ["CHIX FINGERS",7.50],
-    ["MERGUEZ",7.50],
-    ["ADANA",7.50],
-    ["BROC.CABILLAUD",7.50],
-    ["BROC.DINDE",7.50],
-    ["BROC.BOEUF",8.00],
-    ["BROC.POULET",8.00]
-  ]
-},
+  {
+    category: "MITRAILLETTE / DURUM / PAIN TURC",
+    items: [
+      ["PITTA", 7.50],
+      ["POULET", 7.50],
+      ["KOFTE", 7.50],
+      ["FALAFEL", 7.50],
+      ["MIXTE", 8.00],
+      ["BOEUF", 8.00],
+      ["HAMBURGER", 7.00],
+      ["FRICADELLE", 7.00],
+      ["BOULETTE", 7.00],
+      ["MEXICANO", 7.00],
+      ["POULYCROQ", 7.50],
+      ["CHIX FINGERS", 7.50],
+      ["MERGUEZ", 7.50],
+      ["ADANA", 7.50],
+      ["BROC.CABILLAUD", 7.50],
+      ["BROC.DINDE", 7.50],
+      ["BROC.BOEUF", 8.00],
+      ["BROC.POULET", 8.00]
+    ]
+  },
 
-{
-  category:"SNACKS",
-  image:IMAGES.snacks,
-  items:[
-    ["HAMBURGER",3.00],
-    ["FRICADELLE",3.00],
-    ["BOULETTE",3.50],
-    ["MEXICANO",3.50],
-    ["POULYCROQ",3.50],
-    ["CHIX FINGERS",3.50],
-    ["MINI LOEMPIA",3.50],
-    ["CROQETTE FROMAGE",3.00],
-    ["BROC.CABILLAUD",3.50],
-    ["BROC.DINDE",3.50],
-    ["BROC.BOEUF",4.00],
-    ["BROC.PILONS POULET",4.50],
-    ["BROC.POULET",4.50],
-    ["TENDERS",4.00],
-    ["NUGGETS",4.00],
-    ["WINGS",4.00]
-  ]
-},
+  {
+    category: "SNACKS",
+    items: [
+      ["Hamburger", 3.00],
+      ["Fricadelle", 3.00],
+      ["Boulette", 3.50],
+      ["Mexicano", 3.50],
+      ["Poulycroq", 3.50],
+      ["Chix Fingers", 3.50],
+      ["Mini Loempia", 3.50],
+      ["Croquette Fromage", 3.00],
+      ["Broc.Cabillaud", 3.50],
+      ["Broc.Dinde", 3.50],
+      ["Broc.Boeuf", 4.00],
+      ["Broc.Pilons Poulet", 4.50],
+      ["Broc.Poulet", 4.50],
+      ["Tenders", 4.00],
+      ["Nuggets", 4.00],
+      ["Wings", 4.00]
+    ]
+  },
 
-{
-  category:"ASSIETTES",
-  image:IMAGES.assiettes,
-  items:[
-    ["PITTA",15.00],
-    ["POULET",15.00],
-    ["BOEUF",17.00],
-    ["FALAFEL",15.00],
-    ["MIXTE",17.00],
-    ["KOFTE",16.00],
-    ["CALAMAR",15.00],
-    ["ADANA",16.00],
-    ["BROC.DINDE",15.00],
-    ["BROC.BOEUF",17.00],
-    ["BROC.POULET",17.00],
-    ["PLION POULET",15.00],
-    ["BROC.CABILLAUD",15.00],
-    ["TOP GRILL",22.00],
-    ["CÔTE D'AGNEAU",22.00]
-  ]
-},
+  {
+    category: "ASSIETTES",
+    items: [
+      ["Pitta", 15.00],
+      ["Poulet", 15.00],
+      ["Falafel", 15.00],
+      ["Broc.Dinde", 15.00],
+      ["Broc.Cabillaud", 15.00],
+      ["Pilons Poulet", 15.00],
+      ["Boeuf", 17.00],
+      ["Mixte", 17.00],
+      ["Broc.Boeuf", 17.00],
+      ["Broc.Poulet", 17.00],
+      ["Kofte", 16.00],
+      ["Adana", 16.00],
+      ["Calamar", 15.00],
+      ["Top Grill", 22.00],
+      ["Côte d'Agneau", 22.00]
+    ]
+  },
 
-{
-  category:"BOX",
-  image:IMAGES.box,
-  items:[
-    ["KIDS",10.00],
-    ["DONER",8.00]
-  ]
-},
+  {
+    category: "BOX",
+    items: [
+      ["Kids", 10.00],
+      ["Doner", 8.00]
+    ]
+  },
 
-{
-  category:"FRITES",
-  image:IMAGES.frites,
-  items:[
-    ["PETITE",3.50],
-    ["GRANDE",4.50],
-    ["À PART",1.50]
-  ]
-},
+  {
+    category: "FRITES",
+    items: [
+      ["Petite", 3.50],
+      ["Grande", 4.50],
+      ["À Part", 1.50]
+    ]
+  },
 
-{
-  category:"BURGER",
-  image:IMAGES.burger,
-  items:[
-    ["PREMIUM BURGER",6.50],
-    ["CHEESE BURGER",7.00],
-    ["MASTER BURGER",8.00],
-    ["DOUBLE STEAK HOUSE",8.00]
-  ]
-},
+  {
+    category: "BURGER",
+    items: [
+      ["Premium", 6.50],
+      ["Cheese", 7.00],
+      ["Master", 8.00],
+      ["Double Steak House", 8.00]
+    ]
+  },
 
-{
-  category:"BICKY",
-  image:IMAGES.bicky,
-  items:[
-    ["HAMBURGER",5.00],
-    ["KOFTE",6.00],
-    ["FISH BURGER",5.50],
-    ["ESCALOPE POULET",5.50]
-  ]
-},
+  {
+    category: "BICKY",
+    items: [
+      ["Hamburger", 5.00],
+      ["Kofte", 6.00],
+      ["Fish Burger", 5.50],
+      ["Escalope Poulet", 5.50]
+    ]
+  },
 
-{
-  category:"SAUCES",
-  image:IMAGES.sauces,
-  items:[
-    ["ANDALOUSE",1.00],
-    ["SAMURAI",1.00],
-    ["PITTA",1.00],
-    ["KETCHUP",1.00],
-    ["BRAZIL",1.00],
-    ["PILI PILI",1.00],
-    ["MAYONNAISE",1.00],
-    ["CURRY KETCHUP",1.00],
-    ["AMERICAINE CHEF",1.00],
-    ["COCKTAIL",1.00],
-    ["TARTAR",1.00],
-    ["BARBECUE",1.00]
-  ]
-},
+  {
+    category: "SAUCES",
+    items: [
+      ["Andalouse", 1.00],
+      ["Samurai", 1.00],
+      ["Pitta", 1.00],
+      ["Ketchup", 1.00],
+      ["Brazil", 1.00],
+      ["Pili Pili", 1.00],
+      ["Mayonnaise", 1.00],
+      ["Curry Ketchup", 1.00],
+      ["Americaine Chef", 1.00],
+      ["Cocktail", 1.00],
+      ["Tartar", 1.00],
+      ["Barbecue", 1.00]
+    ]
+  },
 
-{
-  category:"GYROS",
-  image:IMAGES.gyros,
-  items:[
-    ["CLASSIQUE",7.00],
-    ["FETA",8.00],
-    ["OLIVE",8.00],
-    ["MAIS",7.00],
-    ["POULET",7.00]
-  ]
-},
+  {
+    category: "GYROS",
+    items: [
+      ["Classique", 7.00],
+      ["Feta / Olive", 8.00],
+      ["Mais / Poulet", 7.00]
+    ]
+  },
 
-{
-  category:"KAPSALON",
-  image:IMAGES.kapsalon,
-  items:[
-    ["PITTA",10.00],
-    ["POULET",10.00],
-    ["FALAFEL",10.00],
-    ["KOFTE",10.00],
-    ["MIXTE",11.00],
-    ["BOUEF",11.00]
-  ]
-},
+  {
+    category: "KAPSALON",
+    items: [
+      ["Pitta", 10.00],
+      ["Poulet", 10.00],
+      ["Falafel", 10.00],
+      ["Kofte", 10.00],
+      ["Mixte", 11.00],
+      ["Boeuf", 11.00]
+    ]
+  },
 
-{
-  category:"MENU",
-  image:IMAGES.menu,
-  items:[
-    ["SANDWICH MENU",10.00],
-    ["DURUM MENU",10.00],
-    ["PAIN TURC MENU",10.00],
-    ["BICKY MENU",9.00],
-    ["GYROS MENU",11.00],
-    ["TACOS L MENU",13.00],
-    ["TACOS XL MENU",17.00]
-  ]
-},
+  {
+    category: "MENU",
+    items: [
+      ["Sandwich / Durum / Pain Turc", 10.00],
+      ["Bicky", 9.00],
+      ["Gyros", 11.00],
+      ["Tacos L", 13.00],
+      ["Tacos XL", 17.00]
+    ]
+  },
 
-{
-  category:"TACOS",
-  image:IMAGES.tacos,
-  items:[
-    ["TENDERS",8.00],
-    ["NUGGETS",8.00],
-    ["CHIX FINGERS",8.00],
-    ["PITTA",8.00],
-    ["POULET",8.00],
-    ["BOEUF",9.00],
-    ["KOFTE",9.00],
-    ["TACOS XL",13.00]
-  ]
-},
+  {
+    category: "TACOS",
+    items: [
+      ["Tenders", 8.00],
+      ["Nuggets", 8.00],
+      ["Chix Fingers", 8.00],
+      ["Pitta", 8.00],
+      ["Poulet", 8.00],
+      ["Boeuf", 9.00],
+      ["Kofte", 9.00],
+      ["Tacos XL", 13.00]
+    ]
+  },
 
-{
-  category:"DESSERTS",
-  image:IMAGES.desserts,
-  items:[
-    ["TIRAMISU OREO",4.00],
-    ["TIRAMISU SPECULOOS",4.00],
-    ["MOUSSE AU CHOCOLAT",4.00]
-  ]
-},
+  {
+    category: "DESSERTS",
+    items: [
+      ["Tiramisu Oreo", 4.00],
+      ["Tiramisu Speculoos", 4.00],
+      ["Mousse Chocolat", 4.00]
+    ]
+  },
 
-{
-  category:"SUPPLEMENTS",
-  image:IMAGES.supplements,
-  items:[
-    ["FETA",1.00],
-    ["OLIVE",1.00],
-    ["PIMENT",1.00],
-    ["MOZZARELLA",1.00],
-    ["CHEDDAR",1.00],
-    ["OIGNON FRIE",1.00]
-  ]
-},
-
-{
-  category:"SALADES",
-  image:IMAGES.salades,
-  items:[
-    ["FETA",9.00],
-    ["POULET",10.00],
-    ["THON",10.00],
-    ["FALAFEL",9.00]
-  ]
-},
-
-{
-  category:"PANINI",
-  image:IMAGES.panini,
-  items:[
-    ["TENDERS",7.00],
-    ["NUGGETS",7.00],
-    ["CHIX FINGERS",7.00],
-    ["PITTA",7.00],
-    ["POULET",7.00],
-    ["BOEUF",8.00],
-    ["KOFTE",8.00]
-  ]
-},
-
-{
-  category:"BOISSONS",
-  image:IMAGES.boissons,
-  items:[
-    ["CANNETTES",2.00],
-    ["BOUTEILLES",3.00],
-    ["RED BULL",3.00],
-    ["AYRAN",2.00],
-    ["BIERES",2.50],
-    ["FANTA - JAUNE",2.00],
-    ["FANTA - VERT",2.00],
-    ["FANTA - VIOLET",2.00],
-    ["COCA ZERO (330)",2.00],
-    ["COCA ORIGINAL (330)",2.00],
-    ["COCA ZERO (500)",3.00],
-    ["COCA ORIGINAL (500)",2.00],
-    ["PEPSI ZERO (330)",2.00],
-    ["PEPSI ORIGINAL (330)",2.00],
-    ["PEPSI (500)",3.00],
-    ["SPRITE (330)",2.00],
-    ["ULUDAG GAZOZ",2.00],
-    ["TROPICO - BLEU",2.00],
-    ["MIRANDA",2.00],
-    ["SCHWEPPES",2.00],
-    ["LIPTON - JAUNE",2.00],
-    ["LIPTON - BLEU",2.00],
-    ["OASIS - VERT",2.00],
-    ["OASIS - JAUNE",2.00],
-    ["OASIS - VIOLET",2.00],
-    ["FUZE TEA",2.00],
-    ["KAPRISON",1.50],
-    ["EAU",2.00],
-    ["EAU PETILLANTE",2.00]
-  ]
-}
+  {
+    category: "SUPPLEMENTS",
+    items: [
+      ["Feta", 1.00],
+      ["Olive", 1.00],
+      ["Piment", 1.00],
+      ["Mozzarella", 1.00],
+      ["Cheddar", 1.00],
+      ["Oignon Frie", 1.00]
+    ]
+  }
 
 ];
 
-
-/* =========================================================
+/* =====================================================
    PANIER
-========================================================= */
+===================================================== */
 
 let cart = [];
 
+/* Afficher le menu */
 
-/* =========================================================
-   AFFICHAGE MENU
-========================================================= */
+function renderMenu() {
 
-function renderMenu(){
+  const container = document.getElementById("products");
 
-  const menu = document.getElementById("menu");
+  container.innerHTML = "";
 
-  menu.innerHTML = "";
+  menu.forEach(section => {
 
-  menuData.forEach((category, categoryIndex)=>{
+    const category = document.createElement("div");
+    category.className = "category";
 
-    const section = document.createElement("section");
+    const title = document.createElement("h2");
+    title.textContent = section.category;
 
-    section.className = "category";
+    category.appendChild(title);
 
-    section.innerHTML = `
-      <div class="category-title">
-        ${category.category}
-      </div>
+    section.items.forEach(item => {
 
-      <div class="products">
+      const name = item[0];
+      const price = item[1];
 
-        ${category.items.map((item,itemIndex)=>{
+      const row = document.createElement("div");
+      row.className = "product";
 
-          const name = item[0];
-          const price = item[1];
+      row.innerHTML = `
+        <div class="product-name">${name}</div>
+        <div class="product-price">${formatPrice(price)}</div>
+        <button class="add-btn"
+          onclick="addToCart('${escapeJS(name)}', ${price})">
+          +
+        </button>
+      `;
 
-          return `
+      category.appendChild(row);
+    });
 
-            <div class="product">
-
-              <img
-                class="product-img"
-                src="${category.image}"
-                alt="${name}"
-                onerror="this.style.display='none'"
-              >
-
-              <div class="product-info">
-
-                <div class="product-name">
-                  ${name}
-                </div>
-
-                <div class="product-price">
-                  ${formatPrice(price)}
-                </div>
-
-                <div class="controls">
-
-                  <button
-                    class="qty-btn"
-                    onclick="changeQty(${categoryIndex},${itemIndex},-1)"
-                  >−</button>
-
-                  <span
-                    class="qty"
-                    id="qty-${categoryIndex}-${itemIndex}"
-                  >0</span>
-
-                  <button
-                    class="qty-btn"
-                    onclick="changeQty(${categoryIndex},${itemIndex},1)"
-                  >+</button>
-
-                  <button
-                    class="add-btn"
-                    onclick="addProduct(${categoryIndex},${itemIndex})"
-                  >
-                    Ajouter
-                  </button>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          `;
-
-        }).join("")}
-
-      </div>
-    `;
-
-    menu.appendChild(section);
-
+    container.appendChild(category);
   });
-
 }
 
+/* =====================================================
+   AJOUTER AU PANIER
+===================================================== */
 
-/* =========================================================
-   AJOUTER PRODUIT
-========================================================= */
+function addToCart(name, price) {
 
-function addProduct(categoryIndex,itemIndex){
+  const existing = cart.find(item => item.name === name);
 
-  const category = menuData[categoryIndex];
-
-  const product = category.items[itemIndex];
-
-  const name = product[0];
-  const price = product[1];
-
-  const key = categoryIndex + "-" + itemIndex;
-
-  const existing = cart.find(item => item.key === key);
-
-  if(existing){
-
-    existing.qty++;
-
-  }else{
-
+  if (existing) {
+    existing.quantity++;
+  } else {
     cart.push({
-      key:key,
-      category:category.category,
-      name:name,
-      price:price,
-      qty:1
+      name: name,
+      price: price,
+      quantity: 1
     });
-
   }
 
-  updateQuantityDisplay(categoryIndex,itemIndex);
+  updateCart();
 
-  renderCart();
+  // petit retour visuel
+  const buttons = document.querySelectorAll(".add-btn");
 
-}
-
-
-/* =========================================================
-   CHANGER QUANTITE
-========================================================= */
-
-function changeQty(categoryIndex,itemIndex,amount){
-
-  const category = menuData[categoryIndex];
-
-  const product = category.items[itemIndex];
-
-  const key = categoryIndex + "-" + itemIndex;
-
-  let existing = cart.find(item => item.key === key);
-
-  if(!existing && amount > 0){
-
-    cart.push({
-      key:key,
-      category:category.category,
-      name:product[0],
-      price:product[1],
-      qty:amount
-    });
-
-  }else if(existing){
-
-    existing.qty += amount;
-
-    if(existing.qty <= 0){
-
-      cart = cart.filter(item => item.key !== key);
-
+  buttons.forEach(button => {
+    if (button.getAttribute("onclick")?.includes(name)) {
+      button.style.transform = "scale(1.15)";
+      setTimeout(() => {
+        button.style.transform = "";
+      }, 150);
     }
+  });
+}
 
+/* =====================================================
+   QUANTITÉ
+===================================================== */
+
+function changeQuantity(index, amount) {
+
+  if (!cart[index]) return;
+
+  cart[index].quantity += amount;
+
+  if (cart[index].quantity <= 0) {
+    cart.splice(index, 1);
   }
 
-  updateQuantityDisplay(categoryIndex,itemIndex);
+  updateCart();
+}
+
+/* =====================================================
+   TOTAL
+===================================================== */
+
+function getTotal() {
+
+  return cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+}
+
+function getCount() {
+
+  return cart.reduce(
+    (count, item) => count + item.quantity,
+    0
+  );
+}
+
+/* =====================================================
+   ACTUALISER PANIER
+===================================================== */
+
+function updateCart() {
+
+  document.getElementById("cartCount").textContent = getCount();
+
+  document.getElementById("cartTotal").textContent =
+    formatPrice(getTotal());
 
   renderCart();
-
 }
 
+/* =====================================================
+   AFFICHER PANIER
+===================================================== */
 
-/* =========================================================
-   QUANTITE AFFICHAGE
-========================================================= */
+function renderCart() {
 
-function updateQuantityDisplay(categoryIndex,itemIndex){
+  const container = document.getElementById("cartItems");
 
-  const key = categoryIndex + "-" + itemIndex;
+  if (cart.length === 0) {
 
-  const item = cart.find(x => x.key === key);
+    container.innerHTML =
+      "<p style='text-align:center;'>Votre panier est vide.</p>";
 
-  const element = document.getElementById(
-    "qty-" + categoryIndex + "-" + itemIndex
-  );
-
-  if(element){
-
-    element.textContent = item ? item.qty : 0;
-
-  }
-
-}
-
-
-/* =========================================================
-   PANIER
-========================================================= */
-
-function renderCart(){
-
-  const cartItems = document.getElementById("cartItems");
-
-  const cartCount = document.getElementById("cartCount");
-
-  const cartTotal = document.getElementById("cartTotal");
-
-  if(cart.length === 0){
-
-    cartItems.innerHTML =
-      `<div style="color:#777;padding:8px 0">
-        Votre panier est vide.
-      </div>`;
-
-    cartCount.textContent = "0 article(s)";
-
-    cartTotal.textContent = "0,00€";
+    document.getElementById("modalTotal").textContent =
+      formatPrice(0);
 
     return;
-
   }
 
-  let total = 0;
+  container.innerHTML = "";
 
-  let count = 0;
+  cart.forEach((item, index) => {
 
-  cartItems.innerHTML = "";
+    const row = document.createElement("div");
+    row.className = "cart-item";
 
-  cart.forEach(item=>{
-
-    const subtotal = item.price * item.qty;
-
-    total += subtotal;
-
-    count += item.qty;
-
-    const div = document.createElement("div");
-
-    div.className = "cart-item";
-
-    div.innerHTML = `
-
-      <div>
+    row.innerHTML = `
+      <div class="cart-item-info">
         <strong>${item.name}</strong><br>
-        <small>${item.qty} × ${formatPrice(item.price)}</small>
+        ${formatPrice(item.price)} × ${item.quantity}
+      </div>
+
+      <div class="qty-buttons">
+        <button onclick="changeQuantity(${index}, -1)">−</button>
+        <strong>${item.quantity}</strong>
+        <button onclick="changeQuantity(${index}, 1)">+</button>
       </div>
 
       <strong>
-        ${formatPrice(subtotal)}
+        ${formatPrice(item.price * item.quantity)}
       </strong>
-
     `;
 
-    cartItems.appendChild(div);
-
+    container.appendChild(row);
   });
 
-  cartCount.textContent = count + " article(s)";
-
-  cartTotal.textContent = formatPrice(total);
-
+  document.getElementById("modalTotal").textContent =
+    formatPrice(getTotal());
 }
 
+/* =====================================================
+   MODAL
+===================================================== */
 
-/* =========================================================
-   VIDER PANIER
-========================================================= */
+function openCart() {
 
-function clearCart(){
-
-  if(cart.length === 0) return;
-
-  if(!confirm("Vider le panier ?")) return;
-
-  cart = [];
-
-  document.querySelectorAll(".qty").forEach(el=>{
-    el.textContent = "0";
-  });
+  document.getElementById("cartModal").style.display = "block";
 
   renderCart();
-
 }
 
+function closeCart() {
 
-/* =========================================================
-   PRIX
-========================================================= */
-
-function formatPrice(price){
-
-  return price.toFixed(2).replace(".",",") + "€";
-
+  document.getElementById("cartModal").style.display = "none";
 }
 
+/* =====================================================
+   LIVRAISON
+===================================================== */
 
-/* =========================================================
-   COMMANDE
-========================================================= */
-
-function openOrder(){
-
-  if(cart.length === 0){
-
-    alert("Votre panier est vide.");
-
-    return;
-
-  }
-
-  const summary = document.getElementById("orderSummary");
-
-  let html = "";
-
-  let total = 0;
-
-  cart.forEach(item=>{
-
-    const subtotal = item.price * item.qty;
-
-    total += subtotal;
-
-    html += `
-      <div style="
-        padding:8px 0;
-        border-bottom:1px solid #ddd;
-      ">
-        ${item.qty} × <strong>${item.name}</strong>
-        <span style="float:right">
-          ${formatPrice(subtotal)}
-        </span>
-      </div>
-    `;
-
-  });
-
-  html += `
-    <div style="
-      padding:12px 0;
-      font-size:20px;
-      font-weight:bold;
-    ">
-      TOTAL
-      <span style="float:right">
-        ${formatPrice(total)}
-      </span>
-    </div>
-  `;
-
-  summary.innerHTML = html;
-
-  document.getElementById("orderOverlay").style.display = "block";
-
-}
-
-
-function closeOrder(){
-
-  document.getElementById("orderOverlay").style.display = "none";
-
-}
-
-
-/* =========================================================
-   TYPE COMMANDE
-========================================================= */
-
-function changeOrderType(){
+function toggleAddress() {
 
   const type = document.getElementById("orderType").value;
 
-  const box = document.getElementById("deliveryAddressBox");
+  const box = document.getElementById("addressBox");
 
-  if(type === "delivery"){
-
+  if (type === "Livraison") {
     box.style.display = "block";
-
-    updateQRCode();
-
-  }else{
-
+  } else {
     box.style.display = "none";
-
   }
-
 }
 
+/* =====================================================
+   VIDER PANIER
+===================================================== */
 
-/* =========================================================
-   QR CODE ADRESSE
-========================================================= */
+function clearCart() {
 
-function updateQRCode(){
+  if (cart.length === 0) return;
 
-  const address =
-    document.getElementById("customerAddress").value.trim();
+  if (confirm("Voulez-vous vider le panier ?")) {
 
-  const qrBox =
-    document.getElementById("qrBox");
+    cart = [];
 
-  const qrImage =
-    document.getElementById("qrImage");
-
-  const qrText =
-    document.getElementById("qrText");
-
-  if(!address){
-
-    qrBox.style.display = "none";
-
-    return;
-
+    updateCart();
   }
-
-  const mapsUrl =
-    "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent(address);
-
-  qrImage.src =
-    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
-    encodeURIComponent(mapsUrl);
-
-  qrText.textContent = address;
-
-  qrBox.style.display = "block";
-
 }
 
+/* =====================================================
+   ENVOYER SUR WHATSAPP
+===================================================== */
 
-/* =========================================================
-   WHATSAPP
-========================================================= */
+function sendOrder() {
 
-function sendWhatsApp(){
-
-  if(cart.length === 0){
+  if (cart.length === 0) {
 
     alert("Votre panier est vide.");
 
     return;
-
   }
 
   const name =
@@ -1196,140 +863,122 @@ function sendWhatsApp(){
   const note =
     document.getElementById("customerNote").value.trim();
 
-
-  if(!name){
+  if (!name) {
 
     alert("Veuillez entrer votre nom.");
 
     return;
-
   }
 
-
-  if(!phone){
+  if (!phone) {
 
     alert("Veuillez entrer votre numéro de téléphone.");
 
     return;
-
   }
 
-
-  if(type === "delivery" && !address){
+  if (type === "Livraison" && !address) {
 
     alert("Veuillez entrer votre adresse de livraison.");
 
     return;
-
   }
 
+  let message = "";
 
-  let message =
-    "🍔 *NOUVELLE COMMANDE - TOP SNACK*%0A%0A";
+  message += "🍔 *NOUVELLE COMMANDE - TOP SNACK*";
+  message += "\n\n";
 
+  message += "👤 *Nom:* " + name;
+  message += "\n";
 
-  message +=
-    "👤 Nom : " +
-    encodeURIComponent(name) +
-    "%0A";
+  message += "📞 *Téléphone:* " + phone;
+  message += "\n";
 
+  message += "📦 *Commande:* " + type;
+  message += "\n";
 
-  message +=
-    "📞 Téléphone : " +
-    encodeURIComponent(phone) +
-    "%0A";
+  if (type === "Livraison") {
 
-
-  message +=
-    "📦 Type : " +
-    encodeURIComponent(
-      type === "delivery"
-      ? "Livraison"
-      : "À emporter"
-    ) +
-    "%0A";
-
-
-  if(type === "delivery"){
-
-    message +=
-      "📍 Adresse : " +
-      encodeURIComponent(address) +
-      "%0A";
-
+    message += "📍 *Adresse:* " + address;
+    message += "\n";
   }
 
+  message += "\n";
+  message += "🛒 *ARTICLES:*";
+  message += "\n";
 
-  message += "%0A🛒 *COMMANDE*%0A";
-
-
-  let total = 0;
-
-
-  cart.forEach(item=>{
-
-    const subtotal =
-      item.price * item.qty;
-
-    total += subtotal;
+  cart.forEach(item => {
 
     message +=
-      encodeURIComponent(
-        item.qty +
-        " × " +
-        item.name +
-        " — " +
-        formatPrice(subtotal)
-      ) +
-      "%0A";
+      "• " +
+      item.name +
+      " × " +
+      item.quantity +
+      " = " +
+      formatPrice(item.price * item.quantity);
 
+    message += "\n";
   });
 
+  message += "\n";
 
   message +=
-    "%0A💶 *TOTAL : " +
-    encodeURIComponent(formatPrice(total)) +
+    "💰 *TOTAL: " +
+    formatPrice(getTotal()) +
     "*";
 
+  if (note) {
 
-  if(note){
-
-    message +=
-      "%0A%0A📝 Remarque : " +
-      encodeURIComponent(note);
-
+    message += "\n\n";
+    message += "📝 *Note:* " + note;
   }
 
+  message += "\n\n";
+  message += "Merci — TOP SNACK";
 
-  message +=
-    "%0A%0A📍 TOP SNACK%0A" +
-    encodeURIComponent(
-      "Rue Godfroid Kurth 109, 1140 Evere"
-    );
+  /*
+    NUMÉRO WHATSAPP TOP SNACK
+    Format international sans +
+  */
 
+  const whatsappNumber = "32496969628";
 
-  const whatsappUrl =
+  const whatsappURL =
     "https://wa.me/" +
-    WHATSAPP_NUMBER +
+    whatsappNumber +
     "?text=" +
-    message;
+    encodeURIComponent(message);
 
-
-  window.open(
-    whatsappUrl,
-    "_blank"
-  );
-
+  window.open(whatsappURL, "_blank");
 }
 
+/* =====================================================
+   FORMAT PRIX
+===================================================== */
 
-/* =========================================================
-   INITIALISATION
-========================================================= */
+function formatPrice(price) {
+
+  return price.toFixed(2).replace(".", ",") + " €";
+}
+
+/* =====================================================
+   SÉCURITÉ POUR LES NOMS
+===================================================== */
+
+function escapeJS(text) {
+
+  return text
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'");
+}
+
+/* =====================================================
+   DÉMARRAGE
+===================================================== */
 
 renderMenu();
-
-renderCart();
+updateCart();
 
 </script>
 
