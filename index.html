@@ -2,7 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">meta name="google-site-verification" content="ixcKd7ctbvXrMDlUoIjZF0rSdNPMIivjZlHy1h-T7EY">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="ixcKd7ctbvXrMDlUoIjZF0rSdNPMIivjZlHy1h-T7EY">
 
 <title>TOP SNACK - Commande en ligne</title>
 
@@ -44,7 +45,7 @@ header p {
 }
 
 /* =========================
-   GALERIE PHOTOS EN HAUT
+   GALERIE PHOTOS
 ========================= */
 
 .gallery-title {
@@ -148,7 +149,7 @@ header p {
 }
 
 /* =========================
-   PANIER FLOTTANT
+   PANIER
 ========================= */
 
 .cart-button {
@@ -171,7 +172,7 @@ header p {
 }
 
 /* =========================
-   MODAL PANIER
+   MODAL
 ========================= */
 
 .modal {
@@ -309,11 +310,9 @@ footer {
 
 <div class="container">
 
-  <!-- =========================
-       PHOTOS EN HAUT
-  ========================== -->
-
-  <div class="gallery-title">🍔 Découvrez notre menu</div>
+  <div class="gallery-title">
+    🍔 Découvrez notre menu
+  </div>
 
   <div class="gallery">
 
@@ -337,7 +336,9 @@ footer {
 
   </div>
 
-  <div class="menu-title">📋 NOTRE MENU</div>
+  <div class="menu-title">
+    📋 NOTRE MENU
+  </div>
 
   <div id="products"></div>
 
@@ -349,12 +350,10 @@ footer {
   📞 +32 496 96 96 28
 </footer>
 
-<!-- =========================
-     PANIER
-========================== -->
-
 <button class="cart-button" onclick="openCart()">
-  🛒 Mon panier — <span id="cartCount">0</span> article(s) — <span id="cartTotal">0,00 €</span>
+  🛒 Mon panier —
+  <span id="cartCount">0</span> article(s) —
+  <span id="cartTotal">0,00 €</span>
 </button>
 
 <div class="modal" id="cartModal">
@@ -370,34 +369,62 @@ footer {
     </div>
 
     <label>Nom</label>
-    <input id="customerName" type="text" placeholder="Votre nom">
+    <input
+      id="customerName"
+      type="text"
+      placeholder="Votre nom"
+    >
 
     <label>Téléphone</label>
-    <input id="customerPhone" type="tel" placeholder="Votre numéro">
+    <input
+      id="customerPhone"
+      type="tel"
+      placeholder="Votre numéro"
+    >
 
     <label>Type de commande</label>
+
     <select id="orderType" onchange="toggleAddress()">
       <option value="À emporter">À emporter</option>
       <option value="Livraison">Livraison</option>
     </select>
 
     <div class="delivery-address" id="addressBox">
+
       <label>Adresse de livraison</label>
-      <textarea id="customerAddress" placeholder="Votre adresse"></textarea>
+
+      <textarea
+        id="customerAddress"
+        placeholder="Votre adresse"
+      ></textarea>
+
     </div>
 
     <label>Note</label>
-    <textarea id="customerNote" placeholder="Une remarque ?"></textarea>
 
-    <button class="whatsapp-btn" onclick="sendOrder()">
+    <textarea
+      id="customerNote"
+      placeholder="Une remarque ?"
+    ></textarea>
+
+    <button
+      class="whatsapp-btn"
+      onclick="sendOrder()"
+    >
       📲 ENVOYER LA COMMANDE SUR WHATSAPP
     </button>
 
-    <button class="clear-btn" onclick="clearCart()">
+    <button
+      class="clear-btn"
+      onclick="clearCart()"
+    >
       🗑️ Vider le panier
     </button>
 
-    <button class="close-btn" onclick="closeCart()">
+    <button
+      class="close-btn"
+      onclick="closeCart()"
+    >
       Fermer
     </button>
 
@@ -405,10 +432,6 @@ footer {
 </div>
 
 <script>
-
-/* =====================================================
-   MENU
-===================================================== */
 
 const menu = [
 
@@ -603,13 +626,11 @@ const menu = [
 
 ];
 
-/* =====================================================
-   PANIER
-===================================================== */
-
 let cart = [];
 
-/* Afficher le menu */
+/* =========================
+   AFFICHER LE MENU
+========================= */
 
 function renderMenu() {
 
@@ -620,9 +641,11 @@ function renderMenu() {
   menu.forEach(section => {
 
     const category = document.createElement("div");
+
     category.className = "category";
 
     const title = document.createElement("h2");
+
     title.textContent = section.category;
 
     category.appendChild(title);
@@ -633,60 +656,76 @@ function renderMenu() {
       const price = item[1];
 
       const row = document.createElement("div");
+
       row.className = "product";
 
-      row.innerHTML = `
-        <div class="product-name">${name}</div>
-        <div class="product-price">${formatPrice(price)}</div>
-        <button class="add-btn"
-          onclick="addToCart('${escapeJS(name)}', ${price})">
-          +
-        </button>
-      `;
+      const nameDiv = document.createElement("div");
+
+      nameDiv.className = "product-name";
+
+      nameDiv.textContent = name;
+
+      const priceDiv = document.createElement("div");
+
+      priceDiv.className = "product-price";
+
+      priceDiv.textContent = formatPrice(price);
+
+      const button = document.createElement("button");
+
+      button.className = "add-btn";
+
+      button.textContent = "+";
+
+      button.addEventListener("click", function() {
+
+        addToCart(name, price);
+
+      });
+
+      row.appendChild(nameDiv);
+      row.appendChild(priceDiv);
+      row.appendChild(button);
 
       category.appendChild(row);
+
     });
 
     container.appendChild(category);
+
   });
+
 }
 
-/* =====================================================
+/* =========================
    AJOUTER AU PANIER
-===================================================== */
+========================= */
 
 function addToCart(name, price) {
 
   const existing = cart.find(item => item.name === name);
 
   if (existing) {
+
     existing.quantity++;
+
   } else {
+
     cart.push({
       name: name,
       price: price,
       quantity: 1
     });
+
   }
 
   updateCart();
 
-  // petit retour visuel
-  const buttons = document.querySelectorAll(".add-btn");
-
-  buttons.forEach(button => {
-    if (button.getAttribute("onclick")?.includes(name)) {
-      button.style.transform = "scale(1.15)";
-      setTimeout(() => {
-        button.style.transform = "";
-      }, 150);
-    }
-  });
 }
 
-/* =====================================================
+/* =========================
    QUANTITÉ
-===================================================== */
+========================= */
 
 function changeQuantity(index, amount) {
 
@@ -695,53 +734,59 @@ function changeQuantity(index, amount) {
   cart[index].quantity += amount;
 
   if (cart[index].quantity <= 0) {
+
     cart.splice(index, 1);
+
   }
 
   updateCart();
+
 }
 
-/* =====================================================
+/* =========================
    TOTAL
-===================================================== */
+========================= */
 
 function getTotal() {
 
   return cart.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) =>
+      total + item.price * item.quantity,
     0
   );
+
 }
 
 function getCount() {
 
   return cart.reduce(
-    (count, item) => count + item.quantity,
+    (count, item) =>
+      count + item.quantity,
     0
   );
+
 }
 
-/* =====================================================
-   ACTUALISER PANIER
-===================================================== */
+/* =========================
+   PANIER
+========================= */
 
 function updateCart() {
 
-  document.getElementById("cartCount").textContent = getCount();
+  document.getElementById("cartCount").textContent =
+    getCount();
 
   document.getElementById("cartTotal").textContent =
     formatPrice(getTotal());
 
   renderCart();
-}
 
-/* =====================================================
-   AFFICHER PANIER
-===================================================== */
+}
 
 function renderCart() {
 
-  const container = document.getElementById("cartItems");
+  const container =
+    document.getElementById("cartItems");
 
   if (cart.length === 0) {
 
@@ -758,69 +803,122 @@ function renderCart() {
 
   cart.forEach((item, index) => {
 
-    const row = document.createElement("div");
+    const row =
+      document.createElement("div");
+
     row.className = "cart-item";
 
-    row.innerHTML = `
-      <div class="cart-item-info">
-        <strong>${item.name}</strong><br>
-        ${formatPrice(item.price)} × ${item.quantity}
-      </div>
+    const info =
+      document.createElement("div");
 
-      <div class="qty-buttons">
-        <button onclick="changeQuantity(${index}, -1)">−</button>
-        <strong>${item.quantity}</strong>
-        <button onclick="changeQuantity(${index}, 1)">+</button>
-      </div>
+    info.className = "cart-item-info";
 
-      <strong>
-        ${formatPrice(item.price * item.quantity)}
-      </strong>
-    `;
+    info.innerHTML =
+      "<strong>" +
+      item.name +
+      "</strong><br>" +
+      formatPrice(item.price) +
+      " × " +
+      item.quantity;
+
+    const qty =
+      document.createElement("div");
+
+    qty.className = "qty-buttons";
+
+    const minus =
+      document.createElement("button");
+
+    minus.textContent = "−";
+
+    minus.addEventListener("click", function() {
+      changeQuantity(index, -1);
+    });
+
+    const number =
+      document.createElement("strong");
+
+    number.textContent = item.quantity;
+
+    const plus =
+      document.createElement("button");
+
+    plus.textContent = "+";
+
+    plus.addEventListener("click", function() {
+      changeQuantity(index, 1);
+    });
+
+    qty.appendChild(minus);
+    qty.appendChild(number);
+    qty.appendChild(plus);
+
+    const itemTotal =
+      document.createElement("strong");
+
+    itemTotal.textContent =
+      formatPrice(item.price * item.quantity);
+
+    row.appendChild(info);
+    row.appendChild(qty);
+    row.appendChild(itemTotal);
 
     container.appendChild(row);
+
   });
 
   document.getElementById("modalTotal").textContent =
     formatPrice(getTotal());
+
 }
 
-/* =====================================================
+/* =========================
    MODAL
-===================================================== */
+========================= */
 
 function openCart() {
 
-  document.getElementById("cartModal").style.display = "block";
+  document.getElementById("cartModal").style.display =
+    "block";
 
   renderCart();
+
 }
 
 function closeCart() {
 
-  document.getElementById("cartModal").style.display = "none";
+  document.getElementById("cartModal").style.display =
+    "none";
+
 }
 
-/* =====================================================
+/* =========================
    LIVRAISON
-===================================================== */
+========================= */
 
 function toggleAddress() {
 
-  const type = document.getElementById("orderType").value;
+  const type =
+    document.getElementById("orderType").value;
 
-  const box = document.getElementById("addressBox");
+  const box =
+    document.getElementById("addressBox");
 
   if (type === "Livraison") {
+
     box.style.display = "block";
+
   } else {
+
     box.style.display = "none";
+
   }
+
 }
 
-/* =====================================================
+/* =========================
    VIDER PANIER
-===================================================== */
+========================= */
 
 function clearCart() {
 
@@ -831,12 +929,14 @@ function clearCart() {
     cart = [];
 
     updateCart();
+
   }
+
 }
 
-/* =====================================================
-   ENVOYER SUR WHATSAPP
-===================================================== */
+/* =========================
+   WHATSAPP
+========================= */
 
 function sendOrder() {
 
@@ -848,19 +948,24 @@ function sendOrder() {
   }
 
   const name =
-    document.getElementById("customerName").value.trim();
+    document.getElementById("customerName")
+      .value.trim();
 
   const phone =
-    document.getElementById("customerPhone").value.trim();
+    document.getElementById("customerPhone")
+      .value.trim();
 
   const type =
-    document.getElementById("orderType").value;
+    document.getElementById("orderType")
+      .value;
 
   const address =
-    document.getElementById("customerAddress").value.trim();
+    document.getElementById("customerAddress")
+      .value.trim();
 
   const note =
-    document.getElementById("customerNote").value.trim();
+    document.getElementById("customerNote")
+      .value.trim();
 
   if (!name) {
 
@@ -901,6 +1006,7 @@ function sendOrder() {
 
     message += "📍 *Adresse:* " + address;
     message += "\n";
+
   }
 
   message += "\n";
@@ -915,9 +1021,12 @@ function sendOrder() {
       " × " +
       item.quantity +
       " = " +
-      formatPrice(item.price * item.quantity);
+      formatPrice(
+        item.price * item.quantity
+      );
 
     message += "\n";
+
   });
 
   message += "\n";
@@ -931,17 +1040,14 @@ function sendOrder() {
 
     message += "\n\n";
     message += "📝 *Note:* " + note;
+
   }
 
   message += "\n\n";
   message += "Merci — TOP SNACK";
 
-  /*
-    NUMÉRO WHATSAPP TOP SNACK
-    Format international sans +
-  */
-
-  const whatsappNumber = "32496969628";
+  const whatsappNumber =
+    "32496969628";
 
   const whatsappURL =
     "https://wa.me/" +
@@ -949,32 +1055,29 @@ function sendOrder() {
     "?text=" +
     encodeURIComponent(message);
 
-  window.open(whatsappURL, "_blank");
+  window.open(
+    whatsappURL,
+    "_blank"
+  );
+
 }
 
-/* =====================================================
-   FORMAT PRIX
-===================================================== */
+/* =========================
+   PRIX
+========================= */
 
 function formatPrice(price) {
 
-  return price.toFixed(2).replace(".", ",") + " €";
+  return price
+    .toFixed(2)
+    .replace(".", ",") +
+    " €";
+
 }
 
-/* =====================================================
-   SÉCURITÉ POUR LES NOMS
-===================================================== */
-
-function escapeJS(text) {
-
-  return text
-    .replace(/\\/g, "\\\\")
-    .replace(/'/g, "\\'");
-}
-
-/* =====================================================
+/* =========================
    DÉMARRAGE
-===================================================== */
+========================= */
 
 renderMenu();
 updateCart();
