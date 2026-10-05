@@ -211,6 +211,11 @@ header p {
   flex: 1;
 }
 
+.cart-item-info small {
+  color: #777;
+  font-size: 12px;
+}
+
 .qty-buttons {
   display: flex;
   align-items: center;
@@ -638,7 +643,7 @@ function renderMenu() {
 
   container.innerHTML = "";
 
-  menu.forEach(section => {
+  menu.forEach((section, categoryIndex) => {
 
     const category = document.createElement("div");
 
@@ -650,28 +655,46 @@ function renderMenu() {
 
     category.appendChild(title);
 
-    section.items.forEach(item => {
+    section.items.forEach((item, itemIndex) => {
 
       const name = item[0];
       const price = item[1];
 
-      const row = document.createElement("div");
+      /*
+       * Chaque produit possède maintenant
+       * un ID unique.
+       *
+       * Exemple:
+       * 0-0 = PITTA de la première catégorie
+       * 8-0 = PITTA de KAPSALON
+       * 11-3 = PITTA de TACOS
+       */
+
+      const productId =
+        categoryIndex + "-" + itemIndex;
+
+      const row =
+        document.createElement("div");
 
       row.className = "product";
 
-      const nameDiv = document.createElement("div");
+      const nameDiv =
+        document.createElement("div");
 
       nameDiv.className = "product-name";
 
       nameDiv.textContent = name;
 
-      const priceDiv = document.createElement("div");
+      const priceDiv =
+        document.createElement("div");
 
       priceDiv.className = "product-price";
 
-      priceDiv.textContent = formatPrice(price);
+      priceDiv.textContent =
+        formatPrice(price);
 
-      const button = document.createElement("button");
+      const button =
+        document.createElement("button");
 
       button.className = "add-btn";
 
@@ -679,7 +702,12 @@ function renderMenu() {
 
       button.addEventListener("click", function() {
 
-        addToCart(name, price);
+        addToCart(
+          productId,
+          section.category,
+          name,
+          price
+        );
 
       });
 
@@ -701,9 +729,20 @@ function renderMenu() {
    AJOUTER AU PANIER
 ========================= */
 
-function addToCart(name, price) {
+function addToCart(
+  id,
+  category,
+  name,
+  price
+) {
 
-  const existing = cart.find(item => item.name === name);
+  /*
+   * On cherche maintenant par ID
+   * et non plus seulement par nom.
+   */
+
+  const existing =
+    cart.find(item => item.id === id);
 
   if (existing) {
 
@@ -712,6 +751,8 @@ function addToCart(name, price) {
   } else {
 
     cart.push({
+      id: id,
+      category: category,
       name: name,
       price: price,
       quantity: 1
@@ -817,6 +858,9 @@ function renderCart() {
       "<strong>" +
       item.name +
       "</strong><br>" +
+      "<small>" +
+      item.category +
+      "</small><br>" +
       formatPrice(item.price) +
       " × " +
       item.quantity;
@@ -832,13 +876,16 @@ function renderCart() {
     minus.textContent = "−";
 
     minus.addEventListener("click", function() {
+
       changeQuantity(index, -1);
+
     });
 
     const number =
       document.createElement("strong");
 
-    number.textContent = item.quantity;
+    number.textContent =
+      item.quantity;
 
     const plus =
       document.createElement("button");
@@ -846,7 +893,9 @@ function renderCart() {
     plus.textContent = "+";
 
     plus.addEventListener("click", function() {
+
       changeQuantity(index, 1);
+
     });
 
     qty.appendChild(minus);
@@ -857,7 +906,9 @@ function renderCart() {
       document.createElement("strong");
 
     itemTotal.textContent =
-      formatPrice(item.price * item.quantity);
+      formatPrice(
+        item.price * item.quantity
+      );
 
     row.appendChild(info);
     row.appendChild(qty);
@@ -924,7 +975,11 @@ function clearCart() {
 
   if (cart.length === 0) return;
 
-  if (confirm("Voulez-vous vider le panier ?")) {
+  if (
+    confirm(
+      "Voulez-vous vider le panier ?"
+    )
+  ) {
 
     cart = [];
 
@@ -942,7 +997,9 @@ function sendOrder() {
 
   if (cart.length === 0) {
 
-    alert("Votre panier est vide.");
+    alert(
+      "Votre panier est vide."
+    );
 
     return;
   }
@@ -969,60 +1026,89 @@ function sendOrder() {
 
   if (!name) {
 
-    alert("Veuillez entrer votre nom.");
+    alert(
+      "Veuillez entrer votre nom."
+    );
 
     return;
   }
 
   if (!phone) {
 
-    alert("Veuillez entrer votre numéro de téléphone.");
+    alert(
+      "Veuillez entrer votre numéro de téléphone."
+    );
 
     return;
   }
 
-  if (type === "Livraison" && !address) {
+  if (
+    type === "Livraison" &&
+    !address
+  ) {
 
-    alert("Veuillez entrer votre adresse de livraison.");
+    alert(
+      "Veuillez entrer votre adresse de livraison."
+    );
 
     return;
   }
 
   let message = "";
 
-  message += "🍔 *NOUVELLE COMMANDE - TOP SNACK*";
+  message +=
+    "🍔 *NOUVELLE COMMANDE - TOP SNACK*";
+
   message += "\n\n";
 
-  message += "👤 *Nom:* " + name;
+  message +=
+    "👤 *Nom:* " +
+    name;
+
   message += "\n";
 
-  message += "📞 *Téléphone:* " + phone;
+  message +=
+    "📞 *Téléphone:* " +
+    phone;
+
   message += "\n";
 
-  message += "📦 *Commande:* " + type;
+  message +=
+    "📦 *Commande:* " +
+    type;
+
   message += "\n";
 
   if (type === "Livraison") {
 
-    message += "📍 *Adresse:* " + address;
+    message +=
+      "📍 *Adresse:* " +
+      address;
+
     message += "\n";
 
   }
 
   message += "\n";
-  message += "🛒 *ARTICLES:*";
+
+  message +=
+    "🛒 *ARTICLES:*";
+
   message += "\n";
 
   cart.forEach(item => {
 
     message +=
       "• " +
+      item.category +
+      " — " +
       item.name +
       " × " +
       item.quantity +
       " = " +
       formatPrice(
-        item.price * item.quantity
+        item.price *
+        item.quantity
       );
 
     message += "\n";
@@ -1033,18 +1119,29 @@ function sendOrder() {
 
   message +=
     "💰 *TOTAL: " +
-    formatPrice(getTotal()) +
+    formatPrice(
+      getTotal()
+    ) +
     "*";
 
   if (note) {
 
     message += "\n\n";
-    message += "📝 *Note:* " + note;
+
+    message +=
+      "📝 *Note:* " +
+      note;
 
   }
 
   message += "\n\n";
-  message += "Merci — TOP SNACK";
+
+  message +=
+    "Merci — TOP SNACK";
+
+  /*
+   * Numéro WhatsApp de TOP SNACK
+   */
 
   const whatsappNumber =
     "32496969628";
@@ -1053,7 +1150,9 @@ function sendOrder() {
     "https://wa.me/" +
     whatsappNumber +
     "?text=" +
-    encodeURIComponent(message);
+    encodeURIComponent(
+      message
+    );
 
   window.open(
     whatsappURL,
@@ -1080,6 +1179,7 @@ function formatPrice(price) {
 ========================= */
 
 renderMenu();
+
 updateCart();
 
 </script>
