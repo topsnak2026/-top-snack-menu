@@ -4,224 +4,194 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-site-verification" content="ixcKd7ctbvXrMDlUoIjZF0rSdNPMIivjZlHy1h-T7EY">
-
 <title>TOP SNACK - Commande en ligne</title>
-
 <style>
-* {
-  box-sizing: border-box;
-}
-
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: #f5f5f5;
-  color: #222;
+  background: #ffffff;
+  color: #111;
 }
-
 header {
   background: #111;
   color: white;
   text-align: center;
-  padding: 25px 15px;
+  padding: 24px 15px;
 }
-
 header h1 {
   margin: 0;
   font-size: 32px;
   font-weight: 900;
+  letter-spacing: 1px;
 }
-
 header p {
-  margin: 8px 0 0;
+  margin: 7px 0 0;
   color: #ddd;
   font-size: 14px;
 }
-
 .container {
-  max-width: 900px;
+  max-width: 950px;
   margin: auto;
   padding: 15px;
 }
-
 /* =========================
-   GALERIE PHOTOS
+   17 PHOTOS CATALOGUE
 ========================= */
-
 .gallery-title {
   text-align: center;
-  margin: 15px 0 10px;
+  margin: 10px 0 14px;
   font-size: 22px;
   font-weight: 900;
 }
-
 .gallery {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 25px;
+  gap: 8px;
+  margin-bottom: 35px;
 }
-
 .gallery img {
   width: 100%;
-  height: 180px;
+  height: 190px;
   object-fit: cover;
-  border-radius: 12px;
   display: block;
-  background: #ddd;
+  border-radius: 10px;
+  background: #eee;
 }
-
 @media (min-width: 700px) {
   .gallery {
     grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
   }
-
   .gallery img {
-    height: 170px;
+    height: 190px;
   }
 }
-
 /* =========================
-   MENU
+   MENU TEXTE
 ========================= */
-
 .menu-title {
   text-align: center;
   font-size: 28px;
   font-weight: 900;
-  margin: 25px 0 15px;
+  margin: 10px 0 25px;
+  padding-top: 5px;
 }
-
 .category {
-  background: white;
-  border-radius: 14px;
-  margin-bottom: 18px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  margin-bottom: 28px;
 }
-
 .category h2 {
-  margin: 0;
-  padding: 14px 16px;
-  background: #111;
-  color: white;
+  margin: 0 0 4px;
+  padding: 10px 0;
   font-size: 20px;
+  font-weight: 900;
+  border-bottom: 2px solid #111;
 }
-
 .product {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 12px 14px;
-  border-bottom: 1px solid #eee;
+  min-height: 48px;
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e5e5;
+  gap: 8px;
 }
-
-.product:last-child {
-  border-bottom: none;
-}
-
 .product-name {
   flex: 1;
   font-size: 16px;
   font-weight: 600;
 }
-
 .product-price {
+  font-size: 16px;
   font-weight: 900;
   white-space: nowrap;
 }
-
 .add-btn {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
   border: none;
+  border-radius: 50%;
   background: #111;
   color: white;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 34px;
+  padding: 0;
   cursor: pointer;
 }
-
 .add-btn:active {
-  transform: scale(.92);
+  transform: scale(.90);
 }
-
 /* =========================
    PANIER
 ========================= */
-
 .cart-button {
   position: fixed;
-  bottom: 18px;
   left: 50%;
+  bottom: 16px;
   transform: translateX(-50%);
-  width: calc(100% - 30px);
-  max-width: 500px;
-  background: #111;
-  color: white;
+  width: calc(100% - 24px);
+  max-width: 520px;
+  padding: 15px 18px;
   border: none;
   border-radius: 40px;
-  padding: 15px 20px;
+  background: #111;
+  color: white;
   font-size: 16px;
   font-weight: 900;
-  box-shadow: 0 5px 20px rgba(0,0,0,.3);
+  box-shadow: 0 5px 20px rgba(0,0,0,.30);
   z-index: 1000;
   cursor: pointer;
 }
-
 /* =========================
    MODAL
 ========================= */
-
 .modal {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.65);
   z-index: 2000;
+  background: rgba(0,0,0,.68);
   padding: 15px;
   overflow-y: auto;
 }
-
 .modal-box {
-  background: white;
   max-width: 600px;
-  margin: 30px auto;
+  margin: 25px auto;
+  background: white;
   border-radius: 16px;
   padding: 20px;
 }
-
 .modal-box h2 {
-  margin-top: 0;
+  margin: 0 0 18px;
   text-align: center;
+  font-size: 24px;
 }
-
 .cart-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 10px 0;
+  padding: 11px 0;
   border-bottom: 1px solid #eee;
 }
-
 .cart-item-info {
   flex: 1;
+  min-width: 0;
 }
-
+.cart-item-info strong {
+  font-size: 15px;
+}
 .cart-item-info small {
   color: #777;
   font-size: 12px;
 }
-
 .qty-buttons {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
-
 .qty-buttons button {
   width: 30px;
   height: 30px;
@@ -230,35 +200,38 @@ header p {
   background: #111;
   color: white;
   font-size: 18px;
+  cursor: pointer;
 }
-
 .total {
+  text-align: right;
   font-size: 21px;
   font-weight: 900;
-  text-align: right;
   margin: 18px 0;
 }
-
+label {
+  display: block;
+  margin-top: 9px;
+  font-weight: bold;
+}
 input,
 textarea,
 select {
   width: 100%;
-  padding: 12px;
   margin: 6px 0 10px;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
 }
-
-label {
-  font-weight: bold;
-  display: block;
-  margin-top: 8px;
+textarea {
+  min-height: 80px;
+  resize: vertical;
 }
-
 .whatsapp-btn {
   width: 100%;
-  padding: 14px;
+  padding: 15px;
+  margin-top: 5px;
   border: none;
   border-radius: 10px;
   background: #25D366;
@@ -267,60 +240,44 @@ label {
   font-weight: 900;
   cursor: pointer;
 }
-
-.close-btn,
-.clear-btn {
+.clear-btn,
+.close-btn {
   width: 100%;
   padding: 12px;
+  margin-top: 8px;
   border: none;
   border-radius: 10px;
-  margin-top: 8px;
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
 }
-
-.close-btn {
-  background: #ddd;
-}
-
-.clear-btn {
-  background: #eee;
-}
-
+.clear-btn { background: #eee; }
+.close-btn { background: #ddd; }
 .delivery-address {
   display: none;
 }
-
 /* =========================
    FOOTER
 ========================= */
-
 footer {
   text-align: center;
-  padding: 35px 15px 110px;
+  padding: 35px 15px 115px;
   color: #555;
   font-size: 14px;
 }
 </style>
 </head>
-
 <body>
-
 <header>
   <h1>TOP SNACK</h1>
   <p>Rue Godfroid Kurth 109 — 1140 Evere</p>
   <p>📞 +32 496 96 96 28</p>
 </header>
-
 <div class="container">
-
   <div class="gallery-title">
     🍔 Découvrez notre menu
   </div>
-
   <div class="gallery">
-
     <img src="IMG_1168.jpeg" alt="Top Snack">
     <img src="IMG_1169.jpeg" alt="Top Snack">
     <img src="IMG_1170.jpeg" alt="Top Snack">
@@ -338,108 +295,65 @@ footer {
     <img src="IMG_1182.jpeg" alt="Top Snack">
     <img src="IMG_1183.jpeg" alt="Top Snack">
     <img src="03FA716C-DE58-4084-8661-3E373E2B2A38.png" alt="Boissons Top Snack">
-
   </div>
-
   <div class="menu-title">
     📋 NOTRE MENU
   </div>
-
   <div id="products"></div>
-
 </div>
-
 <footer>
   <strong>TOP SNACK</strong><br>
   Rue Godfroid Kurth 109, 1140 Evere<br>
   📞 +32 496 96 96 28
 </footer>
-
 <button class="cart-button" onclick="openCart()">
   🛒 Mon panier —
   <span id="cartCount">0</span> article(s) —
   <span id="cartTotal">0,00 €</span>
 </button>
-
 <div class="modal" id="cartModal">
-
   <div class="modal-box">
-
     <h2>🛒 Mon panier</h2>
-
     <div id="cartItems"></div>
-
     <div class="total">
       Total : <span id="modalTotal">0,00 €</span>
     </div>
-
-    <label>Nom</label>
-    <input
-      id="customerName"
-      type="text"
-      placeholder="Votre nom"
-    >
-
-    <label>Téléphone</label>
-    <input
-      id="customerPhone"
-      type="tel"
-      placeholder="Votre numéro"
-    >
-
-    <label>Type de commande</label>
-
+    <label for="customerName">Nom</label>
+    <input id="customerName" type="text" placeholder="Votre nom">
+    <label for="customerPhone">Téléphone</label>
+    <input id="customerPhone" type="tel" placeholder="Votre numéro">
+    <label for="orderType">Type de commande</label>
     <select id="orderType" onchange="toggleAddress()">
       <option value="À emporter">À emporter</option>
       <option value="Livraison">Livraison</option>
     </select>
-
     <div class="delivery-address" id="addressBox">
-
-      <label>Adresse de livraison</label>
-
+      <label for="customerAddress">
+        Adresse de livraison
+      </label>
       <textarea
         id="customerAddress"
         placeholder="Votre adresse"
       ></textarea>
-
     </div>
-
-    <label>Note</label>
-
+    <label for="customerNote">Note</label>
     <textarea
       id="customerNote"
       placeholder="Une remarque ?"
     ></textarea>
-
-    <button
-      class="whatsapp-btn"
-      onclick="sendOrder()"
-    >
+    <button class="whatsapp-btn" onclick="sendOrder()">
       📲 ENVOYER LA COMMANDE SUR WHATSAPP
     </button>
-
-    <button
-      class="clear-btn"
-      onclick="clearCart()"
-    >
+    <button class="clear-btn" onclick="clearCart()">
       🗑️ Vider le panier
     </button>
-
-    <button
-      class="close-btn"
-      onclick="closeCart()"
-    >
+    <button class="close-btn" onclick="closeCart()">
       Fermer
     </button>
-
   </div>
 </div>
-
 <script>
-
 const menu = [
-
   {
     category: "MITRAILLETTE / DURUM / PAIN TURC",
     items: [
@@ -463,7 +377,6 @@ const menu = [
       ["BROC.POULET", 8.00]
     ]
   },
-
   {
     category: "SNACKS",
     items: [
@@ -485,7 +398,6 @@ const menu = [
       ["Wings", 4.00]
     ]
   },
-
   {
     category: "ASSIETTES",
     items: [
@@ -506,7 +418,6 @@ const menu = [
       ["Côte d'Agneau", 22.00]
     ]
   },
-
   {
     category: "BOX",
     items: [
@@ -514,7 +425,6 @@ const menu = [
       ["Doner", 8.00]
     ]
   },
-
   {
     category: "FRITES",
     items: [
@@ -523,7 +433,6 @@ const menu = [
       ["À Part", 1.50]
     ]
   },
-
   {
     category: "BURGER",
     items: [
@@ -533,7 +442,6 @@ const menu = [
       ["Double Steak House", 8.00]
     ]
   },
-
   {
     category: "BICKY",
     items: [
@@ -543,7 +451,6 @@ const menu = [
       ["Escalope Poulet", 5.50]
     ]
   },
-
   {
     category: "SAUCES",
     items: [
@@ -561,7 +468,6 @@ const menu = [
       ["Barbecue", 1.00]
     ]
   },
-
   {
     category: "GYROS",
     items: [
@@ -570,7 +476,6 @@ const menu = [
       ["Mais / Poulet", 7.00]
     ]
   },
-
   {
     category: "KAPSALON",
     items: [
@@ -582,7 +487,6 @@ const menu = [
       ["Boeuf", 11.00]
     ]
   },
-
   {
     category: "MENU",
     items: [
@@ -593,7 +497,6 @@ const menu = [
       ["Tacos XL", 17.00]
     ]
   },
-
   {
     category: "TACOS",
     items: [
@@ -607,7 +510,6 @@ const menu = [
       ["Tacos XL", 13.00]
     ]
   },
-
   {
     category: "DESSERTS",
     items: [
@@ -616,7 +518,6 @@ const menu = [
       ["Mousse Chocolat", 4.00]
     ]
   },
-
   {
     category: "SUPPLEMENTS",
     items: [
@@ -628,128 +529,75 @@ const menu = [
       ["Oignon Frie", 1.00]
     ]
   }
-
 ];
-
 let cart = [];
-
-/* =========================
-   AFFICHER LE MENU
-========================= */
-
 function renderMenu() {
-
-  const container = document.getElementById("products");
-
+  const container =
+    document.getElementById("products");
   container.innerHTML = "";
-
   menu.forEach((section, categoryIndex) => {
-
-    const category = document.createElement("div");
-
+    const category =
+      document.createElement("div");
     category.className = "category";
-
-    const title = document.createElement("h2");
-
-    title.textContent = section.category;
-
+    const title =
+      document.createElement("h2");
+    title.textContent =
+      section.category;
     category.appendChild(title);
-
     section.items.forEach((item, itemIndex) => {
-
       const name = item[0];
       const price = item[1];
-
-      /*
-       * Chaque produit possède maintenant
-       * un ID unique.
-       *
-       * Exemple:
-       * 0-0 = PITTA de la première catégorie
-       * 8-0 = PITTA de KAPSALON
-       * 11-3 = PITTA de TACOS
-       */
-
       const productId =
         categoryIndex + "-" + itemIndex;
-
       const row =
         document.createElement("div");
-
       row.className = "product";
-
       const nameDiv =
         document.createElement("div");
-
       nameDiv.className = "product-name";
-
       nameDiv.textContent = name;
-
       const priceDiv =
         document.createElement("div");
-
       priceDiv.className = "product-price";
-
       priceDiv.textContent =
         formatPrice(price);
-
       const button =
         document.createElement("button");
-
       button.className = "add-btn";
-
+      button.type = "button";
       button.textContent = "+";
-
-      button.addEventListener("click", function() {
-
-        addToCart(
-          productId,
-          section.category,
-          name,
-          price
-        );
-
-      });
-
+      button.addEventListener(
+        "click",
+        function() {
+          addToCart(
+            productId,
+            section.category,
+            name,
+            price
+          );
+        }
+      );
       row.appendChild(nameDiv);
       row.appendChild(priceDiv);
       row.appendChild(button);
-
       category.appendChild(row);
-
     });
-
     container.appendChild(category);
-
   });
-
 }
-
-/* =========================
-   AJOUTER AU PANIER
-========================= */
-
 function addToCart(
   id,
   category,
   name,
   price
 ) {
-
-  /*
-   * On cherche maintenant par ID
-   * et non plus seulement par nom.
-   */
-
   const existing =
-    cart.find(item => item.id === id);
-
+    cart.find(
+      item => item.id === id
+    );
   if (existing) {
-
     existing.quantity++;
-
   } else {
-
     cart.push({
       id: id,
       category: category,
@@ -757,432 +605,296 @@ function addToCart(
       price: price,
       quantity: 1
     });
-
   }
-
   updateCart();
-
 }
-
-/* =========================
-   QUANTITÉ
-========================= */
-
 function changeQuantity(index, amount) {
-
   if (!cart[index]) return;
-
   cart[index].quantity += amount;
-
   if (cart[index].quantity <= 0) {
-
     cart.splice(index, 1);
-
   }
-
   updateCart();
-
 }
-
-/* =========================
-   TOTAL
-========================= */
-
 function getTotal() {
-
   return cart.reduce(
     (total, item) =>
-      total + item.price * item.quantity,
+      total +
+      item.price *
+      item.quantity,
     0
   );
-
 }
-
 function getCount() {
-
   return cart.reduce(
     (count, item) =>
-      count + item.quantity,
+      count +
+      item.quantity,
     0
   );
-
 }
-
-/* =========================
-   PANIER
-========================= */
-
 function updateCart() {
-
-  document.getElementById("cartCount").textContent =
+  document.getElementById(
+    "cartCount"
+  ).textContent =
     getCount();
-
-  document.getElementById("cartTotal").textContent =
+  document.getElementById(
+    "cartTotal"
+  ).textContent =
     formatPrice(getTotal());
-
   renderCart();
-
 }
-
 function renderCart() {
-
   const container =
-    document.getElementById("cartItems");
-
+    document.getElementById(
+      "cartItems"
+    );
   if (cart.length === 0) {
-
     container.innerHTML =
       "<p style='text-align:center;'>Votre panier est vide.</p>";
-
-    document.getElementById("modalTotal").textContent =
+    document.getElementById(
+      "modalTotal"
+    ).textContent =
       formatPrice(0);
-
     return;
   }
-
   container.innerHTML = "";
-
-  cart.forEach((item, index) => {
-
-    const row =
-      document.createElement("div");
-
-    row.className = "cart-item";
-
-    const info =
-      document.createElement("div");
-
-    info.className = "cart-item-info";
-
-    info.innerHTML =
-      "<strong>" +
-      item.name +
-      "</strong><br>" +
-      "<small>" +
-      item.category +
-      "</small><br>" +
-      formatPrice(item.price) +
-      " × " +
-      item.quantity;
-
-    const qty =
-      document.createElement("div");
-
-    qty.className = "qty-buttons";
-
-    const minus =
-      document.createElement("button");
-
-    minus.textContent = "−";
-
-    minus.addEventListener("click", function() {
-
-      changeQuantity(index, -1);
-
-    });
-
-    const number =
-      document.createElement("strong");
-
-    number.textContent =
-      item.quantity;
-
-    const plus =
-      document.createElement("button");
-
-    plus.textContent = "+";
-
-    plus.addEventListener("click", function() {
-
-      changeQuantity(index, 1);
-
-    });
-
-    qty.appendChild(minus);
-    qty.appendChild(number);
-    qty.appendChild(plus);
-
-    const itemTotal =
-      document.createElement("strong");
-
-    itemTotal.textContent =
-      formatPrice(
-        item.price * item.quantity
+  cart.forEach(
+    (item, index) => {
+      const row =
+        document.createElement("div");
+      row.className =
+        "cart-item";
+      const info =
+        document.createElement("div");
+      info.className =
+        "cart-item-info";
+      info.innerHTML =
+        "<strong>" +
+        item.name +
+        "</strong><br>" +
+        "<small>" +
+        item.category +
+        "</small><br>" +
+        formatPrice(item.price) +
+        " × " +
+        item.quantity;
+      const qty =
+        document.createElement("div");
+      qty.className =
+        "qty-buttons";
+      const minus =
+        document.createElement("button");
+      minus.type = "button";
+      minus.textContent = "−";
+      minus.addEventListener(
+        "click",
+        function() {
+          changeQuantity(index, -1);
+        }
       );
-
-    row.appendChild(info);
-    row.appendChild(qty);
-    row.appendChild(itemTotal);
-
-    container.appendChild(row);
-
-  });
-
-  document.getElementById("modalTotal").textContent =
+      const number =
+        document.createElement("strong");
+      number.textContent =
+        item.quantity;
+      const plus =
+        document.createElement("button");
+      plus.type = "button";
+      plus.textContent = "+";
+      plus.addEventListener(
+        "click",
+        function() {
+          changeQuantity(index, 1);
+        }
+      );
+      qty.appendChild(minus);
+      qty.appendChild(number);
+      qty.appendChild(plus);
+      const itemTotal =
+        document.createElement("strong");
+      itemTotal.textContent =
+        formatPrice(
+          item.price *
+          item.quantity
+        );
+      row.appendChild(info);
+      row.appendChild(qty);
+      row.appendChild(itemTotal);
+      container.appendChild(row);
+    }
+  );
+  document.getElementById(
+    "modalTotal"
+  ).textContent =
     formatPrice(getTotal());
-
 }
-
-/* =========================
-   MODAL
-========================= */
-
 function openCart() {
-
-  document.getElementById("cartModal").style.display =
+  document.getElementById(
+    "cartModal"
+  ).style.display =
     "block";
-
   renderCart();
-
 }
-
 function closeCart() {
-
-  document.getElementById("cartModal").style.display =
+  document.getElementById(
+    "cartModal"
+  ).style.display =
     "none";
-
 }
-
-/* =========================
-   LIVRAISON
-========================= */
-
 function toggleAddress() {
-
   const type =
-    document.getElementById("orderType").value;
-
+    document.getElementById(
+      "orderType"
+    ).value;
   const box =
-    document.getElementById("addressBox");
-
+    document.getElementById(
+      "addressBox"
+    );
   if (type === "Livraison") {
-
-    box.style.display = "block";
-
+    box.style.display =
+      "block";
   } else {
-
-    box.style.display = "none";
-
+    box.style.display =
+      "none";
   }
-
 }
-
-/* =========================
-   VIDER PANIER
-========================= */
-
 function clearCart() {
-
   if (cart.length === 0) return;
-
   if (
     confirm(
       "Voulez-vous vider le panier ?"
     )
   ) {
-
     cart = [];
-
     updateCart();
-
   }
-
 }
-
-/* =========================
-   WHATSAPP
-========================= */
-
 function sendOrder() {
-
   if (cart.length === 0) {
-
     alert(
       "Votre panier est vide."
     );
-
     return;
   }
-
   const name =
-    document.getElementById("customerName")
-      .value.trim();
-
+    document.getElementById(
+      "customerName"
+    ).value.trim();
   const phone =
-    document.getElementById("customerPhone")
-      .value.trim();
-
+    document.getElementById(
+      "customerPhone"
+    ).value.trim();
   const type =
-    document.getElementById("orderType")
-      .value;
-
+    document.getElementById(
+      "orderType"
+    ).value;
   const address =
-    document.getElementById("customerAddress")
-      .value.trim();
-
+    document.getElementById(
+      "customerAddress"
+    ).value.trim();
   const note =
-    document.getElementById("customerNote")
-      .value.trim();
-
+    document.getElementById(
+      "customerNote"
+    ).value.trim();
   if (!name) {
-
     alert(
       "Veuillez entrer votre nom."
     );
-
     return;
   }
-
   if (!phone) {
-
     alert(
       "Veuillez entrer votre numéro de téléphone."
     );
-
     return;
   }
-
   if (
     type === "Livraison" &&
     !address
   ) {
-
     alert(
       "Veuillez entrer votre adresse de livraison."
     );
-
     return;
   }
-
   let message = "";
-
   message +=
     "🍔 *NOUVELLE COMMANDE - TOP SNACK*";
-
   message += "\n\n";
-
   message +=
     "👤 *Nom:* " +
     name;
-
   message += "\n";
-
   message +=
     "📞 *Téléphone:* " +
     phone;
-
   message += "\n";
-
   message +=
     "📦 *Commande:* " +
     type;
-
-  message += "\n";
-
   if (type === "Livraison") {
-
+    message += "\n";
     message +=
       "📍 *Adresse:* " +
       address;
-
-    message += "\n";
-
   }
-
-  message += "\n";
-
+  message += "\n\n";
   message +=
     "🛒 *ARTICLES:*";
-
   message += "\n";
-
-  cart.forEach(item => {
-
-    message +=
-      "• " +
-      item.category +
-      " — " +
-      item.name +
-      " × " +
-      item.quantity +
-      " = " +
-      formatPrice(
-        item.price *
-        item.quantity
-      );
-
-    message += "\n";
-
-  });
-
+  cart.forEach(
+    item => {
+      message +=
+        "• " +
+        item.category +
+        " — " +
+        item.name +
+        " × " +
+        item.quantity +
+        " = " +
+        formatPrice(
+          item.price *
+          item.quantity
+        );
+      message += "\n";
+    }
+  );
   message += "\n";
-
   message +=
     "💰 *TOTAL: " +
     formatPrice(
       getTotal()
     ) +
     "*";
-
   if (note) {
-
     message += "\n\n";
-
     message +=
       "📝 *Note:* " +
       note;
-
   }
-
   message += "\n\n";
-
   message +=
     "Merci — TOP SNACK";
-
-  /*
-   * Numéro WhatsApp de TOP SNACK
-   */
-
   const whatsappNumber =
     "32496969628";
-
   const whatsappURL =
     "https://wa.me/" +
     whatsappNumber +
     "?text=" +
-    encodeURIComponent(
-      message
-    );
-
+    encodeURIComponent(message);
   window.open(
     whatsappURL,
     "_blank"
   );
-
 }
-
-/* =========================
-   PRIX
-========================= */
-
 function formatPrice(price) {
-
   return price
     .toFixed(2)
     .replace(".", ",") +
     " €";
-
 }
-
-/* =========================
-   DÉMARRAGE
-========================= */
-
 renderMenu();
-
 updateCart();
-
 </script>
-
 </body>
 </html>
