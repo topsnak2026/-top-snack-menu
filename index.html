@@ -7,11 +7,13 @@
 <title>TOP SNACK - Commande en ligne</title>
 <style>
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: #ffffff;
+  background: #fff;
   color: #111;
 }
 header {
@@ -37,13 +39,20 @@ header p {
   padding: 15px;
 }
 /* =========================
-   17 PHOTOS CATALOGUE
+   17 PHOTOS
 ========================= */
 .gallery-title {
   text-align: center;
-  margin: 10px 0 14px;
+  margin: 10px 0 8px;
   font-size: 22px;
   font-weight: 900;
+}
+.gallery-help {
+  text-align: center;
+  margin: 0 0 16px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #555;
 }
 .gallery {
   display: grid;
@@ -69,7 +78,7 @@ header p {
   }
 }
 /* =========================
-   MENU TEXTE
+   MENU
 ========================= */
 .menu-title {
   text-align: center;
@@ -91,7 +100,7 @@ header p {
 .product {
   display: flex;
   align-items: center;
-  min-height: 48px;
+  min-height: 55px;
   padding: 8px 0;
   border-bottom: 1px solid #e5e5e5;
   gap: 8px;
@@ -106,8 +115,16 @@ header p {
   font-weight: 900;
   white-space: nowrap;
 }
-.add-btn {
+/* =========================
+   دکمه های + و -
+========================= */
+.product-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   flex: 0 0 auto;
+}
+.product-controls button {
   width: 34px;
   height: 34px;
   border: none;
@@ -119,9 +136,18 @@ header p {
   line-height: 34px;
   padding: 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.add-btn:active {
-  transform: scale(.90);
+.product-controls button:active {
+  transform: scale(.88);
+}
+.product-quantity {
+  min-width: 24px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 900;
 }
 /* =========================
    PANIER
@@ -251,8 +277,12 @@ textarea {
   font-weight: bold;
   cursor: pointer;
 }
-.clear-btn { background: #eee; }
-.close-btn { background: #ddd; }
+.clear-btn {
+  background: #eee;
+}
+.close-btn {
+  background: #ddd;
+}
 .delivery-address {
   display: none;
 }
@@ -276,6 +306,9 @@ footer {
 <div class="container">
   <div class="gallery-title">
     🍔 Découvrez notre menu
+  </div>
+  <div class="gallery-help">
+    Après avoir consulté l’album, descendez pour choisir vos plats.
   </div>
   <div class="gallery">
     <img src="IMG_1168.jpeg" alt="Top Snack">
@@ -531,60 +564,146 @@ const menu = [
   }
 ];
 let cart = [];
+/* =========================
+   TROUVER LA QUANTITÉ
+========================= */
+function getProductQuantity(id) {
+  const item = cart.find(
+    product => product.id === id
+  );
+  return item ? item.quantity : 0;
+}
+/* =========================
+   AFFICHER LE MENU
+========================= */
 function renderMenu() {
   const container =
     document.getElementById("products");
   container.innerHTML = "";
-  menu.forEach((section, categoryIndex) => {
-    const category =
-      document.createElement("div");
-    category.className = "category";
-    const title =
-      document.createElement("h2");
-    title.textContent =
-      section.category;
-    category.appendChild(title);
-    section.items.forEach((item, itemIndex) => {
-      const name = item[0];
-      const price = item[1];
-      const productId =
-        categoryIndex + "-" + itemIndex;
-      const row =
+  menu.forEach(
+    (section, categoryIndex) => {
+      const category =
         document.createElement("div");
-      row.className = "product";
-      const nameDiv =
-        document.createElement("div");
-      nameDiv.className = "product-name";
-      nameDiv.textContent = name;
-      const priceDiv =
-        document.createElement("div");
-      priceDiv.className = "product-price";
-      priceDiv.textContent =
-        formatPrice(price);
-      const button =
-        document.createElement("button");
-      button.className = "add-btn";
-      button.type = "button";
-      button.textContent = "+";
-      button.addEventListener(
-        "click",
-        function() {
-          addToCart(
-            productId,
-            section.category,
-            name,
-            price
+      category.className = "category";
+      const title =
+        document.createElement("h2");
+      title.textContent =
+        section.category;
+      category.appendChild(title);
+      section.items.forEach(
+        (item, itemIndex) => {
+          const name = item[0];
+          const price = item[1];
+          const productId =
+            categoryIndex + "-" + itemIndex;
+          const row =
+            document.createElement("div");
+          row.className = "product";
+          const nameDiv =
+            document.createElement("div");
+          nameDiv.className =
+            "product-name";
+          nameDiv.textContent =
+            name;
+          const priceDiv =
+            document.createElement("div");
+          priceDiv.className =
+            "product-price";
+          priceDiv.textContent =
+            formatPrice(price);
+          /* CONTROLS */
+          const controls =
+            document.createElement("div");
+          controls.className =
+            "product-controls";
+          const minus =
+            document.createElement("button");
+          minus.type = "button";
+          minus.textContent = "−";
+          minus.addEventListener(
+            "click",
+            function() {
+              changeProductQuantity(
+                productId,
+                section.category,
+                name,
+                price,
+                -1
+              );
+            }
           );
+          const quantity =
+            document.createElement("span");
+          quantity.className =
+            "product-quantity";
+          quantity.id =
+            "qty-" + productId;
+          quantity.textContent =
+            getProductQuantity(productId);
+          const plus =
+            document.createElement("button");
+          plus.type = "button";
+          plus.textContent = "+";
+          plus.addEventListener(
+            "click",
+            function() {
+              changeProductQuantity(
+                productId,
+                section.category,
+                name,
+                price,
+                1
+              );
+            }
+          );
+          controls.appendChild(minus);
+          controls.appendChild(quantity);
+          controls.appendChild(plus);
+          row.appendChild(nameDiv);
+          row.appendChild(priceDiv);
+          row.appendChild(controls);
+          category.appendChild(row);
         }
       );
-      row.appendChild(nameDiv);
-      row.appendChild(priceDiv);
-      row.appendChild(button);
-      category.appendChild(row);
-    });
-    container.appendChild(category);
-  });
+      container.appendChild(category);
+    }
+  );
 }
+/* =========================
+   تغییر تعداد از داخل منو
+========================= */
+function changeProductQuantity(
+  id,
+  category,
+  name,
+  price,
+  amount
+) {
+  const existing =
+    cart.find(
+      item => item.id === id
+    );
+  if (existing) {
+    existing.quantity += amount;
+    if (existing.quantity <= 0) {
+      cart = cart.filter(
+        item => item.id !== id
+      );
+    }
+  } else if (amount > 0) {
+    cart.push({
+      id: id,
+      category: category,
+      name: name,
+      price: price,
+      quantity: 1
+    });
+  }
+  updateCart();
+}
+/* =========================
+   اضافه کردن به سبد
+========================= */
 function addToCart(
   id,
   category,
@@ -608,7 +727,13 @@ function addToCart(
   }
   updateCart();
 }
-function changeQuantity(index, amount) {
+/* =========================
+   تغییر تعداد در سبد
+========================= */
+function changeQuantity(
+  index,
+  amount
+) {
   if (!cart[index]) return;
   cart[index].quantity += amount;
   if (cart[index].quantity <= 0) {
@@ -616,6 +741,9 @@ function changeQuantity(index, amount) {
   }
   updateCart();
 }
+/* =========================
+   TOTAL
+========================= */
 function getTotal() {
   return cart.reduce(
     (total, item) =>
@@ -625,6 +753,9 @@ function getTotal() {
     0
   );
 }
+/* =========================
+   تعداد کل
+========================= */
 function getCount() {
   return cart.reduce(
     (count, item) =>
@@ -633,6 +764,9 @@ function getCount() {
     0
   );
 }
+/* =========================
+   UPDATE
+========================= */
 function updateCart() {
   document.getElementById(
     "cartCount"
@@ -641,9 +775,40 @@ function updateCart() {
   document.getElementById(
     "cartTotal"
   ).textContent =
-    formatPrice(getTotal());
+    formatPrice(
+      getTotal()
+    );
   renderCart();
+  updateMenuQuantities();
 }
+/* =========================
+   آپدیت عدد کنار محصولات
+========================= */
+function updateMenuQuantities() {
+  menu.forEach(
+    (section, categoryIndex) => {
+      section.items.forEach(
+        (item, itemIndex) => {
+          const id =
+            categoryIndex +
+            "-" +
+            itemIndex;
+          const element =
+            document.getElementById(
+              "qty-" + id
+            );
+          if (element) {
+            element.textContent =
+              getProductQuantity(id);
+          }
+        }
+      );
+    }
+  );
+}
+/* =========================
+   CART
+========================= */
 function renderCart() {
   const container =
     document.getElementById(
@@ -690,7 +855,10 @@ function renderCart() {
       minus.addEventListener(
         "click",
         function() {
-          changeQuantity(index, -1);
+          changeQuantity(
+            index,
+            -1
+          );
         }
       );
       const number =
@@ -704,7 +872,10 @@ function renderCart() {
       plus.addEventListener(
         "click",
         function() {
-          changeQuantity(index, 1);
+          changeQuantity(
+            index,
+            1
+          );
         }
       );
       qty.appendChild(minus);
@@ -726,8 +897,13 @@ function renderCart() {
   document.getElementById(
     "modalTotal"
   ).textContent =
-    formatPrice(getTotal());
+    formatPrice(
+      getTotal()
+    );
 }
+/* =========================
+   OPEN CART
+========================= */
 function openCart() {
   document.getElementById(
     "cartModal"
@@ -735,12 +911,18 @@ function openCart() {
     "block";
   renderCart();
 }
+/* =========================
+   CLOSE CART
+========================= */
 function closeCart() {
   document.getElementById(
     "cartModal"
   ).style.display =
     "none";
 }
+/* =========================
+   DELIVERY
+========================= */
 function toggleAddress() {
   const type =
     document.getElementById(
@@ -758,6 +940,9 @@ function toggleAddress() {
       "none";
   }
 }
+/* =========================
+   CLEAR
+========================= */
 function clearCart() {
   if (cart.length === 0) return;
   if (
@@ -769,6 +954,9 @@ function clearCart() {
     updateCart();
   }
 }
+/* =========================
+   WHATSAPP
+========================= */
 function sendOrder() {
   if (cart.length === 0) {
     alert(
@@ -881,18 +1069,26 @@ function sendOrder() {
     "https://wa.me/" +
     whatsappNumber +
     "?text=" +
-    encodeURIComponent(message);
+    encodeURIComponent(
+      message
+    );
   window.open(
     whatsappURL,
     "_blank"
   );
 }
+/* =========================
+   PRICE
+========================= */
 function formatPrice(price) {
   return price
     .toFixed(2)
     .replace(".", ",") +
     " €";
 }
+/* =========================
+   START
+========================= */
 renderMenu();
 updateCart();
 </script>
