@@ -2,319 +2,293 @@
 <html lang="fr">
 <head>
   <link rel="manifest" href="./manifest.json">
-<link rel="icon" type="image/svg+xml" href="./icon.svg">
-<meta name="theme-color" content="#111111">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="TOP SNACK">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="ixcKd7ctbvXrMDlUoIjZF0rSdNPMIivjZlHy1h-T7EY">
-<title>TOP SNACK - Commande en ligne</title>
-<style>
-* { box-sizing: border-box; }
-html {
-  scroll-behavior: smooth;
-}
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #fff;
-  color: #111;
-}
-header {
-  background: #111;
-  color: white;
-  text-align: center;
-  padding: 24px 15px;
-}
-header h1 {
-  margin: 0;
-  font-size: 32px;
-  font-weight: 900;
-  letter-spacing: 1px;
-}
-header p {
-  margin: 7px 0 0;
-  color: #ddd;
-  font-size: 14px;
-}
-.container {
-  max-width: 950px;
-  margin: auto;
-  padding: 15px;
-}
-/* =========================
-   17 PHOTOS
-========================= */
-.gallery-title {
-  text-align: center;
-  margin: 10px 0 8px;
-  font-size: 22px;
-  font-weight: 900;
-}
-.gallery-help {
-  text-align: center;
-  margin: 0 0 16px;
-  font-size: 15px;
-  font-weight: 700;
-  color: #555;
-}
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin-bottom: 35px;
-}
-.gallery img {
-  width: 100%;
-  height: 190px;
-  object-fit: cover;
-  display: block;
-  border-radius: 10px;
-  background: #eee;
-}
-@media (min-width: 700px) {
-  .gallery {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-  }
-  .gallery img {
-    height: 190px;
-  }
-}
-/* =========================
-   MENU
-========================= */
-.menu-title {
-  text-align: center;
-  font-size: 28px;
-  font-weight: 900;
-  margin: 10px 0 25px;
-  padding-top: 5px;
-}
-.category {
-  margin-bottom: 28px;
-}
-.category h2 {
-  margin: 0 0 4px;
-  padding: 10px 0;
-  font-size: 20px;
-  font-weight: 900;
-  border-bottom: 2px solid #111;
-}
-.product {
-  display: flex;
-  align-items: center;
-  min-height: 55px;
-  padding: 8px 0;
-  border-bottom: 1px solid #e5e5e5;
-  gap: 8px;
-}
-.product-name {
-  flex: 1;
-  font-size: 16px;
-  font-weight: 600;
-}
-.product-price {
-  font-size: 16px;
-  font-weight: 900;
-  white-space: nowrap;
-}
-/* =========================
-   دکمه های + و -
-========================= */
-.product-controls {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex: 0 0 auto;
-}
-.product-controls button {
-  width: 34px;
-  height: 34px;
-  border: none;
-  border-radius: 50%;
-  background: #111;
-  color: white;
-  font-size: 22px;
-  font-weight: 900;
-  line-height: 34px;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.product-controls button:active {
-  transform: scale(.88);
-}
-.product-quantity {
-  min-width: 24px;
-  text-align: center;
-  font-size: 17px;
-  font-weight: 900;
-}
-/* =========================
-   PANIER
-========================= */
-.cart-button {
-  position: fixed;
-  left: 50%;
-  bottom: 16px;
-  transform: translateX(-50%);
-  width: calc(100% - 24px);
-  max-width: 520px;
-  padding: 15px 18px;
-  border: none;
-  border-radius: 40px;
-  background: #111;
-  color: white;
-  font-size: 16px;
-  font-weight: 900;
-  box-shadow: 0 5px 20px rgba(0,0,0,.30);
-  z-index: 1000;
-  cursor: pointer;
-}
-/* =========================
-   MODAL
-========================= */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  background: rgba(0,0,0,.68);
-  padding: 15px;
-  overflow-y: auto;
-}
-.modal-box {
-  max-width: 600px;
-  margin: 25px auto;
-  background: white;
-  border-radius: 16px;
-  padding: 20px;
-}
-.modal-box h2 {
-  margin: 0 0 18px;
-  text-align: center;
-  font-size: 24px;
-}
-.cart-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 11px 0;
-  border-bottom: 1px solid #eee;
-}
-.cart-item-info {
-  flex: 1;
-  min-width: 0;
-}
-.cart-item-info strong {
-  font-size: 15px;
-}
-.cart-item-info small {
-  color: #777;
-  font-size: 12px;
-}
-.qty-buttons {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.qty-buttons button {
-  width: 30px;
-  height: 30px;
-  border: none;
-  border-radius: 6px;
-  background: #111;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-}
-.total {
-  text-align: right;
-  font-size: 21px;
-  font-weight: 900;
-  margin: 18px 0;
-}
-label {
-  display: block;
-  margin-top: 9px;
-  font-weight: bold;
-}
-input,
-textarea,
-select {
-  width: 100%;
-  margin: 6px 0 10px;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-textarea {
-  min-height: 80px;
-  resize: vertical;
-}
-.whatsapp-btn {
-  width: 100%;
-  padding: 15px;
-  margin-top: 5px;
-  border: none;
-  border-radius: 10px;
-  background: #25D366;
-  color: white;
-  font-size: 17px;
-  font-weight: 900;
-  cursor: pointer;
-}
-.clear-btn,
-.close-btn {
-  width: 100%;
-  padding: 12px;
-  margin-top: 8px;
-  border: none;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-}
-.clear-btn {
-  background: #eee;
-}
-.close-btn {
-  background: #ddd;
-}
-.delivery-address {
-  display: none;
-}
-/* =========================
-   FOOTER
-========================= */
-footer {
-  text-align: center;
-  padding: 35px 15px 115px;
-  color: #555;
-  font-size: 14px;
-}
-</style>
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <meta name="theme-color" content="#111111">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="TOP SNACK">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="ixcKd7ctbvXrMDlUoIjZF0rSdNPMIivjZlHy1h-T7EY">
+  <title>TOP SNACK - Commande en ligne</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #fff;
+      color: #111;
+    }
+    header {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 24px 15px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+    header p {
+      margin: 7px 0 0;
+      color: #ddd;
+      font-size: 14px;
+    }
+    .container {
+      max-width: 950px;
+      margin: auto;
+      padding: 15px;
+    }
+    /* Search Bar */
+    .search-box {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border: 2px solid #111;
+      border-radius: 25px;
+      font-size: 16px;
+      outline: none;
+    }
+    /* Gallery */
+    .gallery-title {
+      text-align: center;
+      margin: 10px 0 8px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+    .gallery-help {
+      text-align: center;
+      margin: 0 0 16px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #555;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 35px;
+    }
+    .gallery img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      display: block;
+      border-radius: 10px;
+      background: #eee;
+    }
+    @media (min-width: 700px) {
+      .gallery {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+    }
+    /* Menu */
+    .menu-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 900;
+      margin: 10px 0 25px;
+      padding-top: 5px;
+    }
+    .category {
+      margin-bottom: 28px;
+    }
+    .category h2 {
+      margin: 0 0 4px;
+      padding: 10px 0;
+      font-size: 20px;
+      font-weight: 900;
+      border-bottom: 2px solid #111;
+    }
+    .product {
+      display: flex;
+      align-items: center;
+      min-height: 55px;
+      padding: 8px 0;
+      border-bottom: 1px solid #e5e5e5;
+      gap: 8px;
+    }
+    .product-name {
+      flex: 1;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .product-price {
+      font-size: 16px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    /* Controls */
+    .product-controls {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex: 0 0 auto;
+    }
+    .product-controls button {
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 50%;
+      background: #111;
+      color: white;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 34px;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .product-controls button:active {
+      transform: scale(.88);
+    }
+    .product-quantity {
+      min-width: 24px;
+      text-align: center;
+      font-size: 17px;
+      font-weight: 900;
+    }
+    /* Cart Button */
+    .cart-button {
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 520px;
+      padding: 15px 18px;
+      border: none;
+      border-radius: 40px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      font-weight: 900;
+      box-shadow: 0 5px 20px rgba(0,0,0,.30);
+      z-index: 1000;
+      cursor: pointer;
+    }
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0,0,0,.68);
+      padding: 15px;
+      overflow-y: auto;
+    }
+    .modal-box {
+      max-width: 600px;
+      margin: 25px auto;
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .modal-box h2 {
+      margin: 0 0 18px;
+      text-align: center;
+      font-size: 24px;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 11px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .cart-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .cart-item-info strong { font-size: 15px; }
+    .cart-item-info small { color: #777; font-size: 12px; }
+    .qty-buttons {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .qty-buttons button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 6px;
+      background: #111;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .total {
+      text-align: right;
+      font-size: 21px;
+      font-weight: 900;
+      margin: 18px 0;
+    }
+    label {
+      display: block;
+      margin-top: 9px;
+      font-weight: bold;
+    }
+    input, textarea, select {
+      width: 100%;
+      margin: 6px 0 10px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    textarea { min-height: 80px; resize: vertical; }
+    .whatsapp-btn {
+      width: 100%;
+      padding: 15px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 10px;
+      background: #25D366;
+      color: white;
+      font-size: 17px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .clear-btn, .close-btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .clear-btn { background: #eee; }
+    .close-btn { background: #ddd; }
+    .delivery-address { display: none; }
+    footer {
+      text-align: center;
+      padding: 35px 15px 115px;
+      color: #555;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
+
 <header>
   <h1>TOP SNACK</h1>
   <p>Rue Godfroid Kurth 109 — 1140 Evere</p>
   <p>📞 +32 496 96 96 28</p>
 </header>
+
 <div class="container">
-  <div class="gallery-title">
-    🍔 Découvrez notre menu
-  </div>
-  <div class="gallery-help">
-    Après avoir consulté l’album, descendez pour choisir vos plats.
-  </div>
+  <div class="gallery-title">🍔 Découvrez notre menu</div>
+  <div class="gallery-help">Après avoir consulté l’album, descendez pour choisir vos plats.</div>
+  
   <div class="gallery">
     <img src="IMG_1168.jpeg" alt="Top Snack">
     <img src="IMG_1169.jpeg" alt="Top Snack">
@@ -334,21 +308,35 @@ footer {
     <img src="IMG_1183.jpeg" alt="Top Snack">
     <img src="03FA716C-DE58-4084-8661-3E373E2B2A38.png" alt="Boissons Top Snack">
   </div>
-  <div class="menu-title">
-    📋 NOTRE MENU
-  </div>
+
+  <div class="menu-title">📋 NOTRE MENU</div>
+
+  <!-- سرچ‌بار برای جستجوی سریع در منو -->
+  <input type="text" id="searchInput" class="search-box" placeholder="🔍 Rechercher un produit..." oninput="filterMenu()">
+
   <div id="products"></div>
 </div>
+
 <footer>
   <strong>TOP SNACK</strong><br>
   Rue Godfroid Kurth 109, 1140 Evere<br>
-  📞 +32 496 96 96 28
+  📞 +32 496 96 96 28<br><br>
+  <span style="cursor: pointer; font-size: 12px; color: #888;" onclick="toggleAdminPanel()">⚙️ Gestion Admin</span>
 </footer>
+
+<!-- پنل مدیریت مخفی (رمز: 1234) -->
+<div id="adminPanel" style="display:none; background:#f4f4f4; padding:15px; border-radius:10px; max-width:520px; margin: 0 auto 30px auto; text-align:center; border: 2px dashed #333;">
+  <h3>🔧 Panneau de Contrôle</h3>
+  <p>Statut du magasin : <strong id="shopStatusText" style="color: green;">Ouvert</strong></p>
+  <button id="toggleShopBtn" onclick="toggleShopStatus()" style="padding: 10px 20px; background: #d9534f; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Fermer le magasin manuellement</button>
+</div>
+
 <button class="cart-button" onclick="openCart()">
   🛒 Mon panier —
   <span id="cartCount">0</span> article(s) —
   <span id="cartTotal">0,00 €</span>
 </button>
+
 <div class="modal" id="cartModal">
   <div class="modal-box">
     <h2>🛒 Mon panier</h2>
@@ -356,389 +344,258 @@ footer {
     <div class="total">
       Total : <span id="modalTotal">0,00 €</span>
     </div>
+    
     <label for="customerName">Nom</label>
     <input id="customerName" type="text" placeholder="Votre nom">
+    
     <label for="customerPhone">Téléphone</label>
     <input id="customerPhone" type="tel" placeholder="Votre numéro">
+    
     <label for="orderType">Type de commande</label>
     <select id="orderType" onchange="toggleAddress()">
       <option value="À emporter">À emporter</option>
       <option value="Livraison">Livraison</option>
     </select>
+    
     <div class="delivery-address" id="addressBox">
-      <label for="customerAddress">
-        Adresse de livraison
-      </label>
-      <textarea
-        id="customerAddress"
-        placeholder="Votre adresse"
-      ></textarea>
+      <label for="customerAddress">Adresse de livraison</label>
+      <textarea id="customerAddress" placeholder="Votre adresse"></textarea>
     </div>
+    
     <label for="customerNote">Note</label>
-    <textarea
-      id="customerNote"
-      placeholder="Une remarque ?"
-    ></textarea>
+    <textarea id="customerNote" placeholder="Une remarque ?"></textarea>
+    
     <button class="whatsapp-btn" onclick="sendOrder()">
       📲 ENVOYER LA COMMANDE SUR WHATSAPP
     </button>
-    <button class="clear-btn" onclick="clearCart()">
-      🗑️ Vider le panier
-    </button>
-    <button class="close-btn" onclick="closeCart()">
-      Fermer
-    </button>
+    <button class="clear-btn" onclick="clearCart()">🗑️ Vider le panier</button>
+    <button class="close-btn" onclick="closeCart()">Fermer</button>
   </div>
 </div>
+
 <script>
 const menu = [
   {
     category: "MITRAILLETTE / DURUM / PAIN TURC",
     items: [
-      ["PITTA", 7.50],
-      ["POULET", 7.50],
-      ["KOFTE", 7.50],
-      ["FALAFEL", 7.50],
-      ["MIXTE", 8.00],
-      ["BOEUF", 8.00],
-      ["HAMBURGER", 7.00],
-      ["FRICADELLE", 7.00],
-      ["BOULETTE", 7.00],
-      ["MEXICANO", 7.00],
-      ["POULYCROQ", 7.50],
-      ["CHIX FINGERS", 7.50],
-      ["MERGUEZ", 7.50],
-      ["ADANA", 7.50],
-      ["BROC.CABILLAUD", 7.50],
-      ["BROC.DINDE", 7.50],
-      ["BROC.BOEUF", 8.00],
-      ["BROC.POULET", 8.00]
+      ["PITTA", 7.50], ["POULET", 7.50], ["KOFTE", 7.50], ["FALAFEL", 7.50],
+      ["MIXTE", 8.00], ["BOEUF", 8.00], ["HAMBURGER", 7.00], ["FRICADELLE", 7.00],
+      ["BOULETTE", 7.00], ["MEXICANO", 7.00], ["POULYCROQ", 7.50], ["CHIX FINGERS", 7.50],
+      ["MERGUEZ", 7.50], ["ADANA", 7.50], ["BROC.CABILLAUD", 7.50], ["BROC.DINDE", 7.50],
+      ["BROC.BOEUF", 8.00], ["BROC.POULET", 8.00]
     ]
   },
   {
     category: "SNACKS",
     items: [
-      ["Hamburger", 3.00],
-      ["Fricadelle", 3.00],
-      ["Boulette", 3.50],
-      ["Mexicano", 3.50],
-      ["Poulycroq", 3.50],
-      ["Chix Fingers", 3.50],
-      ["Mini Loempia", 3.50],
-      ["Croquette Fromage", 3.00],
-      ["Broc.Cabillaud", 3.50],
-      ["Broc.Dinde", 3.50],
-      ["Broc.Boeuf", 4.00],
-      ["Broc.Pilons Poulet", 4.50],
-      ["Broc.Poulet", 4.50],
-      ["Tenders", 4.00],
-      ["Nuggets", 4.00],
-      ["Wings", 4.00]
+      ["Hamburger", 3.00], ["Fricadelle", 3.00], ["Boulette", 3.50], ["Mexicano", 3.50],
+      ["Poulycroq", 3.50], ["Chix Fingers", 3.50], ["Mini Loempia", 3.50], ["Croquette Fromage", 3.00],
+      ["Broc.Cabillaud", 3.50], ["Broc.Dinde", 3.50], ["Broc.Boeuf", 4.00], ["Broc.Pilons Poulet", 4.50],
+      ["Broc.Poulet", 4.50], ["Tenders", 4.00], ["Nuggets", 4.00], ["Wings", 4.00]
     ]
   },
   {
     category: "ASSIETTES",
     items: [
-      ["Pitta", 15.00],
-      ["Poulet", 15.00],
-      ["Falafel", 15.00],
-      ["Broc.Dinde", 15.00],
-      ["Broc.Cabillaud", 15.00],
-      ["Pilons Poulet", 15.00],
-      ["Boeuf", 17.00],
-      ["Mixte", 17.00],
-      ["Broc.Boeuf", 17.00],
-      ["Broc.Poulet", 17.00],
-      ["Kofte", 16.00],
-      ["Adana", 16.00],
-      ["Calamar", 15.00],
-      ["Top Grill", 22.00],
-      ["Côte d'Agneau", 22.00]
+      ["Pitta", 15.00], ["Poulet", 15.00], ["Falafel", 15.00], ["Broc.Dinde", 15.00],
+      ["Broc.Cabillaud", 15.00], ["Pilons Poulet", 15.00], ["Boeuf", 17.00], ["Mixte", 17.00],
+      ["Broc.Boeuf", 17.00], ["Broc.Poulet", 17.00], ["Kofte", 16.00], ["Adana", 16.00],
+      ["Calamar", 15.00], ["Top Grill", 22.00], ["Côte d'Agneau", 22.00]
     ]
   },
   {
     category: "BOX",
-    items: [
-      ["Kids", 10.00],
-      ["Doner", 8.00]
-    ]
+    items: [["Kids", 10.00], ["Doner", 8.00]]
   },
   {
     category: "FRITES",
-    items: [
-      ["Petite", 3.50],
-      ["Grande", 4.50],
-      ["À Part", 1.50]
-    ]
+    items: [["Petite", 3.50], ["Grande", 4.50], ["À Part", 1.50]]
   },
   {
     category: "BURGER",
-    items: [
-      ["Premium", 6.50],
-      ["Cheese", 7.00],
-      ["Master", 8.00],
-      ["Double Steak House", 8.00]
-    ]
+    items: [["Premium", 6.50], ["Cheese", 7.00], ["Master", 8.00], ["Double Steak House", 8.00]]
   },
   {
     category: "BICKY",
-    items: [
-      ["Hamburger", 5.00],
-      ["Kofte", 6.00],
-      ["Fish Burger", 5.50],
-      ["Escalope Poulet", 5.50]
-    ]
+    items: [["Hamburger", 5.00], ["Kofte", 6.00], ["Fish Burger", 5.50], ["Escalope Poulet", 5.50]]
   },
   {
     category: "SAUCES",
     items: [
-      ["Andalouse", 1.00],
-      ["Samurai", 1.00],
-      ["Pitta", 1.00],
-      ["Ketchup", 1.00],
-      ["Brazil", 1.00],
-      ["Pili Pili", 1.00],
-      ["Mayonnaise", 1.00],
-      ["Curry Ketchup", 1.00],
-      ["Americaine Chef", 1.00],
-      ["Cocktail", 1.00],
-      ["Tartar", 1.00],
-      ["Barbecue", 1.00]
+      ["Andalouse", 1.00], ["Samurai", 1.00], ["Pitta", 1.00], ["Ketchup", 1.00],
+      ["Brazil", 1.00], ["Pili Pili", 1.00], ["Mayonnaise", 1.00], ["Curry Ketchup", 1.00],
+      ["Americaine Chef", 1.00], ["Cocktail", 1.00], ["Tartar", 1.00], ["Barbecue", 1.00]
     ]
   },
   {
     category: "GYROS",
-    items: [
-      ["Classique", 7.00],
-      ["Feta / Olive", 8.00],
-      ["Mais / Poulet", 7.00]
-    ]
+    items: [["Classique", 7.00], ["Feta / Olive", 8.00], ["Mais / Poulet", 7.00]]
   },
   {
     category: "KAPSALON",
-    items: [
-      ["Pitta", 10.00],
-      ["Poulet", 10.00],
-      ["Falafel", 10.00],
-      ["Kofte", 10.00],
-      ["Mixte", 11.00],
-      ["Boeuf", 11.00]
-    ]
+    items: [["Pitta", 10.00], ["Poulet", 10.00], ["Falafel", 10.00], ["Kofte", 10.00], ["Mixte", 11.00], ["Boeuf", 11.00]]
   },
   {
     category: "MENU",
-    items: [
-      ["Sandwich / Durum / Pain Turc", 10.00],
-      ["Bicky", 9.00],
-      ["Gyros", 11.00],
-      ["Tacos L", 13.00],
-      ["Tacos XL", 17.00]
-    ]
+    items: [["Sandwich / Durum / Pain Turc", 10.00], ["Bicky", 9.00], ["Gyros", 11.00], ["Tacos L", 13.00], ["Tacos XL", 17.00]]
   },
   {
     category: "TACOS",
-    items: [
-      ["Tenders", 8.00],
-      ["Nuggets", 8.00],
-      ["Chix Fingers", 8.00],
-      ["Pitta", 8.00],
-      ["Poulet", 8.00],
-      ["Boeuf", 9.00],
-      ["Kofte", 9.00],
-      ["Tacos XL", 13.00]
-    ]
+    items: [["Tenders", 8.00], ["Nuggets", 8.00], ["Chix Fingers", 8.00], ["Pitta", 8.00], ["Poulet", 8.00], ["Boeuf", 9.00], ["Kofte", 9.00], ["Tacos XL", 13.00]]
   },
   {
     category: "DESSERTS",
-    items: [
-      ["Tiramisu Oreo", 4.00],
-      ["Tiramisu Speculoos", 4.00],
-      ["Mousse Chocolat", 4.00]
-    ]
+    items: [["Tiramisu Oreo", 4.00], ["Tiramisu Speculoos", 4.00], ["Mousse Chocolat", 4.00]]
   },
   {
     category: "SUPPLEMENTS",
-    items: [
-      ["Feta", 1.00],
-      ["Olive", 1.00],
-      ["Piment", 1.00],
-      ["Mozzarella", 1.00],
-      ["Cheddar", 1.00],
-      ["Oignon Frie", 1.00]
-    ]
+    items: [["Feta", 1.00], ["Olive", 1.00], ["Piment", 1.00], ["Mozzarella", 1.00], ["Cheddar", 1.00], ["Oignon Frie", 1.00]]
   }
 ];
-let cart = [];
-/* =========================
-   TROUVER LA QUANTITÉ
-========================= */
+
+let cart = JSON.parse(localStorage.getItem('top_snack_cart')) || [];
+let isManualClosed = JSON.parse(localStorage.getItem('top_snack_closed')) || false;
+
+function checkShopOpen() {
+  if (isManualClosed) return false;
+  const now = new Date();
+  const hours = now.getHours();
+  // بین ۱۱ صبح تا ۱۱ شب (۲۳)
+  return (hours >= 11 && hours < 23);
+}
+
+function toggleAdminPanel() {
+  const password = prompt("Entrez le mot de passe admin:");
+  if (password === "1234") { // می‌تونی رمز رو اینجا تغییر بدی
+    const panel = document.getElementById("adminPanel");
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+    updateAdminUI();
+  } else if (password !== null) {
+    alert("Mot de passe incorrect !");
+  }
+}
+
+function toggleShopStatus() {
+  isManualClosed = !isManualClosed;
+  localStorage.setItem('top_snack_closed', JSON.stringify(isManualClosed));
+  updateAdminUI();
+  alert(isManualClosed ? "Le magasin est maintenant FERMÉ manuellement." : "Le magasin est maintenant OUVERT.");
+}
+
+function updateAdminUI() {
+  const statusText = document.getElementById("shopStatusText");
+  const btn = document.getElementById("toggleShopBtn");
+  if (isManualClosed) {
+    statusText.textContent = "Fermé manuellement 🔴";
+    statusText.style.color = "red";
+    btn.textContent = "Ouvrir le magasin";
+    btn.style.background = "#5cb85c";
+  } else {
+    statusText.textContent = "Automatique / Ouvert 🟢";
+    statusText.style.color = "green";
+    btn.textContent = "Fermer le magasin manuellement";
+    btn.style.background = "#d9534f";
+  }
+}
+
+function formatPrice(price) {
+  return price.toFixed(2).replace(".", ",") + " €";
+}
+
 function getProductQuantity(id) {
-  const item = cart.find(
-    product => product.id === id
-  );
+  const item = cart.find(product => product.id === id);
   return item ? item.quantity : 0;
 }
-/* =========================
-   AFFICHER LE MENU
-========================= */
-function renderMenu() {
-  const container =
-    document.getElementById("products");
+
+function renderMenu(filterText = "") {
+  const container = document.getElementById("products");
   container.innerHTML = "";
-  menu.forEach(
-    (section, categoryIndex) => {
-      const category =
-        document.createElement("div");
-      category.className = "category";
-      const title =
-        document.createElement("h2");
-      title.textContent =
-        section.category;
-      category.appendChild(title);
-      section.items.forEach(
-        (item, itemIndex) => {
-          const name = item[0];
-          const price = item[1];
-          const productId =
-            categoryIndex + "-" + itemIndex;
-          const row =
-            document.createElement("div");
-          row.className = "product";
-          const nameDiv =
-            document.createElement("div");
-          nameDiv.className =
-            "product-name";
-          nameDiv.textContent =
-            name;
-          const priceDiv =
-            document.createElement("div");
-          priceDiv.className =
-            "product-price";
-          priceDiv.textContent =
-            formatPrice(price);
-          /* CONTROLS */
-          const controls =
-            document.createElement("div");
-          controls.className =
-            "product-controls";
-          const minus =
-            document.createElement("button");
-          minus.type = "button";
-          minus.textContent = "−";
-          minus.addEventListener(
-            "click",
-            function() {
-              changeProductQuantity(
-                productId,
-                section.category,
-                name,
-                price,
-                -1
-              );
-            }
-          );
-          const quantity =
-            document.createElement("span");
-          quantity.className =
-            "product-quantity";
-          quantity.id =
-            "qty-" + productId;
-          quantity.textContent =
-            getProductQuantity(productId);
-          const plus =
-            document.createElement("button");
-          plus.type = "button";
-          plus.textContent = "+";
-          plus.addEventListener(
-            "click",
-            function() {
-              changeProductQuantity(
-                productId,
-                section.category,
-                name,
-                price,
-                1
-              );
-            }
-          );
-          controls.appendChild(minus);
-          controls.appendChild(quantity);
-          controls.appendChild(plus);
-          row.appendChild(nameDiv);
-          row.appendChild(priceDiv);
-          row.appendChild(controls);
-          category.appendChild(row);
-        }
-      );
-      container.appendChild(category);
-    }
-  );
+  
+  const searchLower = filterText.toLowerCase().trim();
+
+  menu.forEach((section, categoryIndex) => {
+    let matchedItems = section.items.filter(item => {
+      if (!searchLower) return true;
+      return item[0].toLowerCase().includes(searchLower) || section.category.toLowerCase().includes(searchLower);
+    });
+
+    if (matchedItems.length === 0) return;
+
+    const category = document.createElement("div");
+    category.className = "category";
+    
+    const title = document.createElement("h2");
+    title.textContent = section.category;
+    category.appendChild(title);
+
+    matchedItems.forEach((item) => {
+      const itemIndex = section.items.indexOf(item);
+      const name = item[0];
+      const price = item[1];
+      const productId = categoryIndex + "-" + itemIndex;
+
+      const row = document.createElement("div");
+      row.className = "product";
+
+      const nameDiv = document.createElement("div");
+      nameDiv.className = "product-name";
+      nameDiv.textContent = name;
+
+      const priceDiv = document.createElement("div");
+      priceDiv.className = "product-price";
+      priceDiv.textContent = formatPrice(price);
+
+      const controls = document.createElement("div");
+      controls.className = "product-controls";
+
+      const minus = document.createElement("button");
+      minus.type = "button";
+      minus.textContent = "−";
+      minus.addEventListener("click", () => changeProductQuantity(productId, section.category, name, price, -1));
+
+      const quantity = document.createElement("span");
+      quantity.className = "product-quantity";
+      quantity.id = "qty-" + productId;
+      quantity.textContent = getProductQuantity(productId);
+
+      const plus = document.createElement("button");
+      plus.type = "button";
+      plus.textContent = "+";
+      plus.addEventListener("click", () => changeProductQuantity(productId, section.category, name, price, 1));
+
+      controls.appendChild(minus);
+      controls.appendChild(quantity);
+      controls.appendChild(plus);
+
+      row.appendChild(nameDiv);
+      row.appendChild(priceDiv);
+      row.appendChild(controls);
+      category.appendChild(row);
+    });
+
+    container.appendChild(category);
+  });
 }
-/* =========================
-   تغییر تعداد از داخل منو
-========================= */
-function changeProductQuantity(
-  id,
-  category,
-  name,
-  price,
-  amount
-) {
-  const existing =
-    cart.find(
-      item => item.id === id
-    );
+
+function filterMenu() {
+  const query = document.getElementById("searchInput").value;
+  renderMenu(query);
+}
+
+function changeProductQuantity(id, category, name, price, amount) {
+  const existing = cart.find(item => item.id === id);
   if (existing) {
     existing.quantity += amount;
     if (existing.quantity <= 0) {
-      cart = cart.filter(
-        item => item.id !== id
-      );
+      cart = cart.filter(item => item.id !== id);
     }
   } else if (amount > 0) {
-    cart.push({
-      id: id,
-      category: category,
-      name: name,
-      price: price,
-      quantity: 1
-    });
+    cart.push({ id, category, name, price, quantity: 1 });
   }
   updateCart();
 }
-/* =========================
-   اضافه کردن به سبد
-========================= */
-function addToCart(
-  id,
-  category,
-  name,
-  price
-) {
-  const existing =
-    cart.find(
-      item => item.id === id
-    );
-  if (existing) {
-    existing.quantity++;
-  } else {
-    cart.push({
-      id: id,
-      category: category,
-      name: name,
-      price: price,
-      quantity: 1
-    });
-  }
-  updateCart();
-}
-/* =========================
-   تغییر تعداد در سبد
-========================= */
-function changeQuantity(
-  index,
-  amount
-) {
+
+function changeQuantity(index, amount) {
   if (!cart[index]) return;
   cart[index].quantity += amount;
   if (cart[index].quantity <= 0) {
@@ -746,356 +603,152 @@ function changeQuantity(
   }
   updateCart();
 }
-/* =========================
-   TOTAL
-========================= */
+
 function getTotal() {
-  return cart.reduce(
-    (total, item) =>
-      total +
-      item.price *
-      item.quantity,
-    0
-  );
+  return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
 }
-/* =========================
-   تعداد کل
-========================= */
+
 function getCount() {
-  return cart.reduce(
-    (count, item) =>
-      count +
-      item.quantity,
-    0
-  );
+  return cart.reduce((count, item) => count + item.quantity, 0);
 }
-/* =========================
-   UPDATE
-========================= */
+
 function updateCart() {
-  document.getElementById(
-    "cartCount"
-  ).textContent =
-    getCount();
-  document.getElementById(
-    "cartTotal"
-  ).textContent =
-    formatPrice(
-      getTotal()
-    );
+  localStorage.setItem('top_snack_cart', JSON.stringify(cart));
+  document.getElementById("cartCount").textContent = getCount();
+  document.getElementById("cartTotal").textContent = formatPrice(getTotal());
   renderCart();
   updateMenuQuantities();
 }
-/* =========================
-   آپدیت عدد کنار محصولات
-========================= */
+
 function updateMenuQuantities() {
-  menu.forEach(
-    (section, categoryIndex) => {
-      section.items.forEach(
-        (item, itemIndex) => {
-          const id =
-            categoryIndex +
-            "-" +
-            itemIndex;
-          const element =
-            document.getElementById(
-              "qty-" + id
-            );
-          if (element) {
-            element.textContent =
-              getProductQuantity(id);
-          }
-        }
-      );
-    }
-  );
+  menu.forEach((section, categoryIndex) => {
+    section.items.forEach((item, itemIndex) => {
+      const id = categoryIndex + "-" + itemIndex;
+      const element = document.getElementById("qty-" + id);
+      if (element) {
+        element.textContent = getProductQuantity(id);
+      }
+    });
+  });
 }
-/* =========================
-   CART
-========================= */
+
 function renderCart() {
-  const container =
-    document.getElementById(
-      "cartItems"
-    );
+  const container = document.getElementById("cartItems");
   if (cart.length === 0) {
-    container.innerHTML =
-      "<p style='text-align:center;'>Votre panier est vide.</p>";
-    document.getElementById(
-      "modalTotal"
-    ).textContent =
-      formatPrice(0);
+    container.innerHTML = "<p style='text-align:center;'>Votre panier est vide.</p>";
+    document.getElementById("modalTotal").textContent = formatPrice(0);
     return;
   }
   container.innerHTML = "";
-  cart.forEach(
-    (item, index) => {
-      const row =
-        document.createElement("div");
-      row.className =
-        "cart-item";
-      const info =
-        document.createElement("div");
-      info.className =
-        "cart-item-info";
-      info.innerHTML =
-        "<strong>" +
-        item.name +
-        "</strong><br>" +
-        "<small>" +
-        item.category +
-        "</small><br>" +
-        formatPrice(item.price) +
-        " × " +
-        item.quantity;
-      const qty =
-        document.createElement("div");
-      qty.className =
-        "qty-buttons";
-      const minus =
-        document.createElement("button");
-      minus.type = "button";
-      minus.textContent = "−";
-      minus.addEventListener(
-        "click",
-        function() {
-          changeQuantity(
-            index,
-            -1
-          );
-        }
-      );
-      const number =
-        document.createElement("strong");
-      number.textContent =
-        item.quantity;
-      const plus =
-        document.createElement("button");
-      plus.type = "button";
-      plus.textContent = "+";
-      plus.addEventListener(
-        "click",
-        function() {
-          changeQuantity(
-            index,
-            1
-          );
-        }
-      );
-      qty.appendChild(minus);
-      qty.appendChild(number);
-      qty.appendChild(plus);
-      const itemTotal =
-        document.createElement("strong");
-      itemTotal.textContent =
-        formatPrice(
-          item.price *
-          item.quantity
-        );
-      row.appendChild(info);
-      row.appendChild(qty);
-      row.appendChild(itemTotal);
-      container.appendChild(row);
-    }
-  );
-  document.getElementById(
-    "modalTotal"
-  ).textContent =
-    formatPrice(
-      getTotal()
-    );
+  cart.forEach((item, index) => {
+    const row = document.createElement("div");
+    row.className = "cart-item";
+
+    const info = document.createElement("div");
+    info.className = "cart-item-info";
+    info.innerHTML = `<strong>${item.name}</strong><br><small>${item.category}</small><br>${formatPrice(item.price)} × ${item.quantity}`;
+
+    const qty = document.createElement("div");
+    qty.className = "qty-buttons";
+
+    const minus = document.createElement("button");
+    minus.type = "button";
+    minus.textContent = "−";
+    minus.addEventListener("click", () => changeQuantity(index, -1));
+
+    const number = document.createElement("strong");
+    number.textContent = item.quantity;
+
+    const plus = document.createElement("button");
+    plus.type = "button";
+    plus.textContent = "+";
+    plus.addEventListener("click", () => changeQuantity(index, 1));
+
+    qty.appendChild(minus);
+    qty.appendChild(number);
+    qty.appendChild(plus);
+
+    const itemTotal = document.createElement("strong");
+    itemTotal.textContent = formatPrice(item.price * item.quantity);
+
+    row.appendChild(info);
+    row.appendChild(qty);
+    row.appendChild(itemTotal);
+    container.appendChild(row);
+  });
+  document.getElementById("modalTotal").textContent = formatPrice(getTotal());
 }
-/* =========================
-   OPEN CART
-========================= */
+
 function openCart() {
-  document.getElementById(
-    "cartModal"
-  ).style.display =
-    "block";
+  document.getElementById("cartModal").style.display = "block";
   renderCart();
 }
-/* =========================
-   CLOSE CART
-========================= */
+
 function closeCart() {
-  document.getElementById(
-    "cartModal"
-  ).style.display =
-    "none";
+  document.getElementById("cartModal").style.display = "none";
 }
-/* =========================
-   DELIVERY
-========================= */
+
 function toggleAddress() {
-  const type =
-    document.getElementById(
-      "orderType"
-    ).value;
-  const box =
-    document.getElementById(
-      "addressBox"
-    );
-  if (type === "Livraison") {
-    box.style.display =
-      "block";
-  } else {
-    box.style.display =
-      "none";
-  }
+  const type = document.getElementById("orderType").value;
+  const box = document.getElementById("addressBox");
+  box.style.display = (type === "Livraison") ? "block" : "none";
 }
-/* =========================
-   CLEAR
-========================= */
+
 function clearCart() {
   if (cart.length === 0) return;
-  if (
-    confirm(
-      "Voulez-vous vider le panier ?"
-    )
-  ) {
+  if (confirm("Voulez-vous vider le panier ?")) {
     cart = [];
     updateCart();
   }
 }
-/* =========================
-   WHATSAPP
-========================= */
+
 function sendOrder() {
+  // چک کردن ساعت کاری و بسته بودن دستی
+  if (!checkShopOpen()) {
+    alert("❌ Désolé, Top Snack est actuellement fermé. Les commandes sont acceptées de 11h00 à 23h00.");
+    return;
+  }
+
   if (cart.length === 0) {
-    alert(
-      "Votre panier est vide."
-    );
+    alert("Votre panier est vide.");
     return;
   }
-  const name =
-    document.getElementById(
-      "customerName"
-    ).value.trim();
-  const phone =
-    document.getElementById(
-      "customerPhone"
-    ).value.trim();
-  const type =
-    document.getElementById(
-      "orderType"
-    ).value;
-  const address =
-    document.getElementById(
-      "customerAddress"
-    ).value.trim();
-  const note =
-    document.getElementById(
-      "customerNote"
-    ).value.trim();
-  if (!name) {
-    alert(
-      "Veuillez entrer votre nom."
-    );
-    return;
-  }
-  if (!phone) {
-    alert(
-      "Veuillez entrer votre numéro de téléphone."
-    );
-    return;
-  }
-  if (
-    type === "Livraison" &&
-    !address
-  ) {
-    alert(
-      "Veuillez entrer votre adresse de livraison."
-    );
-    return;
-  }
-  let message = "";
-  message +=
-    "🍔 *NOUVELLE COMMANDE - TOP SNACK*";
-  message += "\n\n";
-  message +=
-    "👤 *Nom:* " +
-    name;
-  message += "\n";
-  message +=
-    "📞 *Téléphone:* " +
-    phone;
-  message += "\n";
-  message +=
-    "📦 *Commande:* " +
-    type;
+  const name = document.getElementById("customerName").value.trim();
+  const phone = document.getElementById("customerPhone").value.trim();
+  const type = document.getElementById("orderType").value;
+  const address = document.getElementById("customerAddress").value.trim();
+  const note = document.getElementById("customerNote").value.trim();
+
+  if (!name) { alert("Veuillez entrer votre nom."); return; }
+  if (!phone) { alert("Veuillez entrer votre numéro de téléphone."); return; }
+  if (type === "Livraison" && !address) { alert("Veuillez entrer votre adresse de livraison."); return; }
+
+  let message = "🍔 *NOUVELLE COMMANDE - TOP SNACK*\n\n";
+  message += `👤 *Nom:* ${name}\n`;
+  message += `📞 *Téléphone:* ${phone}\n`;
+  message += `📦 *Commande:* ${type}\n`;
   if (type === "Livraison") {
-    message += "\n";
-    message +=
-      "📍 *Adresse:* " +
-      address;
+    message += `📍 *Adresse:* ${address}\n`;
   }
-  message += "\n\n";
-  message +=
-    "🛒 *ARTICLES:*";
-  message += "\n";
-  cart.forEach(
-    item => {
-      message +=
-        "• " +
-        item.category +
-        " — " +
-        item.name +
-        " × " +
-        item.quantity +
-        " = " +
-        formatPrice(
-          item.price *
-          item.quantity
-        );
-      message += "\n";
-    }
-  );
-  message += "\n";
-  message +=
-    "💰 *TOTAL: " +
-    formatPrice(
-      getTotal()
-    ) +
-    "*";
+  message += "\n🛒 *ARTICLES:*\n";
+  cart.forEach(item => {
+    message += `• ${item.category} — ${item.name} × ${item.quantity} = ${formatPrice(item.price * item.quantity)}\n`;
+  });
+  message += `\n💰 *TOTAL: ${formatPrice(getTotal())}*`;
   if (note) {
-    message += "\n\n";
-    message +=
-      "📝 *Note:* " +
-      note;
+    message += `\n\n📝 *Note:* ${note}`;
   }
-  message += "\n\n";
-  message +=
-    "Merci — TOP SNACK";
-  const whatsappNumber =
-    "32496969628";
-  const whatsappURL =
-    "https://wa.me/" +
-    whatsappNumber +
-    "?text=" +
-    encodeURIComponent(
-      message
-    );
-  window.open(
-    whatsappURL,
-    "_blank"
-  );
+  message += "\n\nMerci — TOP SNACK";
+
+  const whatsappNumber = "32496969628";
+  const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  window.open(whatsappURL, "_blank");
 }
-/* =========================
-   PRICE
-========================= */
-function formatPrice(price) {
-  return price
-    .toFixed(2)
-    .replace(".", ",") +
-    " €";
-}
-/* =========================
-   START
-========================= */
+
+// راه‌اندازی اولیه
 renderMenu();
 updateCart();
 </script>
+
 </body>
 </html>
