@@ -1554,3 +1554,525 @@ document.addEventListener("DOMContentLoaded",()=>{
 </script>
 </body>
 </html>
+let activeCategory = 0;
+let cart = loadCart();
+
+let shopClosed = localStorage.getItem("topSnackClosed") === "true";
+let deliveryEnabled = localStorage.getItem("topSnackDelivery") !== "false";
+
+function loadCart(){
+  try{
+    const saved = JSON.parse(localStorage.getItem("topSnackCart") || "{}");
+    return saved && typeof saved === "object" ? saved : {};
+  }catch(error){
+    return {};
+  }
+}
+
+function saveCart(){
+  localStorage.setItem("topSnackCart",JSON.stringify(cart));
+}
+
+function formatPrice(price){
+  return Number(price).toFixed(2).replace(".",",")+" €";
+}
+
+function getCartCount(){
+  return Object.values(cart).reduce((sum,item)=>sum+item.quantity,0);
+}
+
+function getCartTotal(){
+  return Object.values(cart).reduce((sum,item)=>sum+item.price*item.quantity,0);
+}
+
+function renderCategories(){
+  const container=document.getElementById("categories");
+  container.innerHTML="";
+
+  menu.forEach((category,index)=>{
+    const button=document.createElement("button");
+    button.className="category-btn"+(index===activeCategory?" active":"");
+    button.textContent=category.category;
+
+    button.onclick=()=>{
+      activeCategory=index;
+      document.getElementById("searchInput").value="";
+      renderCategories();
+      renderProducts();
+    };
+
+    container.appendChild(button);
+  });
+}
+
+function renderProducts(){
+  const container=document.getElementById("products");
+  const heading=document.getElementById("categoryHeading");
+
+  heading.textContent=menu[activeCategory].category;
+  container.innerHTML="";
+
+  menu[activeCategory].items.forEach((item,itemIndex)=>{
+    const key=activeCategory+"-"+itemIndex;
+    const quantity=cart[key]?cart[key].quantity:0;
+
+    const product=document.createElement("div");
+    product.className="product";
+
+    const info=document.createElement("div");
+    info.className="product-info";
+
+    const name=document.createElement("div");
+    name.className="product-name";
+    name.textContent=item[0];
+
+    const price=document.createElement("div");
+    price.className="product-price";
+    price.textContent=formatPrice(item[1]);
+
+    info.appendChild(name);
+    info.appendChild(price);
+
+    const controls=document.createElement("div");
+    controls.className="quantity";
+
+    const minus=document.createElement("button");
+    minus.type="button";
+    minus.textContent="−";
+    minus.onclick=()=>changeQuantity(activeCategory,itemIndex,-1);
+
+    const count=document.createElement("span");
+    count.textContent=quantity;
+
+    const plus=document.createElement("button");
+    plus.type="button";
+    plus.className="plus";
+    plus.textContent="+";
+    plus.onclick=()=>changeQuantity(activeCategory,itemIndex,1);
+
+    controls.appendChild(minus);
+    controls.appendChild(count);
+    controls.appendChild(plus);
+
+    product.appendChild(info);
+    product.appendChild(controls);
+    container.appendChild(product);
+  });
+
+  updateCartDisplay();
+}
+
+function changeQuantity(categoryIndex,itemIndex,amount){
+  const item=menu[categoryIndex].items[itemIndex];
+  const key=categoryIndex+"-"+itemIndex;
+
+  if(!cart[key]){
+    cart[key]={
+      name:item[0],
+      price:item[1],
+      quantity:0,
+      category:menu[categoryIndex].category
+    };
+  }
+
+  cart[key].quantity+=amount;
+
+  if(cart[key].quantity<=0){
+    delete cart[key];
+  }
+
+  saveCart();
+  renderProducts();
+}
+
+function searchProducts(){
+  const search=document.getElementById("searchInput").value.trim().toLowerCase();
+  const container=document.getElementById("products");
+  const heading=document.getElementById("categoryHeading");
+
+  if(!search){
+    renderProducts();
+    return;
+  }
+
+  heading.textContent="Résultats de recherche";
+  container.innerHTML="";
+  let found=0;
+
+  menu.forEach((category,categoryIndex)=>{
+    category.items.forEach((item,itemIndex)=>{
+      if(item[0].toLowerCase().includes(search) || category.category.toLowerCase().includes(search)){
+        found++;
+        const key=categoryIndex+"-"+itemIndex;
+        const quantity=cart[key]?cart[key].quantity:0;
+
+        const product=document.createElement("div");
+        product.className="product";
+
+        const info=document.createElement("div");
+        info.className="product-info";
+
+        const name=document.createElement("div");
+        name.className="product-name";
+        name.textContent=item[0]+" — "+category.category;
+
+        const price=document.createElement("div");
+        price.className="product-price";
+        price.textContent=formatPrice(item[1]);
+
+        info.appendChild(name);
+        info.appendChild(price);
+
+        const controls=document.createElement("div");
+        controls.className="quantity";
+
+        const minus=document.createElement("button");
+        minus.type="button";
+        minus.textContent="−";
+        minus.onclick=()=>changeQuantity(categoryIndex,itemIndex,-1);
+
+        const count=document.createElement("span");
+        count.textContent=quantity;
+
+        const plus=document.createElement("button");
+        plus.type="button";
+        plus.className="plus";
+        plus.textContent="+";
+        plus.onclick=()=>changeQuantity(categoryIndex,itemIndex,1);
+
+        controls.append(minus,count,plus);
+        product.append(info,controls);
+        container.appendChild(product);
+      }
+    });
+  });
+
+  if(found===0){
+    container.innerHTML='<p class="empty-message">Aucun produit trouvé.</p>';
+  }
+
+  updateCartDisplay();
+}
+
+function updateCartDisplay(){
+  document.getElementById("cartCount").textContent=getCartCount();
+  document.getElementById("cartTotal").textContent=formatPrice(getCartTotal());
+  updateShopStatus();
+}
+
+function openCart(){
+  renderCart();
+  document.getElementById("cartModal").style.display="block";
+}
+
+function closeCart(){
+  document.getElementById("cartModal").style.display="none";
+}
+
+function renderCart(){
+  const container=document.getElementById("cartItems");
+  container.innerHTML="";
+
+  const entries=Object.entries(cart);
+
+  if(entries.length===0){
+    container.innerHTML='<p class="empty-message">Votre panier est vide.</p>';
+  }
+
+  entries.forEach(([key,item])=>{
+    const line=document.createElement("div");
+    line.className="cart-line";
+
+    const description=document.createElement("div");
+    description.innerHTML="<strong>"+escapeHTML(item.name)+"</strong><br>"+
+      item.quantity+" × "+formatPrice(item.price);
+
+    const actions=document.createElement("div");
+
+    const minus=document.createElement("button");
+    minus.textContent="−";
+    minus.onclick=()=>{
+      const parts=key.split("-");
+      changeQuantity(Number(parts[0]),Number(parts[1]),-1);
+      renderCart();
+    };
+
+    const plus=document.createElement("button");
+    plus.textContent="+";
+    plus.onclick=()=>{
+      const parts=key.split("-");
+      changeQuantity(Number(parts[0]),Number(parts[1]),1);
+      renderCart();
+    };
+
+    actions.append(minus,plus);
+    line.append(description,actions);
+    container.appendChild(line);
+  });
+
+  document.getElementById("modalTotal").textContent="Total : "+formatPrice(getCartTotal());
+  updateCartDisplay();
+}
+
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,function(character){
+    return {
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[character];
+  });
+}
+
+function clearCart(){
+  if(!confirm("Voulez-vous vraiment vider votre panier ?")) return;
+  cart={};
+  saveCart();
+  renderProducts();
+  renderCart();
+}
+
+function toggleAddress(){
+  const type=document.getElementById("orderType").value;
+  const box=document.getElementById("addressBox");
+  box.style.display=type==="Livraison"?"block":"none";
+}function sendOrder(){
+  if(shopClosed){
+    alert("Le restaurant est actuellement fermé.");
+    return;
+  }
+
+  if(getCartCount()===0){
+    alert("Votre panier est vide.");
+    return;
+  }
+
+  const name=document.getElementById("customerName").value.trim();
+  const phone=document.getElementById("customerPhone").value.trim();
+  const type=document.getElementById("orderType").value;
+  const address=document.getElementById("customerAddress").value.trim();
+  const note=document.getElementById("customerNote").value.trim();
+
+  if(!name || !phone){
+    alert("Veuillez remplir votre nom et votre numéro de téléphone.");
+    return;
+  }
+
+  if(type==="Livraison" && !deliveryEnabled){
+    alert("La livraison est actuellement indisponible. Choisissez À emporter.");
+    return;
+  }
+
+  if(type==="Livraison" && !address){
+    alert("Veuillez indiquer votre adresse de livraison.");
+    return;
+  }
+
+  let message="🍔 *NOUVELLE COMMANDE - TOP SNACK*%0A%0A";
+  message+="👤 Nom : "+encodeURIComponent(name)+"%0A";
+  message+="📞 Téléphone : "+encodeURIComponent(phone)+"%0A";
+  message+="📦 Type : "+encodeURIComponent(type)+"%0A";
+
+  if(type==="Livraison"){
+    message+="📍 Adresse : "+encodeURIComponent(address)+"%0A";
+  }
+
+  message+="%0A🛒 *COMMANDE :*%0A";
+
+  Object.values(cart).forEach(item=>{
+    message+=encodeURIComponent(item.quantity+" × "+item.name+
+      " — "+formatPrice(item.price*item.quantity))+"%0A";
+  });
+
+  message+="%0A💰 *TOTAL : "+encodeURIComponent(formatPrice(getCartTotal()))+"*";
+
+  if(note){
+    message+="%0A%0A📝 Note : "+encodeURIComponent(note);
+  }
+
+  const whatsappURL="https://wa.me/32496969628?text="+message;
+  window.open(whatsappURL,"_blank");
+
+  alert("Votre commande est prête à être envoyée sur WhatsApp.");
+}
+
+function updateShopStatus(){
+  const status=document.getElementById("shopStatus");
+
+  if(shopClosed){
+    status.textContent="🔴 Restaurant fermé";
+    status.className="status closed";
+    return;
+  }
+
+  const hour=new Date().getHours();
+
+  if(hour>=11 && hour<23){
+    status.textContent="🟢 Ouvert — 11:00 à 23:00";
+    status.className="status open";
+  }else{
+    status.textContent="🔴 Fermé — Ouverture à 11:00";
+    status.className="status closed";
+  }
+}
+
+function adminLogin(){
+  const password=prompt("Mot de passe administrateur :");
+
+  if(password==="6731"){
+    document.getElementById("adminPanel").style.display="block";
+    updateAdminStatus();
+  }else if(password!==null){
+    alert("Mot de passe incorrect.");
+  }
+}
+
+function updateAdminStatus(){
+  document.getElementById("adminStatus").textContent=
+    "Restaurant : "+(shopClosed?"Fermé":"Ouvert")+
+    " | Livraison : "+(deliveryEnabled?"Activée":"Désactivée");
+}
+
+function toggleShopStatus(){
+  shopClosed=!shopClosed;
+  localStorage.setItem("topSnackClosed",String(shopClosed));
+  updateShopStatus();
+  updateAdminStatus();
+}
+
+function toggleDelivery(){
+  deliveryEnabled=!deliveryEnabled;
+  localStorage.setItem("topSnackDelivery",String(deliveryEnabled));
+  updateAdminStatus();
+}
+
+function closeAdmin(){
+  document.getElementById("adminPanel").style.display="none";
+}
+
+function loadReviews(){
+  let reviews=[];
+
+  try{
+    reviews=JSON.parse(localStorage.getItem("topSnackReviews")||"[]");
+  }catch(error){
+    reviews=[];
+  }
+
+  const container=document.getElementById("reviewsList");
+  container.innerHTML="";
+
+  if(reviews.length===0){
+    container.innerHTML='<p style="color:#777;margin-top:12px">Soyez le premier à laisser un avis !</p>';
+    return;
+  }
+
+  reviews.slice().reverse().forEach(review=>{
+    const item=document.createElement("div");
+    item.className="review";
+
+    const author=document.createElement("strong");
+    author.textContent=review.name;
+
+    const stars=document.createElement("div");
+    stars.className="review-stars";
+    stars.textContent="★".repeat(review.rating)+"☆".repeat(5-review.rating);
+
+    const comment=document.createElement("p");
+    comment.textContent=review.text;
+
+    item.append(author,stars,comment);
+    container.appendChild(item);
+  });
+}
+
+function submitReview(){
+  const name=document.getElementById("reviewAuthor").value.trim();
+  const rating=Number(document.getElementById("reviewRating").value);
+  const comment=document.getElementById("reviewText").value.trim();
+
+  if(!name || !comment){
+    alert("Veuillez remplir votre nom et votre commentaire.");
+    return;
+  }
+
+  let reviews=[];
+
+  try{
+    reviews=JSON.parse(localStorage.getItem("topSnackReviews")||"[]");
+  }catch(error){
+    reviews=[];
+  }
+
+  reviews.push({
+    name:name,
+    rating:rating,
+    text:comment
+  });
+
+  localStorage.setItem("topSnackReviews",JSON.stringify(reviews));
+
+  document.getElementById("reviewAuthor").value="";
+  document.getElementById("reviewText").value="";
+
+  loadReviews();
+  alert("Merci beaucoup pour votre avis !");
+}
+
+const translations={
+  fr:{
+    menu:"📋 NOTRE MENU",
+    search:"🔎 Rechercher un plat...",
+    cart:"Mon panier",
+    empty:"Votre panier est vide."
+  },
+  nl:{
+    menu:"📋 ONS MENU",
+    search:"🔎 Zoek een gerecht...",
+    cart:"Mijn winkelmand",
+    empty:"Je winkelmand is leeg."
+  },
+  en:{
+    menu:"📋 OUR MENU",
+    search:"🔎 Search for a dish...",
+    cart:"My cart",
+    empty:"Your cart is empty."
+  }
+};
+
+function changeLanguage(){
+  const language=document.getElementById("langSelect").value;
+  const words=translations[language]||translations.fr;
+
+  document.querySelectorAll(".section-title")[1].textContent=words.menu;
+  document.getElementById("searchInput").placeholder=words.search;
+
+  document.querySelector(".cart-fixed button").innerHTML=
+    "🛒 "+words.cart+" — <span id='cartCount'>"+getCartCount()+
+    "</span> article(s) — <span id='cartTotal'>"+
+    formatPrice(getCartTotal())+"</span>";
+
+  updateCartDisplay();
+}
+
+/* DÉMARRAGE */
+renderCategories();
+renderProducts();
+loadReviews();
+updateShopStatus();
+toggleAddress();
+
+setInterval(updateShopStatus,60000);
+
+/* Fermer la fenêtre en touchant l'extérieur */
+document.getElementById("cartModal").addEventListener("click",function(event){
+  if(event.target===this){
+    closeCart();
+  }
+});
+</script>
+
+</body>
+</html>
