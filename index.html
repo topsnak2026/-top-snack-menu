@@ -943,3 +943,614 @@ function openOptions(category, name, price) {
   document.getElementById("modalProductName").textContent = name + " (" + formatPrice(price) + ")";
   
   document.
+
+<script>
+const menu = [
+  {category:"MITRAILLETTE / DURUM / PAIN TURC",items:[
+    ["PITTA",7.5],["POULET",7.5],["KOFTE",7.5],["FALAFEL",7.5],
+    ["MIXTE",8],["BOEUF",8],["HAMBURGER",7],["FRICADELLE",7],
+    ["BOULETTE",7],["MEXICANO",7],["POULYCROQ",7.5],
+    ["CHIX FINGERS",7.5],["MERGUEZ",7.5],["ADANA",7.5],
+    ["BROC.CABILLAUD",7.5],["BROC.DINDE",7.5],
+    ["BROC.BOEUF",8],["BROC.POULET",8]
+  ]},
+  {category:"SNACKS",items:[
+    ["Hamburger",3],["Fricadelle",3],["Boulette",3.5],
+    ["Mexicano",3.5],["Poulycroq",3.5],["Chix Fingers",3.5],
+    ["Mini Loempia",3.5],["Croquette Fromage",3],
+    ["Broc.Cabillaud",3.5],["Broc.Dinde",3.5],
+    ["Broc.Boeuf",4],["Broc.Pilons Poulet",4.5],
+    ["Broc.Poulet",4.5],["Tenders",4],["Nuggets",4],["Wings",4]
+  ]},
+  {category:"ASSIETTES",items:[
+    ["Pitta",15],["Poulet",15],["Falafel",15],
+    ["Broc.Dinde",15],["Broc.Cabillaud",15],
+    ["Pilons Poulet",15],["Boeuf",17],["Mixte",17],
+    ["Broc.Boeuf",17],["Broc.Poulet",17],
+    ["Kofte",16],["Adana",16],["Calamar",15],
+    ["Top Grill",22],["Côte d'Agneau",22]
+  ]},
+  {category:"BOX",items:[["Kids",10],["Doner",8]]},
+  {category:"FRITES",items:[
+    ["Petite",3.5],["Grande",4.5],["À Part",1.5]
+  ]},
+  {category:"BURGER",items:[
+    ["Premium",6.5],["Cheese",7],["Master",8],["Double Steak House",8]
+  ]},
+  {category:"BICKY",items:[
+    ["Hamburger",5],["Kofte",6],["Fish Burger",5.5],["Escalope Poulet",5.5]
+  ]},
+  {category:"SAUCES",items:[
+    ["Andalouse",1],["Samurai",1],["Pitta",1],["Ketchup",1],
+    ["Brazil",1],["Pili Pili",1],["Mayonnaise",1],
+    ["Curry Ketchup",1],["Americaine Chef",1],
+    ["Cocktail",1],["Tartar",1],["Barbecue",1]
+  ]},
+  {category:"GYROS",items:[
+    ["Classique",7],["Feta / Olive",8],["Mais / Poulet",7]
+  ]},
+  {category:"KAPSALON",items:[
+    ["Pitta",10],["Poulet",10],["Falafel",10],
+    ["Kofte",10],["Mixte",11],["Boeuf",11]
+  ]},
+  {category:"MENU",items:[
+    ["Sandwich / Durum / Pain Turc",10],
+    ["Bicky",9],["Gyros",11],["Tacos L",13],["Tacos XL",17]
+  ]},
+  {category:"TACOS",items:[
+    ["Tenders",8],["Nuggets",8],["Chix Fingers",8],
+    ["Pitta",8],["Poulet",8],["Boeuf",9],["Kofte",9],["Tacos XL",13]
+  ]},
+  {category:"DESSERTS",items:[
+    ["Tiramisu Oreo",4],["Tiramisu Speculoos",4],["Mousse Chocolat",4]
+  ]},
+  {category:"SUPPLEMENTS",items:[
+    ["Feta",1],["Olive",1],["Piment",1],
+    ["Mozzarella",1],["Cheddar",1],["Oignon Frie",1]
+  ]}
+];
+
+const translations = {
+  fr:{
+    title:"Découvrez notre menu",
+    subtitle:"Après avoir consulté l’album, descendez pour choisir vos plats.",
+    menu:"NOTRE MENU",cart:"Mon panier",
+    order:"Votre commande",name:"Nom",
+    phone:"Téléphone",pickup:"À emporter",
+    delivery:"Livraison",note:"Note (facultatif)",
+    send:"ENVOYER LA COMMANDE SUR WHATSAPP",
+    close:"Fermer",empty:"Votre panier est vide.",
+    add:"Ajouter",reviews:"Avis des clients",
+    reviewName:"Votre nom",reviewText:"Votre avis",
+    submitReview:"Envoyer mon avis",
+    hours:"Ouvert tous les jours : 11:00 – 23:00",
+    admin:"Administration",login:"Connexion",
+    password:"Mot de passe",logout:"Déconnexion",
+    deliveryOn:"Livraison activée",deliveryOff:"Livraison désactivée"
+  },
+  en:{
+    title:"Discover our menu",
+    subtitle:"After viewing the gallery, scroll down to choose your dishes.",
+    menu:"OUR MENU",cart:"My cart",
+    order:"Your order",name:"Name",
+    phone:"Phone",pickup:"Takeaway",
+    delivery:"Delivery",note:"Note (optional)",
+    send:"SEND ORDER ON WHATSAPP",
+    close:"Close",empty:"Your cart is empty.",
+    add:"Add",reviews:"Customer reviews",
+    reviewName:"Your name",reviewText:"Your review",
+    submitReview:"Submit my review",
+    hours:"Open every day: 11:00 – 23:00",
+    admin:"Administration",login:"Login",
+    password:"Password",logout:"Logout",
+    deliveryOn:"Delivery enabled",deliveryOff:"Delivery disabled"
+  },
+  nl:{
+    title:"Ontdek ons menu",
+    subtitle:"Bekijk eerst het album en scroll daarna naar beneden om gerechten te kiezen.",
+    menu:"ONS MENU",cart:"Mijn winkelwagen",
+    order:"Uw bestelling",name:"Naam",
+    phone:"Telefoon",pickup:"Afhalen",
+    delivery:"Levering",note:"Opmerking (optioneel)",
+    send:"BESTELLING VERSTUREN VIA WHATSAPP",
+    close:"Sluiten",empty:"Uw winkelwagen is leeg.",
+    add:"Toevoegen",reviews:"Klantbeoordelingen",
+    reviewName:"Uw naam",reviewText:"Uw beoordeling",
+    submitReview:"Beoordeling verzenden",
+    hours:"Elke dag geopend: 11:00 – 23:00",
+    admin:"Administratie",login:"Inloggen",
+    password:"Wachtwoord",logout:"Uitloggen",
+    deliveryOn:"Levering ingeschakeld",deliveryOff:"Levering uitgeschakeld"
+  },
+  fa:{
+    title:"منوی ما را ببینید",
+    subtitle:"بعد از مشاهده آلبوم، پایین بروید و غذای موردنظرتان را انتخاب کنید.",
+    menu:"منوی ما",cart:"سبد خرید من",
+    order:"سفارش شما",name:"نام",
+    phone:"شماره تلفن",pickup:"تحویل حضوری",
+    delivery:"ارسال با پیک",note:"توضیحات (اختیاری)",
+    send:"ارسال سفارش از طریق واتساپ",
+    close:"بستن",empty:"سبد خرید شما خالی است.",
+    add:"افزودن",reviews:"نظرات مشتریان",
+    reviewName:"نام شما",reviewText:"نظر شما",
+    submitReview:"ثبت نظر",
+    hours:"هر روز باز هستیم: ۱۱:۰۰ تا ۲۳:۰۰",
+    admin:"مدیریت",login:"ورود",
+    password:"رمز عبور",logout:"خروج",
+    deliveryOn:"ارسال با پیک فعال است",
+    deliveryOff:"ارسال با پیک غیرفعال است"
+  }
+};
+
+const productNames = {
+  "PITTA":"Pitta",
+  "POULET":"Chicken",
+  "KOFTE":"Kofte",
+  "FALAFEL":"Falafel",
+  "MIXTE":"Mixed",
+  "BOEUF":"Beef",
+  "HAMBURGER":"Hamburger",
+  "FRICADELLE":"Fricadelle",
+  "BOULETTE":"Meatball",
+  "MEXICANO":"Mexicano",
+  "Pita":"Pitta",
+  "Poulet":"Chicken",
+  "Boeuf":"Beef",
+  "Petite":"Small",
+  "Grande":"Large",
+  "Classique":"Classic",
+  "Livraison":"Delivery"
+};
+
+const categoryNames = {
+  "MITRAILLETTE / DURUM / PAIN TURC":"Sandwiches / Durum / Turkish Bread",
+  "SNACKS":"Snacks",
+  "ASSIETTES":"Plates",
+  "BOX":"Boxes",
+  "FRITES":"Fries",
+  "BURGER":"Burgers",
+  "BICKY":"Bicky",
+  "SAUCES":"Sauces",
+  "GYROS":"Gyros",
+  "KAPSALON":"Kapsalon",
+  "MENU":"Menus",
+  "TACOS":"Tacos",
+  "DESSERTS":"Desserts",
+  "SUPPLEMENTS":"Extras"
+};
+
+let currentLang = localStorage.getItem("topSnackLang") || "fr";
+let cart = [];
+let deliveryEnabled = localStorage.getItem("topSnackDelivery") !== "false";
+
+function formatPrice(price){
+  return Number(price).toFixed(2).replace(".",",") + " €";
+}
+
+function getText(key){
+  return translations[currentLang]?.[key] || translations.fr[key] || key;
+}
+
+function translateProduct(name){
+  if(currentLang === "fr") return name;
+  return productNames[name] || name;
+}
+
+function translateCategory(name){
+  if(currentLang === "fr") return name;
+  return categoryNames[name] || name;
+}
+
+function changeLanguage(lang){
+  if(!translations[lang]) return;
+  currentLang = lang;
+  localStorage.setItem("topSnackLang",lang);
+  document.documentElement.lang = lang;
+  applyTranslations();
+  renderMenu();
+  renderCart();
+}
+
+function applyTranslations(){
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key = el.getAttribute("data-i18n");
+    if(translations[currentLang][key]){
+      el.textContent = translations[currentLang][key];
+    }
+  });
+  document.querySelectorAll("[data-lang]").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.lang === currentLang);
+  });
+}
+
+function renderMenu(){
+  const container = document.getElementById("menuContainer");
+  if(!container) return;
+  container.innerHTML = "";
+
+  menu.forEach((section,index)=>{
+    const sectionEl = document.createElement("section");
+    sectionEl.className = "menu-category";
+
+    const heading = document.createElement("h3");
+    heading.textContent = translateCategory(section.category);
+    sectionEl.appendChild(heading);
+
+    section.items.forEach((item,itemIndex)=>{
+      const [name,price] = item;
+      const row = document.createElement("div");
+      row.className = "menu-item";
+
+      const info = document.createElement("div");
+      info.className = "menu-item-info";
+
+      const product = document.createElement("strong");
+      product.textContent = translateProduct(name);
+
+      const priceEl = document.createElement("span");
+      priceEl.textContent = formatPrice(price);
+
+      info.appendChild(product);
+      info.appendChild(priceEl);
+
+      const controls = document.createElement("div");
+      controls.className = "quantity-controls";
+
+      const minus = document.createElement("button");
+      minus.type = "button";
+      minus.textContent = "−";
+      minus.onclick = ()=>changeProductQuantity(index,itemIndex,-1);
+
+      const quantity = document.createElement("span");
+      quantity.id = `qty-${index}-${itemIndex}`;
+      quantity.textContent = getQuantity(index,itemIndex);
+
+      const plus = document.createElement("button");
+      plus.type = "button";
+      plus.textContent = "+";
+      plus.onclick = ()=>changeProductQuantity(index,itemIndex,1);
+
+      controls.append(minus,quantity,plus);
+      row.append(info,controls);
+      sectionEl.appendChild(row);
+    });
+
+    container.appendChild(sectionEl);
+  });
+}
+
+function getQuantity(categoryIndex,itemIndex){
+  const found = cart.find(item=>
+    item.categoryIndex === categoryIndex &&
+    item.itemIndex === itemIndex
+  );
+  return found ? found.quantity : 0;
+}
+
+function changeProductQuantity(categoryIndex,itemIndex,change){
+  const found = cart.find(item=>
+    item.categoryIndex === categoryIndex &&
+    item.itemIndex === itemIndex
+  );
+
+  if(found){
+    found.quantity += change;
+    if(found.quantity <= 0){
+      cart = cart.filter(item=>item !== found);
+    }
+  }else if(change > 0){
+    const product = menu[categoryIndex].items[itemIndex];
+    cart.push({
+      categoryIndex,
+      itemIndex,
+      name:product[0],
+      price:product[1],
+      quantity:1
+    });
+  }
+
+  renderMenu();
+  renderCart();
+}
+
+function getCartCount(){
+  return cart.reduce((sum,item)=>sum+item.quantity,0);
+}
+
+function getCartTotal(){
+  return cart.reduce((sum,item)=>sum+item.price*item.quantity,0);
+}
+
+function renderCart(){
+  const count = getCartCount();
+  const total = getCartTotal();
+
+  const cartButton = document.getElementById("cartButton");
+  if(cartButton){
+    cartButton.textContent =
+      `🛒 ${getText("cart")} — ${count} article(s) — ${formatPrice(total)}`;
+  }
+
+  const cartItems = document.getElementById("cartItems");
+  if(cartItems){
+    cartItems.innerHTML = "";
+    if(cart.length === 0){
+      cartItems.textContent = getText("empty");
+    }else{
+      cart.forEach(item=>{
+        const line = document.createElement("div");
+        line.className = "cart-line";
+        line.textContent =
+          `${translateProduct(item.name)} × ${item.quantity} — ${formatPrice(item.price*item.quantity)}`;
+        cartItems.appendChild(line);
+      });
+    }
+  }
+
+  const totalEl = document.getElementById("cartTotal");
+  if(totalEl) totalEl.textContent = formatPrice(total);
+}
+</script>
+
+<script>
+function openCart(){
+  document.getElementById("cartModal").style.display = "flex";
+  renderCart();
+}
+
+function closeCart(){
+  document.getElementById("cartModal").style.display = "none";
+}
+
+function sendOrder(){
+  if(cart.length === 0){
+    alert(getText("empty"));
+    return;
+  }
+
+  const name = document.getElementById("customerName").value.trim();
+  const phone = document.getElementById("customerPhone").value.trim();
+  const orderType = document.getElementById("orderType").value;
+  const address = document.getElementById("deliveryAddress").value.trim();
+  const note = document.getElementById("orderNote").value.trim();
+
+  if(!name || !phone){
+    alert("Veuillez remplir votre nom et téléphone.");
+    return;
+  }
+
+  if(orderType === "delivery" && !deliveryEnabled){
+    alert("La livraison est actuellement désactivée.");
+    return;
+  }
+
+  if(orderType === "delivery" && !address){
+    alert("Veuillez entrer votre adresse de livraison.");
+    return;
+  }
+
+  let message = "🍔 *TOP SNACK - NOUVELLE COMMANDE*%0A%0A";
+  message += "👤 Nom: " + encodeURIComponent(name) + "%0A";
+  message += "📞 Téléphone: " + encodeURIComponent(phone) + "%0A";
+  message += "📦 Type: " + encodeURIComponent(
+    orderType === "delivery" ? "Livraison" : "À emporter"
+  ) + "%0A";
+
+  if(orderType === "delivery"){
+    message += "📍 Adresse: " + encodeURIComponent(address) + "%0A";
+  }
+
+  message += "%0A🛒 *COMMANDE:*%0A";
+
+  cart.forEach(item=>{
+    const category = menu[item.categoryIndex].category;
+    message +=
+      "• " + encodeURIComponent(category + " - " + item.name) +
+      " x" + item.quantity +
+      " = " + encodeURIComponent(formatPrice(item.price*item.quantity)) +
+      "%0A";
+  });
+
+  message += "%0A💰 TOTAL: " + encodeURIComponent(formatPrice(getCartTotal()));
+
+  if(note){
+    message += "%0A📝 Note: " + encodeURIComponent(note);
+  }
+
+  const whatsappURL = "https://wa.me/32496969628?text=" + message;
+  window.open(whatsappURL,"_blank");
+}
+
+function updateDeliveryStatus(){
+  const deliveryOption = document.getElementById("deliveryOption");
+  const deliveryStatus = document.getElementById("deliveryStatus");
+  const deliveryToggle = document.getElementById("deliveryToggle");
+
+  if(deliveryOption){
+    deliveryOption.disabled = !deliveryEnabled;
+
+    if(!deliveryEnabled && deliveryOption.selected){
+      document.getElementById("orderType").value = "pickup";
+      updateAddressVisibility();
+    }
+  }
+
+  if(deliveryStatus){
+    deliveryStatus.textContent = deliveryEnabled
+      ? getText("deliveryOn")
+      : getText("deliveryOff");
+  }
+
+  if(deliveryToggle){
+    deliveryToggle.checked = deliveryEnabled;
+  }
+
+  localStorage.setItem("topSnackDelivery",String(deliveryEnabled));
+}
+
+function updateAddressVisibility(){
+  const orderType = document.getElementById("orderType");
+  const addressBox = document.getElementById("addressBox");
+
+  if(orderType && addressBox){
+    addressBox.style.display =
+      orderType.value === "delivery" ? "block" : "none";
+  }
+}
+
+function adminLogin(){
+  const password = document.getElementById("adminPassword").value;
+
+  if(password === "6731"){
+    document.getElementById("adminControls").style.display = "block";
+    document.getElementById("adminLoginBox").style.display = "none";
+    document.getElementById("adminPassword").value = "";
+    updateDeliveryStatus();
+  }else{
+    alert("Mot de passe incorrect.");
+  }
+}
+
+function adminLogout(){
+  document.getElementById("adminControls").style.display = "none";
+  document.getElementById("adminLoginBox").style.display = "block";
+}
+
+function toggleDelivery(){
+  deliveryEnabled = document.getElementById("deliveryToggle").checked;
+  updateDeliveryStatus();
+  alert(
+    deliveryEnabled
+      ? "La livraison est activée."
+      : "La livraison est désactivée."
+  );
+}
+
+function submitReview(event){
+  event.preventDefault();
+
+  const name = document.getElementById("reviewName").value.trim();
+  const rating = document.getElementById("reviewRating").value;
+  const comment = document.getElementById("reviewText").value.trim();
+
+  if(!name || !comment){
+    alert("Veuillez remplir tous les champs.");
+    return;
+  }
+
+  const reviews = JSON.parse(
+    localStorage.getItem("topSnackReviews") || "[]"
+  );
+
+  reviews.push({
+    name,
+    rating:Number(rating),
+    comment,
+    date:new Date().toLocaleDateString()
+  });
+
+  localStorage.setItem("topSnackReviews",JSON.stringify(reviews));
+
+  document.getElementById("reviewName").value = "";
+  document.getElementById("reviewText").value = "";
+
+  renderReviews();
+  alert("Merci pour votre avis !");
+}
+
+function renderReviews(){
+  const container = document.getElementById("reviewsList");
+  if(!container) return;
+
+  const reviews = JSON.parse(
+    localStorage.getItem("topSnackReviews") || "[]"
+  );
+
+  container.innerHTML = "";
+
+  if(reviews.length === 0){
+    container.textContent = "Soyez le premier à laisser un avis !";
+    return;
+  }
+
+  reviews.slice().reverse().forEach(review=>{
+    const card = document.createElement("div");
+    card.className = "review-card";
+
+    const heading = document.createElement("strong");
+    heading.textContent = review.name;
+
+    const stars = document.createElement("div");
+    stars.className = "review-stars";
+    stars.textContent = "★".repeat(review.rating) +
+      "☆".repeat(5-review.rating);
+
+    const comment = document.createElement("p");
+    comment.textContent = review.comment;
+
+    const date = document.createElement("small");
+    date.textContent = review.date;
+
+    card.append(heading,stars,comment,date);
+    container.appendChild(card);
+  });
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  applyTranslations();
+  renderMenu();
+  renderCart();
+  renderReviews();
+  updateDeliveryStatus();
+
+  const languageButtons = document.querySelectorAll("[data-lang]");
+  languageButtons.forEach(button=>{
+    button.addEventListener("click",()=>{
+      changeLanguage(button.dataset.lang);
+    });
+  });
+
+  const orderType = document.getElementById("orderType");
+  if(orderType){
+    orderType.addEventListener("change",updateAddressVisibility);
+    updateAddressVisibility();
+  }
+
+  const cartButton = document.getElementById("cartButton");
+  if(cartButton){
+    cartButton.addEventListener("click",openCart);
+  }
+
+  const closeButton = document.getElementById("closeCart");
+  if(closeButton){
+    closeButton.addEventListener("click",closeCart);
+  }
+
+  const sendButton = document.getElementById("sendOrder");
+  if(sendButton){
+    sendButton.addEventListener("click",sendOrder);
+  }
+
+  const loginButton = document.getElementById("adminLogin");
+  if(loginButton){
+    loginButton.addEventListener("click",adminLogin);
+  }
+
+  const logoutButton = document.getElementById("adminLogout");
+  if(logoutButton){
+    logoutButton.addEventListener("click",adminLogout);
+  }
+
+  const deliveryToggle = document.getElementById("deliveryToggle");
+  if(deliveryToggle){
+    deliveryToggle.addEventListener("change",toggleDelivery);
+  }
+
+  const reviewForm = document.getElementById("reviewForm");
+  if(reviewForm){
+    reviewForm.addEventListener("submit",submitReview);
+  }
+});
+</script>
+</body>
+</html>
