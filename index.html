@@ -1,2078 +1,444 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <link rel="manifest" href="./manifest.json">
-  <link rel="icon" type="image/svg+xml" href="./icon.svg">
-  <meta name="theme-color" content="#111111">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="TOP SNACK">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="google-site-verification" content="ixcKd7ctbvXrMDlUoIjZF0rSdNPMIivjZlHy1h-T7EY">
-  <title>TOP SNACK - Commande en ligne</title>
-  <style>
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f8f9fa;
-      color: #111;
-    }
-    header {
-      background: #111;
-      color: white;
-      text-align: center;
-      padding: 24px 15px;
-      position: relative;
-    }
-    .lang-selector {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: #222;
-      color: white;
-      border: 1px solid #444;
-      padding: 5px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 32px;
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
-    header p {
-      margin: 7px 0 0;
-      color: #ddd;
-      font-size: 14px;
-    }
-    .hours-badge {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 6px 14px;
-      background: #222;
-      border: 1px solid #444;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: bold;
-      color: #fff;
-    }
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 15px;
-    }
-    .search-box {
-      width: 100%;
-      padding: 14px 20px;
-      margin-bottom: 25px;
-      border: 2px solid #111;
-      border-radius: 30px;
-      font-size: 16px;
-      outline: none;
-      background: #fff;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-    .gallery-title {
-      text-align: center;
-      margin: 10px 0 8px;
-      font-size: 22px;
-      font-weight: 900;
-    }
-    .gallery-help {
-      text-align: center;
-      margin: 0 0 16px;
-      font-size: 15px;
-      font-weight: 700;
-      color: #555;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 35px;
-    }
-    .gallery img {
-      width: 100%;
-      height: 190px;
-      object-fit: cover;
-      display: block;
-      border-radius: 10px;
-      background: #eee;
-    }
-    @media (min-width: 700px) {
-      .gallery {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-      }
-    }
-    .menu-title {
-      text-align: center;
-      font-size: 28px;
-      font-weight: 900;
-      margin: 20px 0 25px;
-      padding-top: 5px;
-    }
-    .category {
-      margin-bottom: 35px;
-    }
-    .category h2 {
-      margin: 0 0 15px;
-      padding: 8px 0;
-      font-size: 22px;
-      font-weight: 900;
-      border-bottom: 3px solid #111;
-      color: #111;
-    }
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(1, 1fr);
-      gap: 15px;
-    }
-    @media (min-width: 550px) {
-      .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (min-width: 850px) {
-      .products-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-    .product-card {
-      background: #fff;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      border: 1px solid #eaeaea;
-    }
-    .product-img-container {
-      width: 100%;
-      height: 150px;
-      background: #f1f1f1;
-      position: relative;
-      overflow: hidden;
-    }
-    .product-img-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .product-info {
-      padding: 12px 15px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .product-name {
-      font-size: 16px;
-      font-weight: 700;
-      color: #222;
-      margin-bottom: 8px;
-    }
-    .product-footer-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 8px;
-    }
-    .product-price {
-      font-size: 17px;
-      font-weight: 900;
-      color: #111;
-    }
-    .add-btn {
-      padding: 8px 14px;
-      border: none;
-      border-radius: 20px;
-      background: #111;
-      color: white;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .cart-button {
-      position: fixed;
-      left: 50%;
-      bottom: 16px;
-      transform: translateX(-50%);
-      width: calc(100% - 24px);
-      max-width: 520px;
-      padding: 15px 18px;
-      border: none;
-      border-radius: 40px;
-      background: #111;
-      color: white;
-      font-size: 16px;
-      font-weight: 900;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.30);
-      z-index: 1000;
-      cursor: pointer;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: rgba(0,0,0,0.68);
-      padding: 15px;
-      overflow-y: auto;
-    }
-    .modal-box {
-      max-width: 600px;
-      margin: 25px auto;
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-    }
-    .modal-box h2 {
-      margin: 0 0 18px;
-      text-align: center;
-      font-size: 24px;
-    }
-    .cart-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 11px 0;
-      border-bottom: 1px solid #eee;
-    }
-    .cart-item-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .cart-item-info strong { font-size: 15px; }
-    .cart-item-info small { color: #777; font-size: 12px; display: block; }
-    .qty-buttons {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .qty-buttons button {
-      width: 30px;
-      height: 30px;
-      border: none;
-      border-radius: 6px;
-      background: #111;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-    }
-    .total {
-      text-align: right;
-      font-size: 21px;
-      font-weight: 900;
-      margin: 18px 0;
-    }
-    label {
-      display: block;
-      margin-top: 9px;
-      font-weight: bold;
-      font-size: 14px;
-    }
-    input, textarea, select {
-      width: 100%;
-      margin: 6px 0 10px;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-    textarea { min-height: 80px; resize: vertical; }
-    .options-group {
-      background: #f9f9f9;
-      padding: 12px;
-      border-radius: 8px;
-      margin: 10px 0;
-      border: 1px solid #ddd;
-    }
-    .options-group label {
-      font-weight: normal;
-      display: inline-block;
-      margin-right: 15px;
-      cursor: pointer;
-    }
-    .whatsapp-btn {
-      width: 100%;
-      padding: 15px;
-      margin-top: 5px;
-      border: none;
-      border-radius: 10px;
-      background: #25D366;
-      color: white;
-      font-size: 17px;
-      font-weight: 900;
-      cursor: pointer;
-    }
-    .clear-btn, .close-btn {
-      width: 100%;
-      padding: 12px;
-      margin-top: 8px;
-      border: none;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .clear-btn { background: #eee; }
-    .close-btn { background: #ddd; }
-    .delivery-address { display: none; }
-    .reviews-section {
-      margin-top: 40px;
-      background: white;
-      padding: 20px;
-      border-radius: 14px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
-    .review-item {
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-      font-size: 14px;
-    }
-    footer {
-      text-align: center;
-      padding: 35px 15px 115px;
-      color: #555;
-      font-size: 14px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111111">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="TOP SNACK">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<title>TOP SNACK</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#111;color:#fff;font-family:Arial,sans-serif}
+header{background:#111;text-align:center;padding:22px;border-bottom:4px solid #f5c400}
+.logo{font-size:34px;font-weight:900;color:#f5c400}
+header p{color:#ccc;margin:8px 0}
+.container{max-width:900px;margin:auto;padding:15px}
+.notice{background:#222;color:#f5c400;text-align:center;padding:14px;border-radius:12px;margin:15px 0}
+h2{color:#f5c400}
+.search{width:100%;padding:14px;border-radius:12px;background:#222;border:1px solid #444;color:white;font-size:16px;margin:10px 0}
+.categories{display:flex;gap:8px;overflow-x:auto;padding:10px 0 15px}
+.catbtn{white-space:nowrap;background:#222;color:#f5c400;border:1px solid #f5c400;padding:12px 15px;border-radius:10px;font-weight:bold;cursor:pointer}
+.catbtn.active{background:#f5c400;color:#111}
+.product{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#202020;border:1px solid #333;border-radius:12px;padding:14px;margin-bottom:10px}
+.product-info{flex:1}
+.product-name{font-weight:bold}
+.product-price{color:#f5c400;margin-top:5px}
+.controls{display:flex;align-items:center;gap:8px}
+.controls button{width:38px;height:38px;background:#f5c400;color:#111;border:0;border-radius:9px;font-size:23px;font-weight:bold}
+.qty{min-width:22px;text-align:center}
+.cart-button{position:fixed;bottom:12px;left:12px;right:12px;max-width:900px;margin:auto;background:#f5c400;color:#111;padding:16px;border:0;border-radius:14px;font-weight:bold;font-size:18px;z-index:50}
+footer{text-align:center;color:#aaa;padding:30px 15px 110px;line-height:1.8}
+footer strong{color:#f5c400}
+.modal{display:none;position:fixed;inset:0;background:#000c;z-index:100;overflow-y:auto;padding:15px}
+.modal-content{background:#1b1b1b;border:2px solid #f5c400;border-radius:18px;max-width:600px;margin:20px auto;padding:20px}
+input,textarea,select{width:100%;padding:13px;border-radius:10px;margin:8px 0;border:1px solid #444;background:#292929;color:white;font-size:16px}
+.action{width:100%;padding:15px;border:0;border-radius:12px;margin-top:10px;font-size:16px;font-weight:bold}
+.whatsapp{background:#25D366;color:white}
+.close{background:#333;color:white}
+.clear{background:#b52b2b;color:white}
+.total{font-size:22px;font-weight:bold;color:#f5c400;text-align:right;margin:20px 0}
+.cartitem{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #333}
+.hidden{display:none!important}
+.adminbtn{background:#333;color:#aaa;border:1px solid #555;padding:10px;border-radius:9px;margin-top:10px}
+.status{color:#f5c400;text-align:center;padding:12px}
+@media(min-width:700px){.container{padding:25px}}
+</style>
 </head>
 <body>
 
 <header>
-  <select class="lang-selector" id="langSelect" onchange="changeLanguage()">
-    <option value="fr">🇫🇷 Français</option>
-    <option value="nl">🇳🇱 Nederlands</option>
-    <option value="en">🇬🇧 English</option>
-  </select>
-  <h1 id="t-title">TOP SNACK</h1>
-  <p>Rue Godfroid Kurth 109 — 1140 Evere</p>
-  <p>📞 +32 496 96 96 28</p>
-  <div class="hours-badge">
-    🕒 <span id="t-hoursText">Ouvert tous les jours</span> : 11h00 — 23h00 <span id="liveStatusBadge"></span>
-  </div>
+<div class="logo">🍔 TOP SNACK</div>
+<p>Rue Godfroid Kurth 109 — 1140 Evere</p>
 </header>
 
 <div class="container">
-  <div class="gallery-title" id="t-galleryTitle">🍔 Découvrez notre menu</div>
-  <div class="gallery-help" id="t-galleryHelp">Après avoir consulté l’album, descendez pour choisir vos plats.</div>
-  
-  <div class="gallery">
-    <img src="IMG_1168.jpeg" alt="Top Snack">
-    <img src="IMG_1169.jpeg" alt="Top Snack">
-    <img src="IMG_1170.jpeg" alt="Top Snack">
-    <img src="IMG_1171.jpeg" alt="Top Snack">
-    <img src="IMG_1172.jpeg" alt="Top Snack">
-    <img src="IMG_1173.jpeg" alt="Top Snack">
-    <img src="IMG_1174.jpeg" alt="Top Snack">
-    <img src="IMG_1175.jpeg" alt="Top Snack">
-    <img src="IMG_1176.jpeg" alt="Top Snack">
-    <img src="IMG_1177.jpeg" alt="Top Snack">
-    <img src="IMG_1178.jpeg" alt="Top Snack">
-    <img src="IMG_1179.jpeg" alt="Top Snack">
-    <img src="IMG_1180.jpeg" alt="Top Snack">
-    <img src="IMG_1181.jpeg" alt="Top Snack">
-    <img src="IMG_1182.jpeg" alt="Top Snack">
-    <img src="IMG_1183.jpeg" alt="Top Snack">
-    <img src="03FA716C-DE58-4084-8661-3E373E2B2A38.png" alt="Boissons Top Snack">
-  </div>
 
-  <div class="menu-title" id="t-menuTitle">📋 NOTRE MENU</div>
+<div class="notice" id="notice">
+Bienvenue chez TOP SNACK ! Choisissez vos plats.
+</div>
 
-  <input type="text" id="searchInput" class="search-box" placeholder="🔍 Rechercher un produit..." oninput="filterMenu()">
+<div style="display:flex;gap:8px">
+<select id="language" onchange="changeLanguage()" style="width:auto">
+<option value="fr">🇫🇷 Français</option>
+<option value="nl">🇳🇱 Nederlands</option>
+<option value="en">🇬🇧 English</option>
+</select>
+</div>
 
-  <div id="products"></div>
+<input class="search" id="search" placeholder="🔎 Rechercher un plat..." oninput="renderProducts()">
 
-  <div class="reviews-section">
-    <h3 id="t-reviewsTitle">⭐ Avis des clients</h3>
-    <div id="reviewsList"></div>
-    <h4 id="t-addReview">Laisser un avis</h4>
-    <input type="text" id="reviewAuthor" placeholder="Votre nom">
-    <select id="reviewRating">
-      <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
-      <option value="4">⭐⭐⭐⭐ (4/5)</option>
-      <option value="3">⭐⭐⭐ (3/5)</option>
-    </select>
-    <textarea id="reviewText" placeholder="Votre commentaire..."></textarea>
-    <button class="add-btn" onclick="submitReview()" style="width:100%; padding:12px;" id="t-submitReview">Envoyer l'avis</button>
-  </div>
+<div class="categories" id="categories"></div>
+
+<div id="products"></div>
+
+<div id="closedMessage" class="status hidden"></div>
+
+<button class="adminbtn" onclick="adminLogin()">⚙️ Administration</button>
+
 </div>
 
 <footer>
-  <strong>TOP SNACK</strong><br>
-  Rue Godfroid Kurth 109, 1140 Evere<br>
-  📞 +32 496 96 96 28<br><br>
-  <span style="cursor: pointer; font-size: 12px; color: #888;" onclick="toggleAdminPanel()">⚙️ Gestion Admin</span>
+<strong>TOP SNACK</strong><br>
+Rue Godfroid Kurth 109 — 1140 Evere<br>
+📞 +32 496 96 96 28
 </footer>
 
-<div id="adminPanel" style="display:none; background:#f4f4f4; padding:15px; border-radius:10px; max-width:520px; margin: 0 auto 30px auto; text-align:center; border: 2px dashed #333;">
-  <h3>🔧 Panneau de Contrôle</h3>
-  <p>Statut du magasin : <strong id="shopStatusText" style="color: green;">Ouvert</strong></p>
-  <button id="toggleShopBtn" onclick="toggleShopStatus()" style="padding: 10px 20px; background: #d9534f; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Fermer le magasin manuellement</button>
-</div>
-
 <button class="cart-button" onclick="openCart()">
-  🛒 <span id="t-cartBtnText">Mon panier</span> —
-  <span id="cartCount">0</span> <span id="t-itemsText">article(s)</span> —
-  <span id="cartTotal">0,00 €</span>
+🛒 <span id="cartLabel">Mon panier</span> — <span id="cartCount">0</span> — <span id="cartTotal">0.00</span> €
 </button>
 
-<div class="modal" id="optionsModal">
-  <div class="modal-box">
-    <h2 id="modalProductName">Personnalisation</h2>
-    
-    <label>Sauces :</label>
-    <div class="options-group" id="saucesOptions">
-      <label><input type="checkbox" value="Andalouse"> Andalouse</label>
-      <label><input type="checkbox" value="Samurai"> Samurai</label>
-      <label><input type="checkbox" value="Mayonnaise"> Mayonnaise</label>
-      <label><input type="checkbox" value="Ketchup"> Ketchup</label>
-      <label><input type="checkbox" value="Algérienne"> Algérienne</label>
-      <label><input type="checkbox" value="Blanche"> Blanche</label>
-    </div>
-
-    <label>Suppléments (+1,00 €) :</label>
-    <div class="options-group" id="extrasOptions">
-      <label><input type="checkbox" value="Cheddar +1€" data-price="1"> Cheddar</label>
-      <label><input type="checkbox" value="Œuf +1€" data-price="1"> Œuf</label>
-      <label><input type="checkbox" value="Féta +1€" data-price="1"> Féta</label>
-    </div>
-
-    <button class="whatsapp-btn" onclick="confirmAddToCart()" style="background:#111;" id="t-addToCartBtn">Ajouter au panier</button>
-    <button class="close-btn" onclick="closeOptionsModal()">Annuler</button>
-  </div>
-</div>
-
 <div class="modal" id="cartModal">
-  <div class="modal-box">
-    <h2 id="t-cartModalTitle">🛒 Mon panier</h2>
-    <div id="cartItems"></div>
-    
-    <div style="margin: 15px 0; display:flex; gap:10px;">
-      <input type="text" id="promoCodeInput" placeholder="Code promo (ex: TOPSNACK10)" style="margin:0;">
-      <button class="add-btn" onclick="applyPromoCode()" id="t-applyPromo">Appliquer</button>
-    </div>
-    <p id="promoMessage" style="font-size:13px; color:green; font-weight:bold; margin:0 0 10px;"></p>
+<div class="modal-content">
+<h2 id="cartTitle">🛒 Mon panier</h2>
+<div id="cartItems"></div>
+<div class="total">Total : <span id="modalTotal">0.00</span> €</div>
 
-    <div class="total">
-      <span id="t-totalText">Total</span> : <span id="modalTotal">0,00 €</span>
-    </div>
-    
-    <label id="t-nameLabel">Nom</label>
-    <input id="customerName" type="text" placeholder="Votre nom">
-    
-    <label id="t-phoneLabel">Téléphone</label>
-    <input id="customerPhone" type="tel" placeholder="Votre numéro">
-    
-    <label id="t-orderTypeLabel">Type de commande</label>
-    <select id="orderType" onchange="toggleAddress()">
-      <option value="À emporter" id="t-takeaway">À emporter</option>
-      <option value="Livraison" id="t-delivery">Livraison</option>
-    </select>
-    
-    <div class="delivery-address" id="addressBox">
-      <label id="t-addressLabel">Adresse de livraison</label>
-      <textarea id="customerAddress" placeholder="Votre adresse"></textarea>
-    </div>
-    
-    <label id="t-noteLabel">Note</label>
-    <textarea id="customerNote" placeholder="Une remarque ?"></textarea>
-    
-    <button class="whatsapp-btn" onclick="sendOrder()" id="t-sendWhatsapp">
-      📲 ENVOYER LA COMMANDE SUR WHATSAPP
-    </button>
-    <button class="clear-btn" onclick="clearCart()" id="t-clearCart">🗑️ Vider le panier</button>
-    <button class="close-btn" onclick="closeCart()" id="t-closeCart">Fermer</button>
-  </div>
+<hr style="border-color:#333">
+
+<h2 id="infoTitle">Informations de commande</h2>
+<input id="customerName" placeholder="Votre nom">
+<input id="customerPhone" placeholder="Votre téléphone" type="tel">
+
+<select id="orderType" onchange="toggleAddress()">
+<option value="À emporter">À emporter</option>
+<option value="Livraison">Livraison</option>
+</select>
+
+<div id="addressBox" class="hidden">
+<input id="customerAddress" placeholder="Adresse de livraison">
+</div>
+
+<label id="sauceLabel">Sauces (facultatif)</label>
+<select id="sauce">
+<option value="Aucune">Aucune</option>
+<option value="Andalouse">Andalouse</option>
+<option value="Samouraï">Samouraï</option>
+<option value="Algérienne">Algérienne</option>
+<option value="Aïoli">Aïoli</option>
+<option value="Ketchup">Ketchup</option>
+<option value="Mayonnaise">Mayonnaise</option>
+<option value="Brasil">Brasil</option>
+<option value="Cocktail">Cocktail</option>
+<option value="Barbecue">Barbecue</option>
+<option value="Poivre">Poivre</option>
+<option value="Pitta">Pitta</option>
+<option value="Tartare">Tartare</option>
+</select>
+
+<textarea id="customerNote" placeholder="Suppléments ou instructions..." rows="3"></textarea>
+
+<button class="action whatsapp" onclick="sendWhatsApp()">📲 ENVOYER SUR WHATSAPP</button>
+<button class="action clear" onclick="clearCart()">🗑 Vider le panier</button>
+<button class="action close" onclick="closeCart()">✖ Fermer</button>
+</div>
+</div>
+
+<div class="modal" id="adminModal">
+<div class="modal-content">
+<h2>⚙️ Administration</h2>
+<p id="adminStatus"></p>
+
+<button class="action" id="toggleOrders" onclick="toggleOrders()"></button>
+
+<button class="action close" onclick="closeAdmin()">Fermer</button>
+</div>
 </div>
 
 <script>
-const translations = {
-  fr: {
-    title: "TOP SNACK",
-    hoursText: "Ouvert tous les jours",
-    galleryTitle: "🍔 Découvrez notre menu",
-    galleryHelp: "Après avoir consulté l’album, descendez pour choisir vos plats.",
-    menuTitle: "📋 NOTRE MENU",
-    searchPlaceholder: "🔍 Rechercher un produit...",
-    reviewsTitle: "⭐ Avis des clients",
-    addReview: "Laisser un avis",
-    namePlaceholder: "Votre nom",
-    commentPlaceholder: "Votre commentaire...",
-    submitReview: "Envoyer l'avis",
-    cartBtnText: "Mon panier",
-    itemsText: "article(s)",
-    cartModalTitle: "🛒 Mon panier",
-    applyPromo: "Appliquer",
-    totalText: "Total",
-    nameLabel: "Nom",
-    phoneLabel: "Téléphone",
-    orderTypeLabel: "Type de commande",
-    takeaway: "À emporter",
-    delivery: "Livraison",
-    addressLabel: "Adresse de livraison",
-    noteLabel: "Note",
-    sendWhatsapp: "📲 ENVOYER LA COMMANDE SUR WHATSAPP",
-    clearCart: "🗑️ Vider le panier",
-    closeCart: "Fermer",
-    addToCartBtn: "Ajouter au panier"
-  },
-  nl: {
-    title: "TOP SNACK",
-    hoursText: "Elke dag geopend",
-    galleryTitle: "🍔 Ontdek onze menu",
-    galleryHelp: "Bekijk het album en scrol naar beneden om te bestellen.",
-    menuTitle: "📋 ONS MENU",
-    searchPlaceholder: "🔍 Zoek een product...",
-    reviewsTitle: "⭐ Klantenbeoordelingen",
-    addReview: "Laat een beoordeling achter",
-    namePlaceholder: "Uw naam",
-    commentPlaceholder: "Uw opmerking...",
-    submitReview: "Versturen",
-    cartBtnText: "Winkelmand",
-    itemsText: "artikel(en)",
-    cartModalTitle: "🛒 Winkelmand",
-    applyPromo: "Toepassen",
-    totalText: "Totaal",
-    nameLabel: "Naam",
-    phoneLabel: "Telefoonnummer",
-    orderTypeLabel: "Besteltype",
-    takeaway: "Afhalen",
-    delivery: "Levering",
-    addressLabel: "Bezorgadres",
-    noteLabel: "Opmerking",
-    sendWhatsapp: "📲 BESTELLING VERSTUREN VIA WHATSAPP",
-    clearCart: "🗑️ Mand legen",
-    closeCart: "Sluiten",
-    addToCartBtn: "Toevoegen"
-  },
-  en: {
-    title: "TOP SNACK",
-    hoursText: "Open every day",
-    galleryTitle: "🍔 Discover our menu",
-    galleryHelp: "After checking the album, scroll down to choose your dishes.",
-    menuTitle: "📋 OUR MENU",
-    searchPlaceholder: "🔍 Search for a product...",
-    reviewsTitle: "⭐ Customer Reviews",
-    addReview: "Leave a review",
-    namePlaceholder: "Your name",
-    commentPlaceholder: "Your comment...",
-    submitReview: "Submit review",
-    cartBtnText: "My cart",
-    itemsText: "item(s)",
-    cartModalTitle: "🛒 My cart",
-    applyPromo: "Apply",
-    totalText: "Total",
-    nameLabel: "Name",
-    phoneLabel: "Phone",
-    orderTypeLabel: "Order type",
-    takeaway: "Takeaway",
-    delivery: "Delivery",
-    addressLabel: "Delivery address",
-    noteLabel: "Note",
-    sendWhatsapp: "📲 SEND ORDER VIA WHATSAPP",
-    clearCart: "🗑️ Clear cart",
-    closeCart: "Close",
-    addToCartBtn: "Add to cart"
-  }
-};
-
-let currentLang = localStorage.getItem('top_snack_lang') || 'fr';
-
-function changeLanguage() {
-  currentLang = document.getElementById("langSelect").value;
-  localStorage.setItem('top_snack_lang', currentLang);
-  const t = translations[currentLang];
-  document.getElementById("t-title").textContent = t.title;
-  document.getElementById("t-hoursText").textContent = t.hoursText;
-  document.getElementById("t-galleryTitle").textContent = t.galleryTitle;
-  document.getElementById("t-galleryHelp").textContent = t.galleryHelp;
-  document.getElementById("t-menuTitle").textContent = t.menuTitle;
-  document.getElementById("searchInput").placeholder = t.searchPlaceholder;
-  document.getElementById("t-reviewsTitle").textContent = t.reviewsTitle;
-  document.getElementById("t-addReview").textContent = t.addReview;
-  document.getElementById("reviewAuthor").placeholder = t.namePlaceholder;
-  document.getElementById("reviewText").placeholder = t.commentPlaceholder;
-  document.getElementById("t-submitReview").textContent = t.submitReview;
-  document.getElementById("t-cartBtnText").textContent = t.cartBtnText;
-  document.getElementById("t-itemsText").textContent = t.itemsText;
-  document.getElementById("t-cartModalTitle").textContent = t.cartModalTitle;
-  document.getElementById("t-applyPromo").textContent = t.applyPromo;
-  document.getElementById("t-totalText").textContent = t.totalText;
-  document.getElementById("t-nameLabel").textContent = t.nameLabel;
-  document.getElementById("t-phoneLabel").textContent = t.phoneLabel;
-  document.getElementById("t-orderTypeLabel").textContent = t.orderTypeLabel;
-  document.getElementById("t-takeaway").textContent = t.takeaway;
-  document.getElementById("t-delivery").textContent = t.delivery;
-  document.getElementById("t-addressLabel").textContent = t.addressLabel;
-  document.getElementById("t-noteLabel").textContent = t.noteLabel;
-  document.getElementById("t-sendWhatsapp").textContent = t.sendWhatsapp;
-  document.getElementById("t-clearCart").textContent = t.clearCart;
-  document.getElementById("t-closeCart").textContent = t.closeCart;
-  document.getElementById("t-addToCartBtn").textContent = t.addToCartBtn;
-}
-
-const menu = [
-  {
-    category: "MITRAILLETTE / DURUM / PAIN TURC",
-    items: [
-      ["PITTA", 7.50, "IMG_1168.jpeg"],
-      ["POULET", 7.50, "IMG_1169.jpeg"],
-      ["KOFTE", 7.50, "IMG_1170.jpeg"],
-      ["FALAFEL", 7.50, "IMG_1171.jpeg"],
-      ["MIXTE", 8.00, "IMG_1172.jpeg"],
-      ["BOEUF", 8.00, "IMG_1173.jpeg"],
-      ["HAMBURGER", 7.00, "IMG_1174.jpeg"],
-      ["FRICADELLE", 7.00, "IMG_1175.jpeg"],
-      ["BOULETTE", 7.00, "IMG_1176.jpeg"],
-      ["MEXICANO", 7.00, "IMG_1177.jpeg"],
-      ["POULYCROQ", 7.50, "IMG_1178.jpeg"],
-      ["CHIX FINGERS", 7.50, "IMG_1179.jpeg"],
-      ["MERGUEZ", 7.50, "IMG_1180.jpeg"],
-      ["ADANA", 7.50, "IMG_1181.jpeg"],
-      ["BROC.CABILLAUD", 7.50, "IMG_1182.jpeg"],
-      ["BROC.DINDE", 7.50, "IMG_1183.jpeg"],
-      ["BROC.BOEUF", 8.00, "IMG_1168.jpeg"],
-      ["BROC.POULET", 8.00, "IMG_1169.jpeg"]
-    ]
-  },
-  {
-    category: "SNACKS",
-    items: [
-      ["Hamburger", 3.00, "IMG_1174.jpeg"],
-      ["Fricadelle", 3.00, "IMG_1175.jpeg"],
-      ["Boulette", 3.50, "IMG_1176.jpeg"],
-      ["Mexicano", 3.50, "IMG_1177.jpeg"],
-      ["Poulycroq", 3.50, "IMG_1178.jpeg"],
-      ["Chix Fingers", 3.50, "IMG_1179.jpeg"],
-      ["Mini Loempia", 3.50, "IMG_1180.jpeg"],
-      ["Croquette Fromage", 3.00, "IMG_1181.jpeg"],
-      ["Broc.Cabillaud", 3.50, "IMG_1182.jpeg"],
-      ["Broc.Dinde", 3.50, "IMG_1183.jpeg"],
-      ["Broc.Boeuf", 4.00, "IMG_1168.jpeg"],
-      ["Broc.Pilons Poulet", 4.50, "IMG_1169.jpeg"],
-      ["Broc.Poulet", 4.50, "IMG_1170.jpeg"],
-      ["Tenders", 4.00, "IMG_1171.jpeg"],
-      ["Nuggets", 4.00, "IMG_1172.jpeg"],
-      ["Wings", 4.00, "IMG_1173.jpeg"]
-    ]
-  },
-  {
-    category: "ASSIETTES",
-    items: [
-      ["Pitta", 15.00, "IMG_1168.jpeg"],
-      ["Poulet", 15.00, "IMG_1169.jpeg"],
-      ["Falafel", 15.00, "IMG_1170.jpeg"],
-      ["Broc.Dinde", 15.00, "IMG_1171.jpeg"],
-      ["Broc.Cabillaud", 15.00, "IMG_1172.jpeg"],
-      ["Pilons Poulet", 15.00, "IMG_1173.jpeg"],
-      ["Boeuf", 17.00, "IMG_1174.jpeg"],
-      ["Mixte", 17.00, "IMG_1175.jpeg"],
-      ["Broc.Boeuf", 17.00, "IMG_1176.jpeg"],
-      ["Broc.Poulet", 17.00, "IMG_1177.jpeg"],
-      ["Kofte", 16.00, "IMG_1178.jpeg"],
-      ["Adana", 16.00, "IMG_1179.jpeg"],
-      ["Calamar", 15.00, "IMG_1180.jpeg"],
-      ["Top Grill", 22.00, "IMG_1181.jpeg"],
-      ["Côte d'Agneau", 22.00, "IMG_1182.jpeg"]
-    ]
-  },
-  {
-    category: "BOX",
-    items: [
-      ["Kids", 10.00, "IMG_1183.jpeg"],
-      ["Doner", 8.00, "IMG_1168.jpeg"]
-    ]
-  },
-  {
-    category: "FRITES",
-    items: [
-      ["Petite", 3.50, "IMG_1169.jpeg"],
-      ["Grande", 4.50, "IMG_1170.jpeg"],
-      ["À Part", 1.50, "IMG_1171.jpeg"]
-    ]
-  },
-  {
-    category: "BURGER",
-    items: [
-      ["Premium", 6.50, "IMG_1172.jpeg"],
-      ["Cheese", 7.00, "IMG_1173.jpeg"],
-      ["Master", 8.00, "IMG_1174.jpeg"],
-      ["Double Steak House", 8.00, "IMG_1175.jpeg"]
-    ]
-  },
-  {
-    category: "BICKY",
-    items: [
-      ["Hamburger", 5.00, "IMG_1176.jpeg"],
-      ["Kofte", 6.00, "IMG_1177.jpeg"],
-      ["Fish Burger", 5.50, "IMG_1178.jpeg"],
-      ["Escalope Poulet", 5.50, "IMG_1179.jpeg"]
-    ]
-  },
-  {
-    category: "SAUCES",
-    items: [
-      ["Andalouse", 1.00, "03FA716C-DE58-4084-8661-3E373E2B2A38.png"],
-      ["Samurai", 1.00, "03FA716C-DE58-4084-8661-3E373E2B2A38.png"],
-      ["Pitta", 1.00, "03FA716C-DE58-4084-8661-3E373E2B2A38.png"],
-      ["Ketchup", 1.00, "03FA716C-DE58-4084-8661-3E373E2B2A38.png"],
-      ["Brazil", 1.00, "03FA716C-DE58-4084-8661-3E373E2B2A38.png"],
-      ["Pili Pili", 1.00, "03FA716C-DE58-4084-8661-3E373E2B2A38.png"],
-      ["Mayonnaise", 1.00, "03FA716C-DE58-4084-8661-3E373E2B2A38.png"],
-      ["Curry Ketchup", 1.00, "03FA716C-DE58-4084-8661-3E373E2B2A38.png"],
-      ["Americaine Chef", 1.00, "03FA716C-DE58-4084-8661-3E373E2B2A38.png"],
-      ["Cocktail", 1.00, "03FA716C-DE58-4084-8661-3E373E2B2A38.png"],
-      ["Tartar", 1.00, "03FA716C-DE58-4084-8661-3E373E2B2A38.png"],
-      ["Barbecue", 1.00, "03FA716C-DE58-4084-8661-3E373E2B2A38.png"]
-    ]
-  },
-  {
-    category: "GYROS",
-    items: [
-      ["Classique", 7.00, "IMG_1180.jpeg"],
-      ["Feta / Olive", 8.00, "IMG_1181.jpeg"],
-      ["Mais / Poulet", 7.00, "IMG_1182.jpeg"]
-    ]
-  },
-  {
-    category: "KAPSALON",
-    items: [
-      ["Pitta", 10.00, "IMG_1183.jpeg"],
-      ["Poulet", 10.00, "IMG_1168.jpeg"],
-      ["Falafel", 10.00, "IMG_1169.jpeg"],
-      ["Kofte", 10.00, "IMG_1170.jpeg"],
-      ["Mixte", 11.00, "IMG_1171.jpeg"],
-      ["Boeuf", 11.00, "IMG_1172.jpeg"]
-    ]
-  },
-  {
-    category: "MENU",
-    items: [
-      ["Sandwich / Durum / Pain Turc", 10.00, "IMG_1173.jpeg"],
-      ["Bicky", 9.00, "IMG_1174.jpeg"],
-      ["Gyros", 11.00, "IMG_1175.jpeg"],
-      ["Tacos L", 13.00, "IMG_1176.jpeg"],
-      ["Tacos XL", 17.00, "IMG_1177.jpeg"]
-    ]
-  },
-  {
-    category: "TACOS",
-    items: [
-      ["Tenders", 8.00, "IMG_1178.jpeg"],
-      ["Nuggets", 8.00, "IMG_1179.jpeg"],
-      ["Chix Fingers", 8.00, "IMG_1180.jpeg"],
-      ["Pitta", 8.00, "IMG_1181.jpeg"],
-      ["Poulet", 8.00, "IMG_1182.jpeg"],
-      ["Boeuf", 9.00, "IMG_1183.jpeg"],
-      ["Kofte", 9.00, "IMG_1168.jpeg"],
-      ["Tacos XL", 13.00, "IMG_1169.jpeg"]
-    ]
-  },
-  {
-    category: "DESSERTS",
-    items: [
-      ["Tiramisu Oreo", 4.00, "IMG_1170.jpeg"],
-      ["Tiramisu Speculoos", 4.00, "IMG_1171.jpeg"],
-      ["Mousse Chocolat", 4.00, "IMG_1172.jpeg"]
-    ]
-  },
-  {
-    category: "SUPPLEMENTS",
-    items: [
-      ["Feta", 1.00, "IMG_1173.jpeg"],
-      ["Olive", 1.00, "IMG_1174.jpeg"],
-      ["Piment", 1.00, "IMG_1175.jpeg"],
-      ["Mozzarella", 1.00, "IMG_1176.jpeg"],
-      ["Cheddar", 1.00, "IMG_1177.jpeg"],
-      ["Oignon Frie", 1.00, "IMG_1178.jpeg"]
-    ]
-  }
+const menu=[
+{category:"MITRAILLETTE / DURUM / PAIN TURC",products:[
+["PITTA",7.50],["POULET",7.50],["KOFTE",7.50],["FALAFEL",7.50],
+["MIXTE",8],["BOEUF",8],["HAMBURGER",7],["FRICADELLE",7],
+["BOULETTE",7],["MEXICANO",7],["POULYCROQ",7.50],["CHIX FINGERS",7.50],
+["MERGUEZ",7.50],["ADANA",7.50],["BROCH.CABILLAUD",7.50],
+["BROCH.DINDE",7.50],["BROCH.BOEUF",8],["BROCH.POULET",8]
+]},
+{category:"SNACKS",products:[
+["Hamburger",3],["Fricadelle",3],["Croquette Fromage",3],
+["Boulette",3.50],["Mexicano",3.50],["Poulycroq",3.50],
+["Chix Fingers",3.50],["Mini Loempia",3.50],["Broch.Cabillaud",3.50],
+["Broch.Dinde",3.50],["Broch.Boeuf",4],["Tenders",4],
+["Nuggets",4],["Wings",4],["Broch.Pilons Poulet",4.50],
+["Broch.Poulet",4.50]
+]},
+{category:"ASSIETTES",products:[
+["Pitta",15],["Poulet",15],["Falafel",15],["Broch.Dinde",15],
+["Broch.Cabillaud",15],["Pilons Poulet",15],["Calamar",15],
+["Kofte",16],["Adana",16],["Boeuf",17],["Mixte",17],
+["Broch.Boeuf",17],["Broch.Poulet",17],["Top Grill",22],
+["Côte d'Agneau",22]
+]},
+{category:"BOX",products:[["BOX Kids",10],["BOX Doner",8]]},
+{category:"FRITES",products:[["Petite Frites",3.50],["Grande Frites",4.50],["Frites Mini",1.50]]},
+{category:"BURGERS",products:[["Burger",6.50],["Cheeseburger",7],["Double Burger",8],["Double Cheeseburger",8]]},
+{category:"BICKY",products:[["Bicky",5],["Bicky Cheese",6],["Bicky Chicken",5.50],["Bicky Fish",5.50]]},
+{category:"GYROS",products:[["Gyros",7],["Gyros Special",8],["Gyros Box",7]]},
+{category:"KAPSALON",products:[["Kapsalon",10],["Kapsalon XL",11]]},
+{category:"MENUS",products:[["Menu Hamburger",10],["Menu Fricadelle",9],["Menu Chicken",11],["Menu Mixte",13],["Menu Top Grill",17]]},
+{category:"TACOS",products:[["Tacos 1 Viande",8],["Tacos 2 Viandes",9],["Tacos 3 Viandes",13]]},
+{category:"DESSERTS",products:[["Dessert",4]]},
+{category:"SAUCES",products:[["Sauce",1]]},
+{category:"SUPPLÉMENTS",products:[["Supplément",1]]}
 ];
 
-let cart = JSON.parse(localStorage.getItem('top_snack_cart')) || [];
-let reviews = JSON.parse(localStorage.getItem('top_snack_reviews')) || [
-  { name: "Mehdi B.", rating: 5, text: "Meilleur snack d'Evere ! Service rapide et super bon." },
-  { name: "Thomas L.", rating: 5, text: "Les tacos et les pitas sont top. Je recommande !" }
-];
-let isManualClosed = JSON.parse(localStorage.getItem('top_snack_closed')) || false;
-let discountPercent = 0;
-let selectedProductForOptions = null;
-
-function checkShopOpen() {
-  if (isManualClosed) return false;
-  const now = new Date();
-  const hours = now.getHours();
-  return (hours >= 11 && hours < 23);
+const translations={
+fr:{
+welcome:"Bienvenue chez TOP SNACK ! Choisissez vos plats.",
+cart:"Mon panier",search:"🔎 Rechercher un plat...",
+closed:"Les commandes en ligne sont actuellement fermées.",
+open:"Les commandes en ligne sont ouvertes.",
+send:"📲 ENVOYER SUR WHATSAPP",
+pickup:"À emporter",delivery:"Livraison",
+empty:"Votre panier est vide.",admin:"Administration"
+},
+nl:{
+welcome:"Welkom bij TOP SNACK! Kies uw gerechten.",
+cart:"Mijn winkelmand",search:"🔎 Zoek een gerecht...",
+closed:"Online bestellen is momenteel gesloten.",
+open:"Online bestellen is geopend.",
+send:"📲 BESTELLEN VIA WHATSAPP",
+pickup:"Afhalen",delivery:"Levering",
+empty:"Uw winkelmand is leeg.",admin:"Beheer"
+},
+en:{
+welcome:"Welcome to TOP SNACK! Choose your food.",
+cart:"My cart",search:"🔎 Search food...",
+closed:"Online orders are currently closed.",
+open:"Online orders are open.",
+send:"📲 SEND ORDER ON WHATSAPP",
+pickup:"Pickup",delivery:"Delivery",
+empty:"Your cart is empty.",admin:"Administration"
 }
-
-function updateLiveStatusBadge() {
-  const badge = document.getElementById("liveStatusBadge");
-  if (!badge) return;
-  if (checkShopOpen()) {
-    badge.innerHTML = " • <span style='color: #4cd964;'>Ouvert 🟢</span>";
-  } else {
-    badge.innerHTML = " • <span style='color: #ff3b30;'>Fermé 🔴</span>";
-  }
-}
-
-function toggleAdminPanel() {
-  const password = prompt("Entrez le mot de passe admin:");
-  if (password === "1234") {
-    const panel = document.getElementById("adminPanel");
-    panel.style.display = panel.style.display === "none" ? "block" : "none";
-    updateAdminUI();
-  } else if (password !== null) {
-    alert("Mot de passe incorrect !");
-  }
-}
-
-function toggleShopStatus() {
-  isManualClosed = !isManualClosed;
-  localStorage.setItem('top_snack_closed', JSON.stringify(isManualClosed));
-  updateAdminUI();
-  updateLiveStatusBadge();
-  alert(isManualClosed ? "Le magasin est maintenant FERMÉ manuellement." : "Le magasin est maintenant OUVERT.");
-}
-
-function updateAdminUI() {
-  const statusText = document.getElementById("shopStatusText");
-  const btn = document.getElementById("toggleShopBtn");
-  if (isManualClosed) {
-    statusText.textContent = "Fermé manuellement 🔴";
-    statusText.style.color = "red";
-    btn.textContent = "Ouvrir le magasin";
-    btn.style.background = "#5cb85c";
-  } else {
-    statusText.textContent = "Automatique / Ouvert 🟢";
-    statusText.style.color = "green";
-    btn.textContent = "Fermer le magasin manuellement";
-    btn.style.background = "#d9534f";
-  }
-}
-
-function formatPrice(price) {
-  return price.toFixed(2).replace(".", ",") + " €";
-}
-
-function renderMenu(filterText = "") {
-  const container = document.getElementById("products");
-  container.innerHTML = "";
-  const searchLower = filterText.toLowerCase().trim();
-
-  menu.forEach((section) => {
-    let matchedItems = section.items.filter(item => {
-      if (!searchLower) return true;
-      return item[0].toLowerCase().includes(searchLower) || section.category.toLowerCase().includes(searchLower);
-    });
-
-    if (matchedItems.length === 0) return;
-
-    const category = document.createElement("div");
-    category.className = "category";
-    
-    const title = document.createElement("h2");
-    title.textContent = section.category;
-    category.appendChild(title);
-
-    const grid = document.createElement("div");
-    grid.className = "products-grid";
-
-    matchedItems.forEach((item) => {
-      const name = item[0];
-      const price = item[1];
-      const imgSrc = item[2];
-
-      const card = document.createElement("div");
-      card.className = "product-card";
-
-      const imgContainer = document.createElement("div");
-      imgContainer.className = "product-img-container";
-      const img = document.createElement("img");
-      img.src = imgSrc;
-      img.alt = name;
-      img.onerror = function() { this.src = '03FA716C-DE58-4084-8661-3E373E2B2A38.png'; };
-      imgContainer.appendChild(img);
-
-      const info = document.createElement("div");
-      info.className = "product-info";
-
-      const nameDiv = document.createElement("div");
-      nameDiv.className = "product-name";
-      nameDiv.textContent = name;
-
-      const footerRow = document.createElement("div");
-      footerRow.className = "product-footer-row";
-
-      const priceDiv = document.createElement("div");
-      priceDiv.className = "product-price";
-      priceDiv.textContent = formatPrice(price);
-
-      const addBtn = document.createElement("button");
-      addBtn.className = "add-btn";
-      addBtn.textContent = "+ Ajouter";
-      addBtn.addEventListener("click", () => openOptions(section.category, name, price));
-
-      footerRow.appendChild(priceDiv);
-      footerRow.appendChild(addBtn);
-
-      info.appendChild(nameDiv);
-      info.appendChild(footerRow);
-
-      card.appendChild(imgContainer);
-      card.appendChild(info);
-      grid.appendChild(card);
-    });
-
-    category.appendChild(grid);
-    container.appendChild(category);
-  });
-}
-
-function openOptions(category, name, price) {
-  selectedProductForOptions = { category, name, basePrice: price };
-  document.getElementById("modalProductName").textContent = name + " (" + formatPrice(price) + ")";
-  
-  document.
-
-<script>
-const menu = [
-  {category:"MITRAILLETTE / DURUM / PAIN TURC",items:[
-    ["PITTA",7.5],["POULET",7.5],["KOFTE",7.5],["FALAFEL",7.5],
-    ["MIXTE",8],["BOEUF",8],["HAMBURGER",7],["FRICADELLE",7],
-    ["BOULETTE",7],["MEXICANO",7],["POULYCROQ",7.5],
-    ["CHIX FINGERS",7.5],["MERGUEZ",7.5],["ADANA",7.5],
-    ["BROC.CABILLAUD",7.5],["BROC.DINDE",7.5],
-    ["BROC.BOEUF",8],["BROC.POULET",8]
-  ]},
-  {category:"SNACKS",items:[
-    ["Hamburger",3],["Fricadelle",3],["Boulette",3.5],
-    ["Mexicano",3.5],["Poulycroq",3.5],["Chix Fingers",3.5],
-    ["Mini Loempia",3.5],["Croquette Fromage",3],
-    ["Broc.Cabillaud",3.5],["Broc.Dinde",3.5],
-    ["Broc.Boeuf",4],["Broc.Pilons Poulet",4.5],
-    ["Broc.Poulet",4.5],["Tenders",4],["Nuggets",4],["Wings",4]
-  ]},
-  {category:"ASSIETTES",items:[
-    ["Pitta",15],["Poulet",15],["Falafel",15],
-    ["Broc.Dinde",15],["Broc.Cabillaud",15],
-    ["Pilons Poulet",15],["Boeuf",17],["Mixte",17],
-    ["Broc.Boeuf",17],["Broc.Poulet",17],
-    ["Kofte",16],["Adana",16],["Calamar",15],
-    ["Top Grill",22],["Côte d'Agneau",22]
-  ]},
-  {category:"BOX",items:[["Kids",10],["Doner",8]]},
-  {category:"FRITES",items:[
-    ["Petite",3.5],["Grande",4.5],["À Part",1.5]
-  ]},
-  {category:"BURGER",items:[
-    ["Premium",6.5],["Cheese",7],["Master",8],["Double Steak House",8]
-  ]},
-  {category:"BICKY",items:[
-    ["Hamburger",5],["Kofte",6],["Fish Burger",5.5],["Escalope Poulet",5.5]
-  ]},
-  {category:"SAUCES",items:[
-    ["Andalouse",1],["Samurai",1],["Pitta",1],["Ketchup",1],
-    ["Brazil",1],["Pili Pili",1],["Mayonnaise",1],
-    ["Curry Ketchup",1],["Americaine Chef",1],
-    ["Cocktail",1],["Tartar",1],["Barbecue",1]
-  ]},
-  {category:"GYROS",items:[
-    ["Classique",7],["Feta / Olive",8],["Mais / Poulet",7]
-  ]},
-  {category:"KAPSALON",items:[
-    ["Pitta",10],["Poulet",10],["Falafel",10],
-    ["Kofte",10],["Mixte",11],["Boeuf",11]
-  ]},
-  {category:"MENU",items:[
-    ["Sandwich / Durum / Pain Turc",10],
-    ["Bicky",9],["Gyros",11],["Tacos L",13],["Tacos XL",17]
-  ]},
-  {category:"TACOS",items:[
-    ["Tenders",8],["Nuggets",8],["Chix Fingers",8],
-    ["Pitta",8],["Poulet",8],["Boeuf",9],["Kofte",9],["Tacos XL",13]
-  ]},
-  {category:"DESSERTS",items:[
-    ["Tiramisu Oreo",4],["Tiramisu Speculoos",4],["Mousse Chocolat",4]
-  ]},
-  {category:"SUPPLEMENTS",items:[
-    ["Feta",1],["Olive",1],["Piment",1],
-    ["Mozzarella",1],["Cheddar",1],["Oignon Frie",1]
-  ]}
-];
-
-const translations = {
-  fr:{
-    title:"Découvrez notre menu",
-    subtitle:"Après avoir consulté l’album, descendez pour choisir vos plats.",
-    menu:"NOTRE MENU",cart:"Mon panier",
-    order:"Votre commande",name:"Nom",
-    phone:"Téléphone",pickup:"À emporter",
-    delivery:"Livraison",note:"Note (facultatif)",
-    send:"ENVOYER LA COMMANDE SUR WHATSAPP",
-    close:"Fermer",empty:"Votre panier est vide.",
-    add:"Ajouter",reviews:"Avis des clients",
-    reviewName:"Votre nom",reviewText:"Votre avis",
-    submitReview:"Envoyer mon avis",
-    hours:"Ouvert tous les jours : 11:00 – 23:00",
-    admin:"Administration",login:"Connexion",
-    password:"Mot de passe",logout:"Déconnexion",
-    deliveryOn:"Livraison activée",deliveryOff:"Livraison désactivée"
-  },
-  en:{
-    title:"Discover our menu",
-    subtitle:"After viewing the gallery, scroll down to choose your dishes.",
-    menu:"OUR MENU",cart:"My cart",
-    order:"Your order",name:"Name",
-    phone:"Phone",pickup:"Takeaway",
-    delivery:"Delivery",note:"Note (optional)",
-    send:"SEND ORDER ON WHATSAPP",
-    close:"Close",empty:"Your cart is empty.",
-    add:"Add",reviews:"Customer reviews",
-    reviewName:"Your name",reviewText:"Your review",
-    submitReview:"Submit my review",
-    hours:"Open every day: 11:00 – 23:00",
-    admin:"Administration",login:"Login",
-    password:"Password",logout:"Logout",
-    deliveryOn:"Delivery enabled",deliveryOff:"Delivery disabled"
-  },
-  nl:{
-    title:"Ontdek ons menu",
-    subtitle:"Bekijk eerst het album en scroll daarna naar beneden om gerechten te kiezen.",
-    menu:"ONS MENU",cart:"Mijn winkelwagen",
-    order:"Uw bestelling",name:"Naam",
-    phone:"Telefoon",pickup:"Afhalen",
-    delivery:"Levering",note:"Opmerking (optioneel)",
-    send:"BESTELLING VERSTUREN VIA WHATSAPP",
-    close:"Sluiten",empty:"Uw winkelwagen is leeg.",
-    add:"Toevoegen",reviews:"Klantbeoordelingen",
-    reviewName:"Uw naam",reviewText:"Uw beoordeling",
-    submitReview:"Beoordeling verzenden",
-    hours:"Elke dag geopend: 11:00 – 23:00",
-    admin:"Administratie",login:"Inloggen",
-    password:"Wachtwoord",logout:"Uitloggen",
-    deliveryOn:"Levering ingeschakeld",deliveryOff:"Levering uitgeschakeld"
-  },
-  fa:{
-    title:"منوی ما را ببینید",
-    subtitle:"بعد از مشاهده آلبوم، پایین بروید و غذای موردنظرتان را انتخاب کنید.",
-    menu:"منوی ما",cart:"سبد خرید من",
-    order:"سفارش شما",name:"نام",
-    phone:"شماره تلفن",pickup:"تحویل حضوری",
-    delivery:"ارسال با پیک",note:"توضیحات (اختیاری)",
-    send:"ارسال سفارش از طریق واتساپ",
-    close:"بستن",empty:"سبد خرید شما خالی است.",
-    add:"افزودن",reviews:"نظرات مشتریان",
-    reviewName:"نام شما",reviewText:"نظر شما",
-    submitReview:"ثبت نظر",
-    hours:"هر روز باز هستیم: ۱۱:۰۰ تا ۲۳:۰۰",
-    admin:"مدیریت",login:"ورود",
-    password:"رمز عبور",logout:"خروج",
-    deliveryOn:"ارسال با پیک فعال است",
-    deliveryOff:"ارسال با پیک غیرفعال است"
-  }
 };
 
-const productNames = {
-  "PITTA":"Pitta",
-  "POULET":"Chicken",
-  "KOFTE":"Kofte",
-  "FALAFEL":"Falafel",
-  "MIXTE":"Mixed",
-  "BOEUF":"Beef",
-  "HAMBURGER":"Hamburger",
-  "FRICADELLE":"Fricadelle",
-  "BOULETTE":"Meatball",
-  "MEXICANO":"Mexicano",
-  "Pita":"Pitta",
-  "Poulet":"Chicken",
-  "Boeuf":"Beef",
-  "Petite":"Small",
-  "Grande":"Large",
-  "Classique":"Classic",
-  "Livraison":"Delivery"
-};
-
-const categoryNames = {
-  "MITRAILLETTE / DURUM / PAIN TURC":"Sandwiches / Durum / Turkish Bread",
-  "SNACKS":"Snacks",
-  "ASSIETTES":"Plates",
-  "BOX":"Boxes",
-  "FRITES":"Fries",
-  "BURGER":"Burgers",
-  "BICKY":"Bicky",
-  "SAUCES":"Sauces",
-  "GYROS":"Gyros",
-  "KAPSALON":"Kapsalon",
-  "MENU":"Menus",
-  "TACOS":"Tacos",
-  "DESSERTS":"Desserts",
-  "SUPPLEMENTS":"Extras"
-};
-
-let currentLang = localStorage.getItem("topSnackLang") || "fr";
-let cart = [];
-let deliveryEnabled = localStorage.getItem("topSnackDelivery") !== "false";
-
-function formatPrice(price){
-  return Number(price).toFixed(2).replace(".",",") + " €";
-}
-
-function getText(key){
-  return translations[currentLang]?.[key] || translations.fr[key] || key;
-}
-
-function translateProduct(name){
-  if(currentLang === "fr") return name;
-  return productNames[name] || name;
-}
-
-function translateCategory(name){
-  if(currentLang === "fr") return name;
-  return categoryNames[name] || name;
-}
-
-function changeLanguage(lang){
-  if(!translations[lang]) return;
-  currentLang = lang;
-  localStorage.setItem("topSnackLang",lang);
-  document.documentElement.lang = lang;
-  applyTranslations();
-  renderMenu();
-  renderCart();
-}
-
-function applyTranslations(){
-  document.querySelectorAll("[data-i18n]").forEach(el=>{
-    const key = el.getAttribute("data-i18n");
-    if(translations[currentLang][key]){
-      el.textContent = translations[currentLang][key];
-    }
-  });
-  document.querySelectorAll("[data-lang]").forEach(btn=>{
-    btn.classList.toggle("active",btn.dataset.lang === currentLang);
-  });
-}
-
-function renderMenu(){
-  const container = document.getElementById("menuContainer");
-  if(!container) return;
-  container.innerHTML = "";
-
-  menu.forEach((section,index)=>{
-    const sectionEl = document.createElement("section");
-    sectionEl.className = "menu-category";
-
-    const heading = document.createElement("h3");
-    heading.textContent = translateCategory(section.category);
-    sectionEl.appendChild(heading);
-
-    section.items.forEach((item,itemIndex)=>{
-      const [name,price] = item;
-      const row = document.createElement("div");
-      row.className = "menu-item";
-
-      const info = document.createElement("div");
-      info.className = "menu-item-info";
-
-      const product = document.createElement("strong");
-      product.textContent = translateProduct(name);
-
-      const priceEl = document.createElement("span");
-      priceEl.textContent = formatPrice(price);
-
-      info.appendChild(product);
-      info.appendChild(priceEl);
-
-      const controls = document.createElement("div");
-      controls.className = "quantity-controls";
-
-      const minus = document.createElement("button");
-      minus.type = "button";
-      minus.textContent = "−";
-      minus.onclick = ()=>changeProductQuantity(index,itemIndex,-1);
-
-      const quantity = document.createElement("span");
-      quantity.id = `qty-${index}-${itemIndex}`;
-      quantity.textContent = getQuantity(index,itemIndex);
-
-      const plus = document.createElement("button");
-      plus.type = "button";
-      plus.textContent = "+";
-      plus.onclick = ()=>changeProductQuantity(index,itemIndex,1);
-
-      controls.append(minus,quantity,plus);
-      row.append(info,controls);
-      sectionEl.appendChild(row);
-    });
-
-    container.appendChild(sectionEl);
-  });
-}
-
-function getQuantity(categoryIndex,itemIndex){
-  const found = cart.find(item=>
-    item.categoryIndex === categoryIndex &&
-    item.itemIndex === itemIndex
-  );
-  return found ? found.quantity : 0;
-}
-
-function changeProductQuantity(categoryIndex,itemIndex,change){
-  const found = cart.find(item=>
-    item.categoryIndex === categoryIndex &&
-    item.itemIndex === itemIndex
-  );
-
-  if(found){
-    found.quantity += change;
-    if(found.quantity <= 0){
-      cart = cart.filter(item=>item !== found);
-    }
-  }else if(change > 0){
-    const product = menu[categoryIndex].items[itemIndex];
-    cart.push({
-      categoryIndex,
-      itemIndex,
-      name:product[0],
-      price:product[1],
-      quantity:1
-    });
-  }
-
-  renderMenu();
-  renderCart();
-}
-
-function getCartCount(){
-  return cart.reduce((sum,item)=>sum+item.quantity,0);
-}
-
-function getCartTotal(){
-  return cart.reduce((sum,item)=>sum+item.price*item.quantity,0);
-}
-
-function renderCart(){
-  const count = getCartCount();
-  const total = getCartTotal();
-
-  const cartButton = document.getElementById("cartButton");
-  if(cartButton){
-    cartButton.textContent =
-      `🛒 ${getText("cart")} — ${count} article(s) — ${formatPrice(total)}`;
-  }
-
-  const cartItems = document.getElementById("cartItems");
-  if(cartItems){
-    cartItems.innerHTML = "";
-    if(cart.length === 0){
-      cartItems.textContent = getText("empty");
-    }else{
-      cart.forEach(item=>{
-        const line = document.createElement("div");
-        line.className = "cart-line";
-        line.textContent =
-          `${translateProduct(item.name)} × ${item.quantity} — ${formatPrice(item.price*item.quantity)}`;
-        cartItems.appendChild(line);
-      });
-    }
-  }
-
-  const totalEl = document.getElementById("cartTotal");
-  if(totalEl) totalEl.textContent = formatPrice(total);
-}
-</script>
-
-<script>
-function openCart(){
-  document.getElementById("cartModal").style.display = "flex";
-  renderCart();
-}
-
-function closeCart(){
-  document.getElementById("cartModal").style.display = "none";
-}
-
-function sendOrder(){
-  if(cart.length === 0){
-    alert(getText("empty"));
-    return;
-  }
-
-  const name = document.getElementById("customerName").value.trim();
-  const phone = document.getElementById("customerPhone").value.trim();
-  const orderType = document.getElementById("orderType").value;
-  const address = document.getElementById("deliveryAddress").value.trim();
-  const note = document.getElementById("orderNote").value.trim();
-
-  if(!name || !phone){
-    alert("Veuillez remplir votre nom et téléphone.");
-    return;
-  }
-
-  if(orderType === "delivery" && !deliveryEnabled){
-    alert("La livraison est actuellement désactivée.");
-    return;
-  }
-
-  if(orderType === "delivery" && !address){
-    alert("Veuillez entrer votre adresse de livraison.");
-    return;
-  }
-
-  let message = "🍔 *TOP SNACK - NOUVELLE COMMANDE*%0A%0A";
-  message += "👤 Nom: " + encodeURIComponent(name) + "%0A";
-  message += "📞 Téléphone: " + encodeURIComponent(phone) + "%0A";
-  message += "📦 Type: " + encodeURIComponent(
-    orderType === "delivery" ? "Livraison" : "À emporter"
-  ) + "%0A";
-
-  if(orderType === "delivery"){
-    message += "📍 Adresse: " + encodeURIComponent(address) + "%0A";
-  }
-
-  message += "%0A🛒 *COMMANDE:*%0A";
-
-  cart.forEach(item=>{
-    const category = menu[item.categoryIndex].category;
-    message +=
-      "• " + encodeURIComponent(category + " - " + item.name) +
-      " x" + item.quantity +
-      " = " + encodeURIComponent(formatPrice(item.price*item.quantity)) +
-      "%0A";
-  });
-
-  message += "%0A💰 TOTAL: " + encodeURIComponent(formatPrice(getCartTotal()));
-
-  if(note){
-    message += "%0A📝 Note: " + encodeURIComponent(note);
-  }
-
-  const whatsappURL = "https://wa.me/32496969628?text=" + message;
-  window.open(whatsappURL,"_blank");
-}
-
-function updateDeliveryStatus(){
-  const deliveryOption = document.getElementById("deliveryOption");
-  const deliveryStatus = document.getElementById("deliveryStatus");
-  const deliveryToggle = document.getElementById("deliveryToggle");
-
-  if(deliveryOption){
-    deliveryOption.disabled = !deliveryEnabled;
-
-    if(!deliveryEnabled && deliveryOption.selected){
-      document.getElementById("orderType").value = "pickup";
-      updateAddressVisibility();
-    }
-  }
-
-  if(deliveryStatus){
-    deliveryStatus.textContent = deliveryEnabled
-      ? getText("deliveryOn")
-      : getText("deliveryOff");
-  }
-
-  if(deliveryToggle){
-    deliveryToggle.checked = deliveryEnabled;
-  }
-
-  localStorage.setItem("topSnackDelivery",String(deliveryEnabled));
-}
-
-function updateAddressVisibility(){
-  const orderType = document.getElementById("orderType");
-  const addressBox = document.getElementById("addressBox");
-
-  if(orderType && addressBox){
-    addressBox.style.display =
-      orderType.value === "delivery" ? "block" : "none";
-  }
-}
-
-function adminLogin(){
-  const password = document.getElementById("adminPassword").value;
-
-  if(password === "6731"){
-    document.getElementById("adminControls").style.display = "block";
-    document.getElementById("adminLoginBox").style.display = "none";
-    document.getElementById("adminPassword").value = "";
-    updateDeliveryStatus();
-  }else{
-    alert("Mot de passe incorrect.");
-  }
-}
-
-function adminLogout(){
-  document.getElementById("adminControls").style.display = "none";
-  document.getElementById("adminLoginBox").style.display = "block";
-}
-
-function toggleDelivery(){
-  deliveryEnabled = document.getElementById("deliveryToggle").checked;
-  updateDeliveryStatus();
-  alert(
-    deliveryEnabled
-      ? "La livraison est activée."
-      : "La livraison est désactivée."
-  );
-}
-
-function submitReview(event){
-  event.preventDefault();
-
-  const name = document.getElementById("reviewName").value.trim();
-  const rating = document.getElementById("reviewRating").value;
-  const comment = document.getElementById("reviewText").value.trim();
-
-  if(!name || !comment){
-    alert("Veuillez remplir tous les champs.");
-    return;
-  }
-
-  const reviews = JSON.parse(
-    localStorage.getItem("topSnackReviews") || "[]"
-  );
-
-  reviews.push({
-    name,
-    rating:Number(rating),
-    comment,
-    date:new Date().toLocaleDateString()
-  });
-
-  localStorage.setItem("topSnackReviews",JSON.stringify(reviews));
-
-  document.getElementById("reviewName").value = "";
-  document.getElementById("reviewText").value = "";
-
-  renderReviews();
-  alert("Merci pour votre avis !");
-}
-
-function renderReviews(){
-  const container = document.getElementById("reviewsList");
-  if(!container) return;
-
-  const reviews = JSON.parse(
-    localStorage.getItem("topSnackReviews") || "[]"
-  );
-
-  container.innerHTML = "";
-
-  if(reviews.length === 0){
-    container.textContent = "Soyez le premier à laisser un avis !";
-    return;
-  }
-
-  reviews.slice().reverse().forEach(review=>{
-    const card = document.createElement("div");
-    card.className = "review-card";
-
-    const heading = document.createElement("strong");
-    heading.textContent = review.name;
-
-    const stars = document.createElement("div");
-    stars.className = "review-stars";
-    stars.textContent = "★".repeat(review.rating) +
-      "☆".repeat(5-review.rating);
-
-    const comment = document.createElement("p");
-    comment.textContent = review.comment;
-
-    const date = document.createElement("small");
-    date.textContent = review.date;
-
-    card.append(heading,stars,comment,date);
-    container.appendChild(card);
-  });
-}
-
-document.addEventListener("DOMContentLoaded",()=>{
-  applyTranslations();
-  renderMenu();
-  renderCart();
-  renderReviews();
-  updateDeliveryStatus();
-
-  const languageButtons = document.querySelectorAll("[data-lang]");
-  languageButtons.forEach(button=>{
-    button.addEventListener("click",()=>{
-      changeLanguage(button.dataset.lang);
-    });
-  });
-
-  const orderType = document.getElementById("orderType");
-  if(orderType){
-    orderType.addEventListener("change",updateAddressVisibility);
-    updateAddressVisibility();
-  }
-
-  const cartButton = document.getElementById("cartButton");
-  if(cartButton){
-    cartButton.addEventListener("click",openCart);
-  }
-
-  const closeButton = document.getElementById("closeCart");
-  if(closeButton){
-    closeButton.addEventListener("click",closeCart);
-  }
-
-  const sendButton = document.getElementById("sendOrder");
-  if(sendButton){
-    sendButton.addEventListener("click",sendOrder);
-  }
-
-  const loginButton = document.getElementById("adminLogin");
-  if(loginButton){
-    loginButton.addEventListener("click",adminLogin);
-  }
-
-  const logoutButton = document.getElementById("adminLogout");
-  if(logoutButton){
-    logoutButton.addEventListener("click",adminLogout);
-  }
-
-  const deliveryToggle = document.getElementById("deliveryToggle");
-  if(deliveryToggle){
-    deliveryToggle.addEventListener("change",toggleDelivery);
-  }
-
-  const reviewForm = document.getElementById("reviewForm");
-  if(reviewForm){
-    reviewForm.addEventListener("submit",submitReview);
-  }
-});
-</script>
-</body>
-</html>
-let activeCategory = 0;
-let cart = loadCart();
-
-let shopClosed = localStorage.getItem("topSnackClosed") === "true";
-let deliveryEnabled = localStorage.getItem("topSnackDelivery") !== "false";
-
-function loadCart(){
-  try{
-    const saved = JSON.parse(localStorage.getItem("topSnackCart") || "{}");
-    return saved && typeof saved === "object" ? saved : {};
-  }catch(error){
-    return {};
-  }
-}
-
-function saveCart(){
-  localStorage.setItem("topSnackCart",JSON.stringify(cart));
-}
-
-function formatPrice(price){
-  return Number(price).toFixed(2).replace(".",",")+" €";
-}
-
-function getCartCount(){
-  return Object.values(cart).reduce((sum,item)=>sum+item.quantity,0);
-}
-
-function getCartTotal(){
-  return Object.values(cart).reduce((sum,item)=>sum+item.price*item.quantity,0);
+let cart={};
+let selectedCategory=0;
+let lang="fr";
+let orderingEnabled=localStorage.getItem("topSnackOpen")!=="false";
+
+function price(n){return Number(n).toFixed(2)}
+function t(key){return translations[lang][key]||key}
+
+function changeLanguage(){
+lang=document.getElementById("language").value;
+document.getElementById("notice").textContent=t("welcome");
+document.getElementById("cartLabel").textContent=t("cart");
+document.getElementById("search").placeholder=t("search");
+document.querySelector(".whatsapp").textContent=t("send");
+renderCategories();
+renderProducts();
 }
 
 function renderCategories(){
-  const container=document.getElementById("categories");
-  container.innerHTML="";
-
-  menu.forEach((category,index)=>{
-    const button=document.createElement("button");
-    button.className="category-btn"+(index===activeCategory?" active":"");
-    button.textContent=category.category;
-
-    button.onclick=()=>{
-      activeCategory=index;
-      document.getElementById("searchInput").value="";
-      renderCategories();
-      renderProducts();
-    };
-
-    container.appendChild(button);
-  });
+const box=document.getElementById("categories");
+box.innerHTML="";
+menu.forEach((c,i)=>{
+const b=document.createElement("button");
+b.className="catbtn"+(selectedCategory===i?" active":"");
+b.textContent=c.category;
+b.onclick=()=>{selectedCategory=i;renderCategories();renderProducts()};
+box.appendChild(b);
+});
 }
 
 function renderProducts(){
-  const container=document.getElementById("products");
-  const heading=document.getElementById("categoryHeading");
+const box=document.getElementById("products");
+box.innerHTML="";
+const query=document.getElementById("search").value.trim().toLowerCase();
 
-  heading.textContent=menu[activeCategory].category;
-  container.innerHTML="";
+menu.forEach((category,ci)=>{
+if(ci!==selectedCategory)return;
 
-  menu[activeCategory].items.forEach((item,itemIndex)=>{
-    const key=activeCategory+"-"+itemIndex;
-    const quantity=cart[key]?cart[key].quantity:0;
+category.products.forEach((p,pi)=>{
+if(query&&!p[0].toLowerCase().includes(query))return;
 
-    const product=document.createElement("div");
-    product.className="product";
+const key=ci+"_"+pi;
+const qty=cart[key]?.qty||0;
 
-    const info=document.createElement("div");
-    info.className="product-info";
+const row=document.createElement("div");
+row.className="product";
 
-    const name=document.createElement("div");
-    name.className="product-name";
-    name.textContent=item[0];
+const info=document.createElement("div");
+info.className="product-info";
 
-    const price=document.createElement("div");
-    price.className="product-price";
-    price.textContent=formatPrice(item[1]);
+const name=document.createElement("div");
+name.className="product-name";
+name.textContent=p[0];
 
-    info.appendChild(name);
-    info.appendChild(price);
+const priceDiv=document.createElement("div");
+priceDiv.className="product-price";
+priceDiv.textContent=price(p[1])+" €";
 
-    const controls=document.createElement("div");
-    controls.className="quantity";
+info.append(name,priceDiv);
 
-    const minus=document.createElement("button");
-    minus.type="button";
-    minus.textContent="−";
-    minus.onclick=()=>changeQuantity(activeCategory,itemIndex,-1);
+const controls=document.createElement("div");
+controls.className="controls";
 
-    const count=document.createElement("span");
-    count.textContent=quantity;
+const minus=document.createElement("button");
+minus.textContent="−";
+minus.onclick=()=>changeQty(key,-1,p);
 
-    const plus=document.createElement("button");
-    plus.type="button";
-    plus.className="plus";
-    plus.textContent="+";
-    plus.onclick=()=>changeQuantity(activeCategory,itemIndex,1);
+const q=document.createElement("span");
+q.className="qty";
+q.textContent=qty;
 
-    controls.appendChild(minus);
-    controls.appendChild(count);
-    controls.appendChild(plus);
+const plus=document.createElement("button");
+plus.textContent="+";
+plus.onclick=()=>changeQty(key,1,p);
 
-    product.appendChild(info);
-    product.appendChild(controls);
-    container.appendChild(product);
-  });
+controls.append(minus,q,plus);
+row.append(info,controls);
+box.appendChild(row);
+});
+});
 
-  updateCartDisplay();
+if(query){
+menu.forEach((category,ci)=>{
+if(ci===selectedCategory)return;
+category.products.forEach((p,pi)=>{
+if(!p[0].toLowerCase().includes(query))return;
+const key=ci+"_"+pi;
+const qty=cart[key]?.qty||0;
+const row=document.createElement("div");
+row.className="product";
+const info=document.createElement("div");
+info.className="product-info";
+info.innerHTML="<div class='product-name'></div><div class='product-price'></div>";
+info.querySelector(".product-name").textContent=p[0]+" ("+category.category+")";
+info.querySelector(".product-price").textContent=price(p[1])+" €";
+const controls=document.createElement("div");
+controls.className="controls";
+const m=document.createElement("button");m.textContent="−";m.onclick=()=>changeQty(key,-1,p);
+const q=document.createElement("span");q.className="qty";q.textContent=qty;
+const a=document.createElement("button");a.textContent="+";a.onclick=()=>changeQty(key,1,p);
+controls.append(m,q,a);row.append(info,controls);box.appendChild(row);
+});
+});
+}
 }
 
-function changeQuantity(categoryIndex,itemIndex,amount){
-  const item=menu[categoryIndex].items[itemIndex];
-  const key=categoryIndex+"-"+itemIndex;
-
-  if(!cart[key]){
-    cart[key]={
-      name:item[0],
-      price:item[1],
-      quantity:0,
-      category:menu[categoryIndex].category
-    };
-  }
-
-  cart[key].quantity+=amount;
-
-  if(cart[key].quantity<=0){
-    delete cart[key];
-  }
-
-  saveCart();
-  renderProducts();
+function changeQty(key,delta,p){
+if(!orderingEnabled){alert(t("closed"));return}
+if(!cart[key])cart[key]={name:p[0],price:p[1],qty:0};
+cart[key].qty+=delta;
+if(cart[key].qty<=0)delete cart[key];
+renderProducts();
+updateCart();
 }
 
-function searchProducts(){
-  const search=document.getElementById("searchInput").value.trim().toLowerCase();
-  const container=document.getElementById("products");
-  const heading=document.getElementById("categoryHeading");
-
-  if(!search){
-    renderProducts();
-    return;
-  }
-
-  heading.textContent="Résultats de recherche";
-  container.innerHTML="";
-  let found=0;
-
-  menu.forEach((category,categoryIndex)=>{
-    category.items.forEach((item,itemIndex)=>{
-      if(item[0].toLowerCase().includes(search) || category.category.toLowerCase().includes(search)){
-        found++;
-        const key=categoryIndex+"-"+itemIndex;
-        const quantity=cart[key]?cart[key].quantity:0;
-
-        const product=document.createElement("div");
-        product.className="product";
-
-        const info=document.createElement("div");
-        info.className="product-info";
-
-        const name=document.createElement("div");
-        name.className="product-name";
-        name.textContent=item[0]+" — "+category.category;
-
-        const price=document.createElement("div");
-        price.className="product-price";
-        price.textContent=formatPrice(item[1]);
-
-        info.appendChild(name);
-        info.appendChild(price);
-
-        const controls=document.createElement("div");
-        controls.className="quantity";
-
-        const minus=document.createElement("button");
-        minus.type="button";
-        minus.textContent="−";
-        minus.onclick=()=>changeQuantity(categoryIndex,itemIndex,-1);
-
-        const count=document.createElement("span");
-        count.textContent=quantity;
-
-        const plus=document.createElement("button");
-        plus.type="button";
-        plus.className="plus";
-        plus.textContent="+";
-        plus.onclick=()=>changeQuantity(categoryIndex,itemIndex,1);
-
-        controls.append(minus,count,plus);
-        product.append(info,controls);
-        container.appendChild(product);
-      }
-    });
-  });
-
-  if(found===0){
-    container.innerHTML='<p class="empty-message">Aucun produit trouvé.</p>';
-  }
-
-  updateCartDisplay();
-}
-
-function updateCartDisplay(){
-  document.getElementById("cartCount").textContent=getCartCount();
-  document.getElementById("cartTotal").textContent=formatPrice(getCartTotal());
-  updateShopStatus();
+function updateCart(){
+let count=0,total=0;
+Object.values(cart).forEach(i=>{count+=i.qty;total+=i.qty*i.price});
+document.getElementById("cartCount").textContent=count;
+document.getElementById("cartTotal").textContent=price(total);
+document.getElementById("modalTotal").textContent=price(total);
 }
 
 function openCart(){
-  renderCart();
-  document.getElementById("cartModal").style.display="block";
+renderCart();
+document.getElementById("cartModal").style.display="block";
 }
-
-function closeCart(){
-  document.getElementById("cartModal").style.display="none";
-}
+function closeCart(){document.getElementById("cartModal").style.display="none"}
 
 function renderCart(){
-  const container=document.getElementById("cartItems");
-  container.innerHTML="";
-
-  const entries=Object.entries(cart);
-
-  if(entries.length===0){
-    container.innerHTML='<p class="empty-message">Votre panier est vide.</p>';
-  }
-
-  entries.forEach(([key,item])=>{
-    const line=document.createElement("div");
-    line.className="cart-line";
-
-    const description=document.createElement("div");
-    description.innerHTML="<strong>"+escapeHTML(item.name)+"</strong><br>"+
-      item.quantity+" × "+formatPrice(item.price);
-
-    const actions=document.createElement("div");
-
-    const minus=document.createElement("button");
-    minus.textContent="−";
-    minus.onclick=()=>{
-      const parts=key.split("-");
-      changeQuantity(Number(parts[0]),Number(parts[1]),-1);
-      renderCart();
-    };
-
-    const plus=document.createElement("button");
-    plus.textContent="+";
-    plus.onclick=()=>{
-      const parts=key.split("-");
-      changeQuantity(Number(parts[0]),Number(parts[1]),1);
-      renderCart();
-    };
-
-    actions.append(minus,plus);
-    line.append(description,actions);
-    container.appendChild(line);
-  });
-
-  document.getElementById("modalTotal").textContent="Total : "+formatPrice(getCartTotal());
-  updateCartDisplay();
-}
-
-function escapeHTML(value){
-  return String(value).replace(/[&<>"']/g,function(character){
-    return {
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-    }[character];
-  });
-}
-
-function clearCart(){
-  if(!confirm("Voulez-vous vraiment vider votre panier ?")) return;
-  cart={};
-  saveCart();
-  renderProducts();
-  renderCart();
+const box=document.getElementById("cartItems");
+box.innerHTML="";
+const items=Object.values(cart);
+if(!items.length){box.textContent=t("empty");return}
+items.forEach(i=>{
+const row=document.createElement("div");
+row.className="cartitem";
+const n=document.createElement("span");
+n.textContent=i.qty+" × "+i.name;
+const p=document.createElement("span");
+p.textContent=price(i.qty*i.price)+" €";
+row.append(n,p);
+box.appendChild(row);
+});
 }
 
 function toggleAddress(){
-  const type=document.getElementById("orderType").value;
-  const box=document.getElementById("addressBox");
-  box.style.display=type==="Livraison"?"block":"none";
-}function sendOrder(){
-  if(shopClosed){
-    alert("Le restaurant est actuellement fermé.");
-    return;
-  }
-
-  if(getCartCount()===0){
-    alert("Votre panier est vide.");
-    return;
-  }
-
-  const name=document.getElementById("customerName").value.trim();
-  const phone=document.getElementById("customerPhone").value.trim();
-  const type=document.getElementById("orderType").value;
-  const address=document.getElementById("customerAddress").value.trim();
-  const note=document.getElementById("customerNote").value.trim();
-
-  if(!name || !phone){
-    alert("Veuillez remplir votre nom et votre numéro de téléphone.");
-    return;
-  }
-
-  if(type==="Livraison" && !deliveryEnabled){
-    alert("La livraison est actuellement indisponible. Choisissez À emporter.");
-    return;
-  }
-
-  if(type==="Livraison" && !address){
-    alert("Veuillez indiquer votre adresse de livraison.");
-    return;
-  }
-
-  let message="🍔 *NOUVELLE COMMANDE - TOP SNACK*%0A%0A";
-  message+="👤 Nom : "+encodeURIComponent(name)+"%0A";
-  message+="📞 Téléphone : "+encodeURIComponent(phone)+"%0A";
-  message+="📦 Type : "+encodeURIComponent(type)+"%0A";
-
-  if(type==="Livraison"){
-    message+="📍 Adresse : "+encodeURIComponent(address)+"%0A";
-  }
-
-  message+="%0A🛒 *COMMANDE :*%0A";
-
-  Object.values(cart).forEach(item=>{
-    message+=encodeURIComponent(item.quantity+" × "+item.name+
-      " — "+formatPrice(item.price*item.quantity))+"%0A";
-  });
-
-  message+="%0A💰 *TOTAL : "+encodeURIComponent(formatPrice(getCartTotal()))+"*";
-
-  if(note){
-    message+="%0A%0A📝 Note : "+encodeURIComponent(note);
-  }
-
-  const whatsappURL="https://wa.me/32496969628?text="+message;
-  window.open(whatsappURL,"_blank");
-
-  alert("Votre commande est prête à être envoyée sur WhatsApp.");
+document.getElementById("addressBox").classList.toggle("hidden",document.getElementById("orderType").value!=="Livraison");
 }
 
-function updateShopStatus(){
-  const status=document.getElementById("shopStatus");
+function sendWhatsApp(){
+const items=Object.values(cart);
+if(!items.length){alert(t("empty"));return}
+if(!orderingEnabled){alert(t("closed"));return}
 
-  if(shopClosed){
-    status.textContent="🔴 Restaurant fermé";
-    status.className="status closed";
-    return;
-  }
+const name=document.getElementById("customerName").value.trim();
+const phone=document.getElementById("customerPhone").value.trim();
+const type=document.getElementById("orderType").value;
+const address=document.getElementById("customerAddress").value.trim();
+const sauce=document.getElementById("sauce").value;
+const note=document.getElementById("customerNote").value.trim();
 
-  const hour=new Date().getHours();
+if(!name||!phone){alert("Veuillez entrer votre nom et votre téléphone.");return}
+if(type==="Livraison"&&!address){alert("Veuillez entrer votre adresse.");return}
 
-  if(hour>=11 && hour<23){
-    status.textContent="🟢 Ouvert — 11:00 à 23:00";
-    status.className="status open";
-  }else{
-    status.textContent="🔴 Fermé — Ouverture à 11:00";
-    status.className="status closed";
-  }
+let total=0;
+let msg="🍔 *TOP SNACK - COMMANDE*%0A%0A";
+msg+="👤 "+encodeURIComponent(name)+"%0A";
+msg+="📞 "+encodeURIComponent(phone)+"%0A";
+msg+="📦 "+encodeURIComponent(type)+"%0A";
+if(type==="Livraison")msg+="📍 "+encodeURIComponent(address)+"%0A";
+msg+="%0A*Commande :*%0A";
+
+items.forEach(i=>{
+const s=i.qty*i.price;
+total+=s;
+msg+="• "+encodeURIComponent(i.name)+" × "+i.qty+" = "+price(s)+" €%0A";
+});
+
+msg+="%0A🥫 Sauce : "+encodeURIComponent(sauce);
+if(note)msg+="%0A📝 "+encodeURIComponent(note);
+msg+="%0A%0A💰 *TOTAL : "+price(total)+" €*";
+
+window.location.href="https://wa.me/32496969628?text="+msg;
+}
+
+function clearCart(){
+if(!confirm("Vider le panier ?"))return;
+cart={};
+renderProducts();
+updateCart();
+renderCart();
 }
 
 function adminLogin(){
-  const password=prompt("Mot de passe administrateur :");
-
-  if(password==="6731"){
-    document.getElementById("adminPanel").style.display="block";
-    updateAdminStatus();
-  }else if(password!==null){
-    alert("Mot de passe incorrect.");
-  }
+const pass=prompt("Mot de passe administrateur :");
+if(pass==="6731"){
+updateAdmin();
+document.getElementById("adminModal").style.display="block";
+}else if(pass!==null){alert("Mot de passe incorrect");}
 }
 
-function updateAdminStatus(){
-  document.getElementById("adminStatus").textContent=
-    "Restaurant : "+(shopClosed?"Fermé":"Ouvert")+
-    " | Livraison : "+(deliveryEnabled?"Activée":"Désactivée");
+function updateAdmin(){
+const button=document.getElementById("toggleOrders");
+button.textContent=orderingEnabled?"🔴 Fermer les commandes":"🟢 Ouvrir les commandes";
+document.getElementById("adminStatus").textContent=orderingEnabled?"Commandes ouvertes":"Commandes fermées";
 }
 
-function toggleShopStatus(){
-  shopClosed=!shopClosed;
-  localStorage.setItem("topSnackClosed",String(shopClosed));
-  updateShopStatus();
-  updateAdminStatus();
+function toggleOrders(){
+orderingEnabled=!orderingEnabled;
+localStorage.setItem("topSnackOpen",orderingEnabled);
+updateAdmin();
+document.getElementById("closedMessage").textContent=orderingEnabled?t("open"):t("closed");
+document.getElementById("closedMessage").classList.remove("hidden");
+renderProducts();
 }
 
-function toggleDelivery(){
-  deliveryEnabled=!deliveryEnabled;
-  localStorage.setItem("topSnackDelivery",String(deliveryEnabled));
-  updateAdminStatus();
-}
+function closeAdmin(){document.getElementById("adminModal").style.display="none"}
 
-function closeAdmin(){
-  document.getElementById("adminPanel").style.display="none";
-}
-
-function loadReviews(){
-  let reviews=[];
-
-  try{
-    reviews=JSON.parse(localStorage.getItem("topSnackReviews")||"[]");
-  }catch(error){
-    reviews=[];
-  }
-
-  const container=document.getElementById("reviewsList");
-  container.innerHTML="";
-
-  if(reviews.length===0){
-    container.innerHTML='<p style="color:#777;margin-top:12px">Soyez le premier à laisser un avis !</p>';
-    return;
-  }
-
-  reviews.slice().reverse().forEach(review=>{
-    const item=document.createElement("div");
-    item.className="review";
-
-    const author=document.createElement("strong");
-    author.textContent=review.name;
-
-    const stars=document.createElement("div");
-    stars.className="review-stars";
-    stars.textContent="★".repeat(review.rating)+"☆".repeat(5-review.rating);
-
-    const comment=document.createElement("p");
-    comment.textContent=review.text;
-
-    item.append(author,stars,comment);
-    container.appendChild(item);
-  });
-}
-
-function submitReview(){
-  const name=document.getElementById("reviewAuthor").value.trim();
-  const rating=Number(document.getElementById("reviewRating").value);
-  const comment=document.getElementById("reviewText").value.trim();
-
-  if(!name || !comment){
-    alert("Veuillez remplir votre nom et votre commentaire.");
-    return;
-  }
-
-  let reviews=[];
-
-  try{
-    reviews=JSON.parse(localStorage.getItem("topSnackReviews")||"[]");
-  }catch(error){
-    reviews=[];
-  }
-
-  reviews.push({
-    name:name,
-    rating:rating,
-    text:comment
-  });
-
-  localStorage.setItem("topSnackReviews",JSON.stringify(reviews));
-
-  document.getElementById("reviewAuthor").value="";
-  document.getElementById("reviewText").value="";
-
-  loadReviews();
-  alert("Merci beaucoup pour votre avis !");
-}
-
-const translations={
-  fr:{
-    menu:"📋 NOTRE MENU",
-    search:"🔎 Rechercher un plat...",
-    cart:"Mon panier",
-    empty:"Votre panier est vide."
-  },
-  nl:{
-    menu:"📋 ONS MENU",
-    search:"🔎 Zoek een gerecht...",
-    cart:"Mijn winkelmand",
-    empty:"Je winkelmand is leeg."
-  },
-  en:{
-    menu:"📋 OUR MENU",
-    search:"🔎 Search for a dish...",
-    cart:"My cart",
-    empty:"Your cart is empty."
-  }
-};
-
-function changeLanguage(){
-  const language=document.getElementById("langSelect").value;
-  const words=translations[language]||translations.fr;
-
-  document.querySelectorAll(".section-title")[1].textContent=words.menu;
-  document.getElementById("searchInput").placeholder=words.search;
-
-  document.querySelector(".cart-fixed button").innerHTML=
-    "🛒 "+words.cart+" — <span id='cartCount'>"+getCartCount()+
-    "</span> article(s) — <span id='cartTotal'>"+
-    formatPrice(getCartTotal())+"</span>";
-
-  updateCartDisplay();
-}
-
-/* DÉMARRAGE */
+document.getElementById("notice").textContent=t("welcome");
 renderCategories();
 renderProducts();
-loadReviews();
-updateShopStatus();
-toggleAddress();
-
-setInterval(updateShopStatus,60000);
-
-/* Fermer la fenêtre en touchant l'extérieur */
-document.getElementById("cartModal").addEventListener("click",function(event){
-  if(event.target===this){
-    closeCart();
-  }
-});
+updateCart();
 </script>
-
 </body>
 </html>
