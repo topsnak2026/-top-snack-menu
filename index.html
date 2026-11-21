@@ -442,3 +442,242 @@ updateCart();
 </script>
 </body>
 </html>
+  <div id="categoryTabs" class="category-tabs"></div>
+  <div id="products"></div>
+
+  <section class="reviews" id="reviewsSection">
+    <h2 id="reviewsTitle">⭐ Avis de nos clients</h2>
+    <div class="reviews-intro" id="reviewsIntro">Votre avis compte beaucoup pour TOP SNACK !</div>
+    <form id="reviewForm">
+      <label id="reviewNameLabel" for="reviewName">Votre nom</label>
+      <input id="reviewName" maxlength="50" required placeholder="Votre nom">
+      <label id="reviewRatingLabel">Votre note</label>
+      <div class="stars" id="starPicker" aria-label="Choose rating">
+        <button type="button" data-star="1" aria-label="1 star">★</button><button type="button" data-star="2" aria-label="2 stars">★</button><button type="button" data-star="3" aria-label="3 stars">★</button><button type="button" data-star="4" aria-label="4 stars">★</button><button type="button" data-star="5" aria-label="5 stars">★</button>
+      </div>
+      <label id="reviewTextLabel" for="reviewText">Votre commentaire</label>
+      <textarea id="reviewText" maxlength="500" required placeholder="Écrivez votre avis..."></textarea>
+      <button class="review-submit" id="reviewSubmit" type="submit">Envoyer mon avis</button>
+    </form>
+    <div class="notice" id="localReviewNotice">Les avis enregistrés ici sont stockés uniquement dans ce navigateur. Ils ne sont pas encore visibles sur les autres téléphones.</div>
+    <div id="reviewList"></div>
+  </section>
+
+  <section class="admin-area">
+    <h3 id="adminTitle">🔐 Espace de gestion</h3>
+    <button class="admin-btn" id="adminOpen" type="button">Ouvrir le panneau admin</button>
+    <div id="adminPanel" hidden>
+      <label for="adminPassword" id="passwordLabel">Mot de passe</label>
+      <input id="adminPassword" type="password" inputmode="numeric" placeholder="••••">
+      <button class="admin-btn" id="adminLogin" type="button">Connexion</button>
+      <div id="adminControls" hidden>
+        <div class="status on" id="deliveryStatus">Livraison activée</div>
+        <button class="admin-btn" id="deliveryToggle" type="button">Désactiver la livraison</button>
+        <button class="close-btn" id="adminLogout" type="button">Déconnexion</button>
+      </div>
+      <div class="notice" id="adminLocalNotice">Mode local : le réglage est enregistré uniquement sur cet appareil. Il ne bloque pas les commandes sur les autres téléphones.</div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <strong>TOP SNACK</strong><br>
+  Rue Godfroid Kurth 109, 1140 Evere<br>
+  📞 +32 496 96 96 28
+</footer>
+
+<button class="cart-button" onclick="openCart()">🛒 <span id="cartButtonText">Mon panier</span> — <span id="cartCount">0</span> <span id="cartItemsLabel">article(s)</span> — <span id="cartTotal">0,00 €</span></button>
+
+<div class="modal" id="cartModal">
+  <div class="modal-box">
+    <h2 id="cartTitle">🛒 Mon panier</h2>
+    <div id="cartItems"></div>
+    <div class="total"><span id="totalLabel">Total :</span> <span id="modalTotal">0,00 €</span></div>
+    <label for="customerName" id="customerNameLabel">Nom</label>
+    <input id="customerName" type="text" placeholder="Votre nom">
+    <label for="customerPhone" id="customerPhoneLabel">Téléphone</label>
+    <input id="customerPhone" type="tel" placeholder="Votre numéro">
+    <label for="orderType" id="orderTypeLabel">Type de commande</label>
+    <select id="orderType" onchange="toggleAddress()">
+      <option value="À emporter" id="pickupOption">À emporter</option>
+      <option value="Livraison" id="deliveryOption">Livraison</option>
+    </select>
+    <div class="delivery-address" id="addressBox">
+      <label for="customerAddress" id="addressLabel">Adresse de livraison</label>
+      <textarea id="customerAddress" placeholder="Votre adresse"></textarea>
+    </div>
+    <label for="customerNote" id="noteLabel">Note</label>
+    <textarea id="customerNote" placeholder="Une remarque ?"></textarea>
+    <button class="whatsapp-btn" id="sendOrderButton" onclick="sendOrder()">📲 ENVOYER LA COMMANDE SUR WHATSAPP</button>
+    <button class="clear-btn" id="clearButton" onclick="clearCart()">🗑️ Vider le panier</button>
+    <button class="close-btn" id="closeButton" onclick="closeCart()">Fermer</button>
+  </div>
+</div>
+
+<script>
+const menu = [
+{category:"MITRAILLETTE / DURUM / PAIN TURC",items:[["PITTA",7.50],["POULET",7.50],["KOFTE",7.50],["FALAFEL",7.50],["MIXTE",8],["BOEUF",8],["HAMBURGER",7],["FRICADELLE",7],["BOULETTE",7],["MEXICANO",7],["POULYCROQ",7.5],["CHIX FINGERS",7.5],["MERGUEZ",7.5],["ADANA",7.5],["BROC.CABILLAUD",7.5],["BROC.DINDE",7.5],["BROC.BOEUF",8],["BROC.POULET",8]]},
+{category:"SNACKS",items:[["Hamburger",3],["Fricadelle",3],["Boulette",3.5],["Mexicano",3.5],["Poulycroq",3.5],["Chix Fingers",3.5],["Mini Loempia",3.5],["Croquette Fromage",3],["Broc.Cabillaud",3.5],["Broc.Dinde",3.5],["Broc.Boeuf",4],["Broc.Pilons Poulet",4.5],["Broc.Poulet",4.5],["Tenders",4],["Nuggets",4],["Wings",4]]},
+{category:"ASSIETTES",items:[["Pitta",15],["Poulet",15],["Falafel",15],["Broc.Dinde",15],["Broc.Cabillaud",15],["Pilons Poulet",15],["Boeuf",17],["Mixte",17],["Broc.Boeuf",17],["Broc.Poulet",17],["Kofte",16],["Adana",16],["Calamar",15],["Top Grill",22],["Côte d'Agneau",22]]},
+{category:"BOX",items:[["Kids",10],["Doner",8]]},
+{category:"FRITES",items:[["Petite",3.5],["Grande",4.5],["À Part",1.5]]},
+{category:"BURGER",items:[["Premium",6.5],["Cheese",7],["Master",8],["Double Steak House",8]]},
+{category:"BICKY",items:[["Hamburger",5],["Kofte",6],["Fish Burger",5.5],["Escalope Poulet",5.5]]},
+{category:"SAUCES",items:[["Andalouse",1],["Samurai",1],["Pitta",1],["Ketchup",1],["Brazil",1],["Pili Pili",1],["Mayonnaise",1],["Curry Ketchup",1],["Americaine Chef",1],["Cocktail",1],["Tartar",1],["Barbecue",1]]},
+{category:"GYROS",items:[["Classique",7],["Feta / Olive",8],["Mais / Poulet",7]]},
+{category:"KAPSALON",items:[["Pitta",10],["Poulet",10],["Falafel",10],["Kofte",10],["Mixte",11],["Boeuf",11]]},
+{category:"MENU",items:[["Sandwich / Durum / Pain Turc",10],["Bicky",9],["Gyros",11],["Tacos L",13],["Tacos XL",17]]},
+{category:"TACOS",items:[["Tenders",8],["Nuggets",8],["Chix Fingers",8],["Pitta",8],["Poulet",8],["Boeuf",9],["Kofte",9],["Tacos XL",13]]},
+{category:"DESSERTS",items:[["Tiramisu Oreo",4],["Tiramisu Speculoos",4],["Mousse Chocolat",4]]},
+{category:"SUPPLEMENTS",items:[["Feta",1],["Olive",1],["Piment",1],["Mozzarella",1],["Cheddar",1],["Oignon Frie",1]]}
+];en:{"MITRAILLETTE / DURUM / PAIN TURC":"MITRAILLETTE / DURUM / TURKISH BREAD","SNACKS":"SNACKS","ASSIETTES":"PLATES","BOX":"BOXES","FRITES":"FRIES","BURGER":"BURGERS","BICKY":"BICKY","SAUCES":"SAUCES","GYROS":"GYROS","KAPSALON":"KAPSALON","MENU":"MEALS","TACOS":"TACOS","DESSERTS":"DESSERTS","SUPPLEMENTS":"EXTRAS"},
+nl:{"MITRAILLETTE / DURUM / PAIN TURC":"MITRAILLETTE / DURUM / TURKS BROOD","SNACKS":"SNACKS","ASSIETTES":"SCHOTELS","BOX":"BOXEN","FRITES":"FRIETEN","BURGER":"BURGERS","BICKY":"BICKY","SAUCES":"SAUZEN","GYROS":"GYROS","KAPSALON":"KAPSALON","MENU":"MENU'S","TACOS":"TACO'S","DESSERTS":"DESSERTS","SUPPLEMENTS":"EXTRA'S"},
+tr:{"MITRAILLETTE / DURUM / PAIN TURC":"Mitraillette / Dürüm / Türk ekmeği","SNACKS":"Atıştırmalıklar","ASSIETTES":"Tabaklar","BOX":"Kutular","FRITES":"Patates kızartması","BURGER":"Burgerler","BICKY":"Bicky","SAUCES":"Soslar","GYROS":"Gyros","KAPSALON":"Kapsalon","MENU":"Menüler","TACOS":"Tacos","DESSERTS":"Tatlılar","SUPPLEMENTS":"Ekstralar"}
+};
+const productNames = {
+en:{"POULET":"Chicken","KOFTE":"Kofte","FALAFEL":"Falafel","MIXTE":"Mixed","BOEUF":"Beef","HAMBURGER":"Hamburger","FRICADELLE":"Fricadelle","BOULETTE":"Meatball","MEXICANO":"Mexicano","CHIX FINGERS":"Chicken fingers","MERGUEZ":"Merguez sausage","ADANA":"Adana","PITTA":"Pitta","Petite":"Small","Grande":"Large","À Part":"Side portion","Poulet":"Chicken","Boeuf":"Beef","Classique":"Classic","Kids":"Kids","Doner":"Doner","Hamburger":"Hamburger","Kofte":"Kofte","Fish Burger":"Fish burger","Escalope Poulet":"Chicken escalope","Tenders":"Tenders","Nuggets":"Nuggets","Wings":"Wings","Calamar":"Calamari","Top Grill":"Top Grill","Côte d'Agneau":"Lamb chop","Feta":"Feta","Olive":"Olive","Piment":"Chilli","Mozzarella":"Mozzarella","Cheddar":"Cheddar"},
+nl:{"POULET":"Kip","KOFTE":"Köfte","FALAFEL":"Falafel","MIXTE":"Gemengd","BOEUF":"Rundvlees","HAMBURGER":"Hamburger","FRICADELLE":"Frikandel","BOULETTE":"Gehaktbal","MEXICANO":"Mexicano","CHIX FINGERS":"Kipvingers","MERGUEZ":"Merguez","ADANA":"Adana","PITTA":"Pitta","Petite":"Klein","Grande":"Groot","À Part":"Apart","Poulet":"Kip","Boeuf":"Rundvlees","Classique":"Klassiek","Kids":"Kids","Doner":"Doner","Fish Burger":"Visburger","Escalope Poulet":"Kipschnitzel","Tenders":"Tenders","Nuggets":"Nuggets","Wings":"Wings","Calamar":"Inktvis","Top Grill":"Top Grill","Côte d'Agneau":"Lamskotelet"},
+tr:{"POULET":"Tavuk","KOFTE":"Köfte","FALAFEL":"Falafel","MIXTE":"Karışık","BOEUF":"Dana eti","HAMBURGER":"Hamburger","FRICADELLE":"Frikandel","BOULETTE":"Köfte","MEXICANO":"Mexicano","CHIX FINGERS":"Tavuk parmak","MERGUEZ":"Merguez","ADANA":"Adana","PITTA":"Pita","Petite":"Küçük","Grande":"Büyük","À Part":"Ayrı","Poulet":"Tavuk","Boeuf":"Dana eti","Classique":"Klasik","Kids":"Çocuk","Doner":"Döner","Fish Burger":"Balık burger","Escalope Poulet":"Tavuk şnitzel","Tenders":"Tenders","Nuggets":"Nugget","Wings":"Kanat","Calamar":"Kalamar","Top Grill":"Top Grill","Côte d'Agneau":"Kuzu pirzola","Feta":"Feta","Olive":"Zeytin","Piment":"Acı biber","Mozzarella":"Mozzarella","Cheddar":"Cheddar","Andalouse":"Andalouse","Samurai":"Samuray","Ketchup":"Ketçap","Mayonnaise":"Mayonez","Barbecue":"Barbekü","Tiramisu Oreo":"Oreo tiramisu","Tiramisu Speculoos":"Speculoos tiramisu","Mousse Chocolat":"Çikolatalı mousse"}
+};
+
+categoryNames.tr={"MITRAILLETTE / DURUM / PAIN TURC":"Mitraillette / Dürüm / Türk ekmeği","SNACKS":"Atıştırmalıklar","ASSIETTES":"Tabaklar","BOX":"Kutular","FRITES":"Patates kızartması","BURGER":"Burgerler","BICKY":"Bicky","SAUCES":"Soslar","GYROS":"Gyros","KAPSALON":"Kapsalon","MENU":"Menüler","TACOS":"Tacos","DESSERTS":"Tatlılar","SUPPLEMENTS":"Ekstralar"};
+
+productNames.tr={"POULET":"Tavuk","KOFTE":"Köfte","FALAFEL":"Falafel","MIXTE":"Karışık","BOEUF":"Dana eti","HAMBURGER":"Hamburger","FRICADELLE":"Frikandel","BOULETTE":"Köfte","MEXICANO":"Mexicano","CHIX FINGERS":"Tavuk parmak","MERGUEZ":"Merguez","ADANA":"Adana","PITTA":"Pita","Petite":"Küçük","Grande":"Büyük","À Part":"Ayrı","Poulet":"Tavuk","Boeuf":"Dana eti","Classique":"Klasik","Kids":"Çocuk","Doner":"Döner","Fish Burger":"Balık burger","Escalope Poulet":"Tavuk şnitzel","Tenders":"Tenders","Nuggets":"Nugget","Wings":"Kanat","Calamar":"Kalamar","Top Grill":"Top Grill","Côte d'Agneau":"Kuzu pirzola","Feta":"Feta","Olive":"Zeytin","Piment":"Acı biber","Mozzarella":"Mozzarella","Cheddar":"Cheddar","Andalouse":"Andalouse","Samurai":"Samuray","Ketchup":"Ketçap","Mayonnaise":"Mayonez","Barbecue":"Barbekü","Tiramisu Oreo":"Oreo tiramisu","Tiramisu Speculoos":"Speculoos tiramisu","Mousse Chocolat":"Çikolatalı mousse"};
+
+let currentLang = localStorage.getItem("topSnackLanguage") || "fr";
+if(!["fr","en","nl","tr"].includes(currentLang))currentLang="fr";
+let activeCategory = -1;
+let cart = [];
+let selectedRating = 0;
+let deliveryEnabled = localStorage.getItem("topSnackDeliveryEnabled") !== "false";
+let adminUnlocked = false;
+const t = key => translations[currentLang][key] || translations.fr[key] || key;
+function formatPrice(price){return price.toFixed(2).replace(".",",")+" €";}
+function getProductQuantity(id){const p=cart.find(x=>x.id===id);return p?p.quantity:0;}
+function translatedCategory(name){return (categoryNames[currentLang]||{})[name]||name;}
+function translatedProduct(name){return (productNames[currentLang]||{})[name]||name;}
+
+function renderCategoryTabs(){
+ const tabs=document.getElementById("categoryTabs");tabs.innerHTML="";
+ const all=document.createElement("button");all.textContent=currentLang==="tr"?"Tüm kategoriler":currentLang==="nl"?"Alle categorieën":currentLang==="en"?"All categories":"Toutes les catégories";
+ all.className=activeCategory===-1?"active":"";all.onclick=()=>{activeCategory=-1;renderMenu();};tabs.appendChild(all);
+ menu.forEach((section,ci)=>{const b=document.createElement("button");b.textContent=translatedCategory(section.category);b.className=activeCategory===ci?"active":"";b.onclick=()=>{activeCategory=ci;renderMenu();};tabs.appendChild(b);});
+}
+function renderMenu(){
+ renderCategoryTabs();
+ const container=document.getElementById("products");container.innerHTML="";
+ const query=(document.getElementById("menuSearch")?.value||"").trim().toLowerCase();
+ menu.forEach((section,ci)=>{
+  if(activeCategory!==-1&&activeCategory!==ci)return;
+  const matching=section.items.map((item,ii)=>({item,ii})).filter(({item})=>!query||item[0].toLowerCase().includes(query)||translatedProduct(item[0]).toLowerCase().includes(query));
+  if(!matching.length)return;
+  const category=document.createElement("section");category.className="category";
+  const title=document.createElement("h2");title.textContent=translatedCategory(section.category);category.appendChild(title);
+  matching.forEach(({item,ii})=>{
+   const [name,price]=item,id=ci+"-"+ii,row=document.createElement("div");row.className="product";
+   const nm=document.createElement("div");nm.className="product-name";nm.textContent=translatedProduct(name);
+   const pr=document.createElement("div");pr.className="product-price";pr.textContent=formatPrice(price);
+   const controls=document.createElement("div");controls.className="product-controls";
+   const minus=document.createElement("button");minus.type="button";minus.textContent="−";minus.setAttribute("aria-label","Decrease "+name);minus.onclick=()=>changeProductQuantity(id,section.category,name,price,-1);
+   const qty=document.createElement("span");qty.className="product-quantity";qty.id="qty-"+id;qty.textContent=getProductQuantity(id);
+   const plus=document.createElement("button");plus.type="button";plus.textContent="+";plus.setAttribute("aria-label","Add "+name);plus.onclick=()=>changeProductQuantity(id,section.category,name,price,1);
+   controls.append(minus,qty,plus);row.append(nm,pr,controls);category.appendChild(row);
+  });container.appendChild(category);
+ });
+}
+document.getElementById("menuSearch").addEventListener("input",()=>{renderMenu();});
+function changeProductQuantity(id,category,name,price,amount){
+ const existing=cart.find(x=>x.id===id);
+ if(existing){existing.quantity+=amount;if(existing.quantity<=0)cart=cart.filter(x=>x.id!==id);}
+ else if(amount>0)cart.push({id,category,name,price,quantity:1});
+ updateCart();
+}
+function changeQuantity(index,amount){if(!cart[index])return;cart[index].quantity+=amount;if(cart[index].quantity<=0)cart.splice(index,1);updateCart();}
+function getTotal(){return cart.reduce((s,x)=>s+x.price*x.quantity,0);}
+function getCount(){return cart.reduce((s,x)=>s+x.quantity,0);}
+function updateCart(){
+ document.getElementById("cartCount").textContent=getCount();document.getElementById("cartTotal").textContent=formatPrice(getTotal());
+ renderCart();menu.forEach((s,ci)=>s.items.forEach((it,ii)=>{const el=document.getElementById("qty-"+ci+"-"+ii);if(el)el.textContent=getProductQuantity(ci+"-"+ii);}));
+}
+function renderCart(){
+ const c=document.getElementById("cartItems");c.innerHTML="";
+ if(!cart.length){c.textContent=t("empty");document.getElementById("modalTotal").textContent=formatPrice(0);return;}
+ cart.forEach((item,index)=>{
+  const row=document.createElement("div");row.className="cart-item";
+  const info=document.createElement("div");info.className="cart-item-info";
+  const strong=document.createElement("strong");strong.textContent=translatedProduct(item.name);
+  const small=document.createElement("small");small.textContent=translatedCategory(item.category);
+  const detail=document.createElement("div");detail.textContent=formatPrice(item.price)+" × "+item.quantity;
+  info.append(strong,document.createElement("br"),small,document.createElement("br"),detail);
+  const qty=document.createElement("div");qty.className="qty-buttons";
+  const minus=document.createElement("button");minus.type="button";minus.textContent="−";minus.onclick=()=>changeQuantity(index,-1);
+  const n=document.createElement("strong");n.textContent=item.quantity;
+  const plus=document.createElement("button");plus.type="button";plus.textContent="+";plus.onclick=()=>changeQuantity(index,1);
+  qty.append(minus,n,plus);const subtotal=document.createElement("strong");subtotal.textContent=formatPrice(item.price*item.quantity);
+  row.append(info,qty,subtotal);c.appendChild(row);
+ });document.getElementById("modalTotal").textContent=formatPrice(getTotal());
+} if(type==="Livraison"&&!address){alert(t("enterAddress"));return;}
+ let message="🍔 *NOUVELLE COMMANDE - TOP SNACK*\n\n👤 *Nom:* "+name+"\n📞 *Téléphone:* "+phone+"\n📦 *Commande:* "+type;
+ if(type==="Livraison")message+="\n📍 *Adresse:* "+address;
+ message+="\n\n🛒 *ARTICLES:*\n";
+ cart.forEach(item=>message+="• "+item.category+" — "+item.name+" × "+item.quantity+" = "+formatPrice(item.price*item.quantity)+"\n");
+ message+="\n💰 *TOTAL: "+formatPrice(getTotal())+"*";
+ if(note)message+="\n\n📝 *Note:* "+note;
+ message+="\n\nMerci — TOP SNACK";
+ window.open("https://wa.me/32496969628?text="+encodeURIComponent(message),"_blank");
+}
+function applyTranslations(){
+ const ids={galleryTitle:"gallery",galleryHelp:"galleryHelp",menuTitle:"menu",openingHours:"hours",reviewsTitle:"reviews",reviewsIntro:"reviewsIntro",reviewNameLabel:"yourName",reviewRatingLabel:"yourRating",reviewTextLabel:"yourComment",reviewSubmit:"sendReview",localReviewNotice:"reviewNotice",adminTitle:"admin",adminOpen:"openAdmin",passwordLabel:"password",adminLogin:"login",adminLocalNotice:"adminNotice",cartButtonText:"cart",cartItemsLabel:"items",cartTitle:"cart",totalLabel:"total",customerNameLabel:"name",customerPhoneLabel:"phone",orderTypeLabel:"orderType",pickupOption:"pickup",deliveryOption:"delivery",addressLabel:"address",noteLabel:"note",sendOrderButton:"sendOrder",clearButton:"clear",closeButton:"close"};
+ Object.entries(ids).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.textContent=t(key);});
+ document.getElementById("reviewName").placeholder=t("namePlaceholder");document.getElementById("reviewText").placeholder=t("reviewPlaceholder");
+ document.getElementById("customerName").placeholder=t("namePlaceholder");document.getElementById("customerPhone").placeholder=t("phonePlaceholder");
+ document.getElementById("customerAddress").placeholder=t("addressPlaceholder");document.getElementById("customerNote").placeholder=t("notePlaceholder");
+ document.documentElement.lang=currentLang;document.documentElement.dir="ltr";
+ document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("active",b.dataset.lang===currentLang));
+ renderMenu();updateCart();updateDeliveryStatus();renderReviews();
+}
+document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{currentLang=b.dataset.lang;localStorage.setItem("topSnackLanguage",currentLang);applyTranslations();}));
+
+function getReviews(){try{return JSON.parse(localStorage.getItem("topSnackReviews")||"[]");}catch(e){return [];}}
+function renderReviews(){
+ const list=document.getElementById("reviewList");list.innerHTML="";
+ getReviews().slice().reverse().forEach(r=>{
+  const card=document.createElement("div");card.className="review-card";
+  const who=document.createElement("strong");who.textContent=r.name+" ";
+  const stars=document.createElement("div");stars.className="review-stars";stars.textContent="★".repeat(r.rating)+"☆".repeat(5-r.rating);
+  const comment=document.createElement("p");comment.textContent=r.comment;
+  card.append(who,stars,comment);list.appendChild(card);
+ });
+}
+document.querySelectorAll("#starPicker button").forEach(b=>b.addEventListener("click",()=>{
+ selectedRating=Number(b.dataset.star);
+ document.querySelectorAll("#starPicker button").forEach(x=>x.classList.toggle("selected",Number(x.dataset.star)<=selectedRating));
+}));
+document.getElementById("reviewForm").addEventListener("submit",e=>{
+ e.preventDefault();if(!selectedRating){alert(t("chooseStars"));return;}
+ const name=document.getElementById("reviewName").value.trim(),comment=document.getElementById("reviewText").value.trim();if(!name||!comment)return;
+ const reviews=getReviews();reviews.push({name,rating:selectedRating,comment,date:new Date().toISOString()});localStorage.setItem("topSnackReviews",JSON.stringify(reviews));
+ document.getElementById("reviewForm").reset();selectedRating=0;document.querySelectorAll("#starPicker button").forEach(x=>x.classList.remove("selected"));renderReviews();alert(t("reviewThanks"));
+});
+
+document.getElementById("adminOpen").addEventListener("click",()=>{document.getElementById("adminPanel").hidden=!document.getElementById("adminPanel").hidden;});
+document.getElementById("adminLogin").addEventListener("click",()=>{
+ if(document.getElementById("adminPassword").value==="6731"){adminUnlocked=true;document.getElementById("adminControls").hidden=false;document.getElementById("adminPassword").value="";updateDeliveryStatus();}
+ else alert(currentLang==="fa"?"رمز عبور اشتباه است.":"Incorrect password.");
+});
+function updateDeliveryStatus(){
+ const status=document.getElementById("deliveryStatus"),button=document.getElementById("deliveryToggle");
+ status.textContent=deliveryEnabled?t("enabled"):t("disabled");status.className="status "+(deliveryEnabled?"on":"off");
+ button.textContent=deliveryEnabled?t("turnOff"):t("turnOn");
+ const option=document.getElementById("deliveryOption");option.disabled=!deliveryEnabled;
+ if(!deliveryEnabled&&document.getElementById("orderType").value==="Livraison"){document.getElementById("orderType").value="À emporter";toggleAddress();}
+}
+document.getElementById("deliveryToggle").addEventListener("click",()=>{
+ if(!adminUnlocked)return;deliveryEnabled=!deliveryEnabled;localStorage.setItem("topSnackDeliveryEnabled",String(deliveryEnabled));updateDeliveryStatus();
+});
+document.getElementById("adminLogout").addEventListener("click",()=>{adminUnlocked=false;document.getElementById("adminControls").hidden=true;});
+document.getElementById("orderType").addEventListener("change",toggleAddress);
+renderMenu();applyTranslations();updateCart();toggleAddress();
+</script>
+</body>
+</html>
